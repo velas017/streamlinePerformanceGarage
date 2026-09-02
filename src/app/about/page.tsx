@@ -5,15 +5,17 @@ import { CtaBanner } from "@/components/sections/CtaBanner";
 import { Hero } from "@/components/sections/Hero";
 import { LocationsSection } from "@/components/sections/LocationsSection";
 import { TrustBar } from "@/components/sections/TrustBar";
+import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Icon, type IconName } from "@/components/ui/Icon";
 import { images } from "@/content/images";
+import { primaryCta } from "@/content/navigation";
 import { Prose } from "@/components/ui/Prose";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { buildMetadata } from "@/lib/seo";
-import { siteConfig } from "@/lib/site-config";
-import { joinWithAnd } from "@/lib/utils";
+import { primaryLocation, siteConfig } from "@/lib/site-config";
+import { formatPhone, joinWithAnd, telHref } from "@/lib/utils";
 
 export const metadata: Metadata = buildMetadata({
   title: "About Our Japanese Automotive Shop",
@@ -48,6 +50,23 @@ export default function AboutPage() {
         eyebrow="About"
         title="Enthusiast-run, specialist-focused"
         lead={`${siteConfig.name} is the independent shop Carolina owners trust with the Japanese cars they care about most.`}
+        image={images.aboutHero}
+        actions={
+          <>
+            <Button href={primaryCta.href} size="lg">
+              {primaryCta.label}
+            </Button>
+            <Button
+              href={telHref(primaryLocation.phone)}
+              variant="secondary"
+              size="lg"
+              icon="phone"
+              iconPosition="start"
+            >
+              Call {formatPhone(primaryLocation.phone)}
+            </Button>
+          </>
+        }
       />
       <Section id="story" labelledBy="story-heading">
         <div className="grid items-start gap-12 lg:grid-cols-2">

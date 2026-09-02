@@ -63,6 +63,15 @@ export const images = {
     blurDataURL:
       "data:image/webp;base64,UklGRpYAAABXRUJQVlA4IIoAAACQAwCdASoYAA0APu1iqk4ppaQiMAgBMB2JQBUeg0bsM8sTBZ2AAP55MXi7FTriWxjiMFCpUCh3FYGa+sUFJECFe5wYzPMzEwcz/dGRRMo/fPbK1XKBLM67WtrqNqF3pNCvO39DJH7p88I49+MMja3nA9/9vegpMKjbvTmzZlAJCsJoXwG3NCkPoAA=",
   },
+  /** About page hero: NSX on the shop floor with a WRX on the lift behind it. */
+  aboutHero: {
+    src: "/images/about/about-hero-acura-nsx-shop-floor-concord-nc.jpg",
+    alt: "Black first-generation Acura NSX on the floor of the Streamline Performance Garage shop in Concord, NC, with a white Subaru WRX on the lift behind it",
+    width: 2560,
+    height: 1440,
+    blurDataURL:
+      "data:image/webp;base64,UklGRpYAAABXRUJQVlA4IIoAAABQBACdASoYAA0APu1iqU2ppaOiMAgBMB2JZQDImCPQKGhZFlZLnIRelIqAAP4Y95eYbDjQ0Lvd6o+vCe9jP/X6SAEFvy996Rb04mG7S73/sUZHZHhppUtb/Dfc+E+Iie3Bm9mAXFsGbbRuqMp4x66IvDVAZ8aVlPg/ixuq71G4NITHw6kOLSkvAAA=",
+  },
   /** About page story section: engine work in progress on the shop floor. */
   aboutShopFloor: {
     src: "/images/about/about-shop-floor-wrx-sti-engine-removal-concord-nc.jpg",

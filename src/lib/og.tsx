@@ -6,40 +6,50 @@ import { siteConfig } from "@/lib/site-config";
 export const OG_SIZE = { width: 1200, height: 630 } as const;
 export const OG_CONTENT_TYPE = "image/png";
 
-const OG_BACKGROUND_FILE = path.join(
-  process.cwd(),
-  "public",
-  "images",
-  "og",
-  "og-background.jpg",
-);
+const PUBLIC_DIR = path.join(process.cwd(), "public");
+const OG_BACKGROUND_FILE = path.join(PUBLIC_DIR, "images", "og", "og-background.jpg");
+const OG_MARK_FILE = path.join(PUBLIC_DIR, "images", "logo", "mark-white.png");
 
-export interface OgImageInput {
-  readonly title: string;
-  readonly subtitle?: string;
+export interface OgAssets {
   /** Data URL of a 1200×630 photo rendered behind the text. */
   readonly background?: string;
+  /** Data URL of the white brand mark shown in the header row. */
+  readonly mark?: string;
 }
 
-/** Loads the shared photo background at build time; returns undefined if the file is missing. */
-export async function loadOgBackground(): Promise<string | undefined> {
+export interface OgImageInput extends OgAssets {
+  readonly title: string;
+  readonly subtitle?: string;
+}
+
+async function readDataUrl(file: string, mime: string): Promise<string | undefined> {
   try {
-    const buffer = await readFile(OG_BACKGROUND_FILE);
-    return `data:image/jpeg;base64,${buffer.toString("base64")}`;
+    const buffer = await readFile(file);
+    return `data:${mime};base64,${buffer.toString("base64")}`;
   } catch {
     return undefined;
   }
 }
 
+/** Loads the shared photo background and brand mark at build time; missing files are skipped. */
+export async function loadOgAssets(): Promise<OgAssets> {
+  const [background, mark] = await Promise.all([
+    readDataUrl(OG_BACKGROUND_FILE, "image/jpeg"),
+    readDataUrl(OG_MARK_FILE, "image/png"),
+  ]);
+  return { ...(background ? { background } : {}), ...(mark ? { mark } : {}) };
+}
+
 /**
  * Shared renderer behind every opengraph-image.tsx so all social cards share one
- * brand treatment: the hero photo under a dark scrim, silver mark, white type.
+ * brand treatment: the hero photo under a dark scrim, the brand mark, white type.
  * Colors mirror the tokens in globals.css.
  */
 export function renderOgImage({
   title,
   subtitle,
   background,
+  mark,
 }: OgImageInput): ImageResponse {
   return new ImageResponse(
     <div
@@ -78,25 +88,49 @@ export function renderOgImage({
         }}
       />
       <div
-        style={{ display: "flex", alignItems: "center", gap: 20, position: "relative" }}
+        style={{ display: "flex", alignItems: "center", gap: 22, position: "relative" }}
       >
-        <div
-          style={{
-            width: 28,
-            height: 56,
-            background: "#c7c9cf",
-            transform: "skewX(-20deg)",
-          }}
-        />
-        <div
-          style={{
-            fontSize: 34,
-            fontWeight: 700,
-            letterSpacing: 4,
-            textTransform: "uppercase",
-          }}
-        >
-          {siteConfig.name}
+        {mark ? (
+          // eslint-disable-next-line @next/next/no-img-element -- Satori (ImageResponse) only renders plain <img>
+          <img
+            src={mark}
+            alt=""
+            width={100}
+            height={64}
+            style={{ objectFit: "contain" }}
+          />
+        ) : (
+          <div
+            style={{
+              width: 28,
+              height: 56,
+              background: "#c7c9cf",
+              transform: "skewX(-20deg)",
+            }}
+          />
+        )}
+        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+          <div
+            style={{
+              fontSize: 34,
+              fontWeight: 700,
+              letterSpacing: 4,
+              textTransform: "uppercase",
+            }}
+          >
+            {siteConfig.wordmark.primary}
+          </div>
+          <div
+            style={{
+              fontSize: 16,
+              fontWeight: 600,
+              letterSpacing: 6,
+              textTransform: "uppercase",
+              color: "#c7c9cf",
+            }}
+          >
+            {siteConfig.wordmark.secondary}
+          </div>
         </div>
       </div>
       <div

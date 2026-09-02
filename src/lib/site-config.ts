@@ -85,7 +85,7 @@ export const siteConfig = {
   /** TODO(owner): confirm the year the shop opened; null hides "since" copy and schema. */
   foundingYear: null as number | null,
   priceRange: "$$",
-  logo: "/images/logo.svg",
+  logo: "/images/logo/mark-black.png",
   locale: "en_US",
   instagramHandle: "streamline_performance_garage",
   socials: [

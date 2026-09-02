@@ -14,6 +14,20 @@ export interface SiteImage {
 }
 
 export const images = {
+  /** Brand mark (split-face S2000 / Impreza silhouette), white for dark surfaces. */
+  logoMarkWhite: {
+    src: "/images/logo/mark-white.png",
+    alt: "Streamline Performance Garage logo",
+    width: 960,
+    height: 615,
+  },
+  /** Black master of the same mark for light surfaces and schema.org. */
+  logoMarkBlack: {
+    src: "/images/logo/mark-black.png",
+    alt: "Streamline Performance Garage logo",
+    width: 1200,
+    height: 769,
+  },
   hero: {
     src: "/images/hero/honda-s2000-streamline-performance-garage-concord-nc.jpg",
     alt: "Blue Honda S2000 time attack car in Streamline Performance livery, number 618, at speed on a race track",

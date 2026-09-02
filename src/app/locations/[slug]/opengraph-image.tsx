@@ -1,5 +1,5 @@
 import { locationContent } from "@/content/locations";
-import { OG_CONTENT_TYPE, OG_SIZE, loadOgBackground, renderOgImage } from "@/lib/og";
+import { OG_CONTENT_TYPE, OG_SIZE, loadOgAssets, renderOgImage } from "@/lib/og";
 import { isLocationId, siteConfig } from "@/lib/site-config";
 import { locationStaticParams } from "@/lib/static-params";
 
@@ -16,11 +16,11 @@ export default async function Image({ params }: { params: Promise<{ slug: string
   const { slug } = await params;
   if (!isLocationId(slug))
     return renderOgImage({
-      background: await loadOgBackground(),
+      ...(await loadOgAssets()),
       title: siteConfig.tagline,
     });
   return renderOgImage({
-    background: await loadOgBackground(),
+    ...(await loadOgAssets()),
     title: locationContent[slug].headline,
   });
 }

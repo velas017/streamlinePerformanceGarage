@@ -259,6 +259,12 @@ Rules:
   the success/danger form states. Verified pairs are documented in `globals.css`.
   Photography is full color and exempt; it sits behind a dark scrim so text
   contrast never depends on the photo.
+- **Brand mark:** a split-face car silhouette (left half Honda S2000, right half
+  bug-eye Subaru Impreza). The master is black on transparent
+  (`assets/source/logo`, exported to `public/images/logo/mark-black.png` for
+  schema.org and light surfaces); the UI uses the white alpha-mask derivative
+  `mark-white.png`. Never recolor it beyond black/white/silver. Icons are
+  generated from it (`public/icons`, `src/app/icon.png`, `src/app/apple-icon.png`).
 - **Images:** every referenced image is an entry in `content/images.ts` (src,
   alt, dimensions, blur placeholder). The home hero (`images.hero`) is the
   business's Honda S2000 time-attack car; the same photo backs every

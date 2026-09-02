@@ -1,5 +1,5 @@
 import { getServiceArea } from "@/content/service-areas";
-import { OG_CONTENT_TYPE, OG_SIZE, renderOgImage } from "@/lib/og";
+import { OG_CONTENT_TYPE, OG_SIZE, loadOgBackground, renderOgImage } from "@/lib/og";
 import { siteConfig } from "@/lib/site-config";
 import { serviceAreaStaticParams } from "@/lib/static-params";
 
@@ -15,5 +15,8 @@ export function generateStaticParams() {
 export default async function Image({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const area = getServiceArea(slug);
-  return renderOgImage({ title: area?.headline ?? siteConfig.tagline });
+  return renderOgImage({
+    background: await loadOgBackground(),
+    title: area?.headline ?? siteConfig.tagline,
+  });
 }

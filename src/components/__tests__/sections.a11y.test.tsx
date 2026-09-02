@@ -11,6 +11,7 @@ import { Testimonials } from "@/components/sections/Testimonials";
 import { TrustBar } from "@/components/sections/TrustBar";
 import { Button } from "@/components/ui/Button";
 import { generalFaqs } from "@/content/faqs";
+import { images } from "@/content/images";
 import { featuredServices } from "@/content/services";
 import { getLocation } from "@/lib/site-config";
 import { formatPhone } from "@/lib/utils";
@@ -23,7 +24,7 @@ describe("page sections", () => {
         eyebrow="Test"
         title="Heading"
         lead="Lead"
-        image={{ src: "/images/hero-japanese-sports-car-concord-nc.svg", alt: "A car" }}
+        image={images.hero}
         actions={<Button href="/contact">Book</Button>}
       />,
     );
@@ -51,10 +52,9 @@ describe("page sections", () => {
   it("LocationCard exposes address, phone and hours", async () => {
     const location = getLocation("concord");
     await renderAccessible(<LocationCard location={location} />);
-    expect(screen.getByRole("link", { name: formatPhone(location.phone) })).toHaveAttribute(
-      "href",
-      `tel:${location.phone}`,
-    );
+    expect(
+      screen.getByRole("link", { name: formatPhone(location.phone) }),
+    ).toHaveAttribute("href", `tel:${location.phone}`);
     expect(screen.getByText("Mon–Fri")).toBeInTheDocument();
   });
 

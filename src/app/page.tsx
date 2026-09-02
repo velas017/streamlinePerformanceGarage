@@ -11,6 +11,7 @@ import { TrustBar } from "@/components/sections/TrustBar";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Button } from "@/components/ui/Button";
 import { generalFaqs } from "@/content/faqs";
+import { images } from "@/content/images";
 import { primaryCta } from "@/content/navigation";
 import { featuredServices } from "@/content/services";
 import { autoRepairSchema, buildMetadata } from "@/lib/seo";
@@ -45,10 +46,7 @@ export default function HomePage() {
           </>
         }
         lead={`Alignments, suspension, brakes, wheels and tires, dyno tuning, engine work and honest maintenance for ${joinWithAnd(siteConfig.primaryMakes)} and the rest of the Japanese performance lineup. One shop in Concord, serving the whole Charlotte metro.`}
-        image={{
-          src: "/images/hero-japanese-sports-car-concord-nc.svg",
-          alt: `Subaru WRX STI on the lift inside the ${siteConfig.name} shop in Concord, North Carolina`,
-        }}
+        image={images.hero}
         actions={
           <>
             <Button href={primaryCta.href} size="lg">

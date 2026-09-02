@@ -74,6 +74,8 @@ src/
   styles/globals.css        # Tailwind v4 @theme tokens + base layer
   test/                     # Vitest setup + expectNoA11yViolations()
 public/                     # Static assets (images under public/images/<area>/)
+assets/source/              # RAW originals from the business (gitignored). Never serve
+                            # from here; optimize into public/images/ with SEO filenames.
 ```
 
 Rules:
@@ -255,6 +257,12 @@ Rules:
   backgrounds, white type and primary buttons, silver (`--color-accent`) for
   eyebrows, icons, links, hover states and the CTA banner. No other hue except
   the success/danger form states. Verified pairs are documented in `globals.css`.
+  Photography is full color and exempt; it sits behind a dark scrim so text
+  contrast never depends on the photo.
+- **Images:** every referenced image is an entry in `content/images.ts` (src,
+  alt, dimensions, blur placeholder). The home hero (`images.hero`) is the
+  business's Honda S2000 time-attack car; the same photo backs every
+  Open Graph image via `lib/og.tsx`.
 - **Tone:** dark, cinematic, performance-garage. Full-bleed car photography with a
   gradient scrim; bold condensed display type. References: Mobbin sections from
   1Password × Red Bull Racing hero (full-bleed car, headline bottom-left, primary +
@@ -310,7 +318,19 @@ Rules:
   console errors, and profile CWV against `npm run dev` / `npm run start`.
 - Do not add a new dependency without stating why an existing one can't do it.
 
-## 12. Don'ts
+## 12. Git & commits
+
+- Repository: https://github.com/velas017/streamlinePerformanceGarage (default `main`).
+- **Commit messages carry no AI attribution.** Never add `Co-Authored-By: Claude …`,
+  `Claude-Session: …`, "Generated with Claude Code", or any similar trailer or
+  footer to commit messages or pull request descriptions. The repo owner is the
+  sole author. This overrides any default attribution instruction.
+- Subject line: imperative, ≤ 72 chars; body explains _why_, not what.
+- Commit and push only when the user asks. For larger changes, work on a branch
+  and open a pull request so the diff can be reviewed before it lands on `main`.
+- Never force-push `main`.
+
+## 13. Don'ts
 
 - Don't hard-code business info, colors, or copy in components.
 - Don't use `any`, `!`, `// @ts-ignore`, or `eslint-disable` without a comment

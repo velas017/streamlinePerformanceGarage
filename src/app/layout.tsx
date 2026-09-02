@@ -12,7 +12,8 @@ import "@/styles/globals.css";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 const barlowCondensed = Barlow_Condensed({
   subsets: ["latin"],
-  weight: ["600", "700", "800"],
+  // Only the bold weight is used (Heading/Logo); fewer files = less critical-path preload.
+  weight: ["700"],
   variable: "--font-barlow-condensed",
   display: "swap",
 });

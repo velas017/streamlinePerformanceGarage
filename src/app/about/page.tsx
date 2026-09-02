@@ -7,6 +7,7 @@ import { LocationsSection } from "@/components/sections/LocationsSection";
 import { TrustBar } from "@/components/sections/TrustBar";
 import { Card } from "@/components/ui/Card";
 import { Icon, type IconName } from "@/components/ui/Icon";
+import { images } from "@/content/images";
 import { Prose } from "@/components/ui/Prose";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
@@ -80,8 +81,8 @@ export default function AboutPage() {
           </div>
           <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-border">
             <Image
-              src="/images/about-shop-floor.svg"
-              alt={`Technician working on a Subaru WRX STI on the lift at the ${siteConfig.name} shop in Concord`}
+              src={images.aboutShopFloor.src}
+              alt={images.aboutShopFloor.alt}
               fill
               sizes="(min-width: 1024px) 560px, 100vw"
               className="object-cover"

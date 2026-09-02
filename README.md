@@ -62,10 +62,11 @@ To connect the real account (@streamline_performance_garage):
 3. Add the account as an Instagram tester / log in, and generate a **long-lived
    access token** (valid 60 days).
 4. Put it in `INSTAGRAM_ACCESS_TOKEN` (server-only) and deploy.
-5. Refresh the token before it expires with
-   `GET https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=…`
-   (a scheduled job or a calendar reminder; the feed falls back to the follow card
-   if the token dies, it never breaks the page).
+5. Refresh the token before it expires (it must be at least 24 hours old):
+   `npm run instagram:refresh` rewrites `.env.local` and prints the new expiry.
+   Paste the new value into Vercel's environment variables too. Set a calendar
+   reminder every ~50 days; if a refresh is missed the feed falls back to the
+   follow card and never breaks the page.
 
 Alternative with zero token management: a hosted feed service such as Behold.so
 exposes a JSON URL; swap `fetchLivePosts` for that endpoint.

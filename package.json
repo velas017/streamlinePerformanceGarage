@@ -13,7 +13,8 @@
     "test:watch": "vitest",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "check": "npm run lint && npm run typecheck && npm run test && npm run build"
+    "check": "npm run lint && npm run typecheck && npm run test && npm run build",
+    "instagram:refresh": "node scripts/refresh-instagram-token.mjs"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",

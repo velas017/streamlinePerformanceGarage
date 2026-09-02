@@ -4,8 +4,13 @@ import { CtaBanner } from "@/components/sections/CtaBanner";
 import { Hero } from "@/components/sections/Hero";
 import { LocationsSection } from "@/components/sections/LocationsSection";
 import { ServicesGrid } from "@/components/sections/ServicesGrid";
+import { Button } from "@/components/ui/Button";
+import { images } from "@/content/images";
+import { primaryCta } from "@/content/navigation";
 import { services } from "@/content/services";
 import { buildMetadata } from "@/lib/seo";
+import { primaryLocation } from "@/lib/site-config";
+import { formatPhone, telHref } from "@/lib/utils";
 
 export const metadata: Metadata = buildMetadata({
   title: "Japanese Sports Car Services",
@@ -22,6 +27,23 @@ export default function ServicesPage() {
         eyebrow="Services"
         title="Everything your Japanese sports car needs"
         lead="Performance work and everyday maintenance under one roof at our Concord, NC shop. Pick a service to see what is included and the questions owners ask most."
+        image={images.servicesHero}
+        actions={
+          <>
+            <Button href={primaryCta.href} size="lg">
+              {primaryCta.label}
+            </Button>
+            <Button
+              href={telHref(primaryLocation.phone)}
+              variant="secondary"
+              size="lg"
+              icon="phone"
+              iconPosition="start"
+            >
+              Call {formatPhone(primaryLocation.phone)}
+            </Button>
+          </>
+        }
       />
       <ServicesGrid
         services={services}

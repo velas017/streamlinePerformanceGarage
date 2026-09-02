@@ -4,11 +4,14 @@ import { ContactForm } from "@/components/sections/ContactForm";
 import { FaqSection } from "@/components/sections/FaqSection";
 import { Hero } from "@/components/sections/Hero";
 import { LocationCard } from "@/components/sections/LocationCard";
+import { Button } from "@/components/ui/Button";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { generalFaqs } from "@/content/faqs";
+import { images } from "@/content/images";
 import { buildMetadata } from "@/lib/seo";
-import { siteConfig } from "@/lib/site-config";
+import { primaryLocation, siteConfig } from "@/lib/site-config";
+import { formatPhone, telHref } from "@/lib/utils";
 
 export const metadata: Metadata = buildMetadata({
   title: "Book Service or Contact Us",
@@ -25,6 +28,31 @@ export default function ContactPage() {
         eyebrow="Contact & booking"
         title="Book your car in"
         lead="Tell us what you drive and what you need. We confirm most requests within one business day, and you can always call the shop directly."
+        image={images.contactHero}
+        actions={
+          <>
+            <Button
+              href={telHref(primaryLocation.phone)}
+              size="lg"
+              icon="phone"
+              iconPosition="start"
+            >
+              Call {formatPhone(primaryLocation.phone)}
+            </Button>
+            <Button
+              href={primaryLocation.mapsUrl}
+              variant="secondary"
+              size="lg"
+              icon="map-pin"
+              iconPosition="start"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Get directions
+              <span className="sr-only"> (opens in a new tab)</span>
+            </Button>
+          </>
+        }
       />
       <Section id="booking" labelledBy="booking-heading">
         <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr]">

@@ -45,6 +45,24 @@ export const images = {
     blurDataURL:
       "data:image/webp;base64,UklGRqgAAABXRUJQVlA4IJwAAACQBACdASoYAA0APu1iqU2ppaOiMAgBMB2JQBfpP/1LGFPsaBaGg+u8eW8USbAA/qK184inb0koVpXIK81bfxIoYjcl3YWMOqlcsXgK2YZDgFcOOTXP/A9bo/SrAXLHidwcVQye6OF+Y8MaOyqdiAe1w7RZ+KHZRaAJA7NaC4GOLr2PT/uimIYsyF/3pKo8AsZP7IOwOLp39a9/AAA=",
   },
+  /** Services page hero: the service bays with cars on the lifts. */
+  servicesHero: {
+    src: "/images/services/services-hero-shop-bays-honda-s2000-lifts-concord-nc.jpg",
+    alt: "Three black Honda S2000s in the Streamline Performance Garage service bays in Concord, NC, two of them raised on lifts",
+    width: 2560,
+    height: 1440,
+    blurDataURL:
+      "data:image/webp;base64,UklGRpoAAABXRUJQVlA4II4AAAAwBACdASoYAA0APu1iqU2ppaQiMAgBMB2JZwDKAYv+fvQ1FeFupLr+pQAA+yBWqE1pQ2obGLfjhNT3v++2TkM6f/1e+u469DbnGtRarNYYShPpt1v79a18NSXa/nPP3iijnaQmh7nnqXpNDCCcCHUCoduSoejPsGLsgSHYJ5Fuosb0GDMpyr78VOKRIAAA",
+  },
+  /** Contact page hero: cars on the alignment rack. */
+  contactHero: {
+    src: "/images/contact/contact-hero-lexus-is-f-alignment-rack-concord-nc.jpg",
+    alt: "Blue Lexus IS F and a gray Lexus IS 300 on the alignment rack inside the Streamline Performance Garage shop in Concord, NC",
+    width: 2560,
+    height: 1440,
+    blurDataURL:
+      "data:image/webp;base64,UklGRpYAAABXRUJQVlA4IIoAAACQAwCdASoYAA0APu1iqk4ppaQiMAgBMB2JQBUeg0bsM8sTBZ2AAP55MXi7FTriWxjiMFCpUCh3FYGa+sUFJECFe5wYzPMzEwcz/dGRRMo/fPbK1XKBLM67WtrqNqF3pNCvO39DJH7p88I49+MMja3nA9/9vegpMKjbvTmzZlAJCsJoXwG3NCkPoAA=",
+  },
   /** About page story section: engine work in progress on the shop floor. */
   aboutShopFloor: {
     src: "/images/about/about-shop-floor-wrx-sti-engine-removal-concord-nc.jpg",

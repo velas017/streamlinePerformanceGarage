@@ -7,8 +7,13 @@ export const OG_SIZE = { width: 1200, height: 630 } as const;
 export const OG_CONTENT_TYPE = "image/png";
 
 const PUBLIC_DIR = path.join(process.cwd(), "public");
-const OG_BACKGROUND_FILE = path.join(PUBLIC_DIR, "images", "og", "og-background.jpg");
-const OG_MARK_FILE = path.join(PUBLIC_DIR, "images", "logo", "mark-white.png");
+const OG_BACKGROUND_FILE = path.join(
+  PUBLIC_DIR,
+  "images",
+  "og",
+  "og-background-honda-s2000-track.jpg",
+);
+const OG_MARK_FILE = path.join(PUBLIC_DIR, "images", "logo", "logo-mark-white.png");
 
 export interface OgAssets {
   /** Data URL of a 1200×630 photo rendered behind the text. */

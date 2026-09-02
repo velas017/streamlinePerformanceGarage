@@ -84,6 +84,12 @@ export default function AboutPage() {
               src={images.aboutShopFloor.src}
               alt={images.aboutShopFloor.alt}
               fill
+              {...(images.aboutShopFloor.blurDataURL
+                ? {
+                    placeholder: "blur" as const,
+                    blurDataURL: images.aboutShopFloor.blurDataURL,
+                  }
+                : {})}
               sizes="(min-width: 1024px) 560px, 100vw"
               className="object-cover"
             />

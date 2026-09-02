@@ -114,7 +114,7 @@ export function autoRepairSchema(location: SiteLocation): WithContext<AutoRepair
     "@type": "AutoRepair",
     "@id": locationId(location),
     name: location.name,
-    image: absoluteUrl(location.image),
+    image: absoluteUrl(location.image.src),
     url: absoluteUrl(locationHref(location.id)),
     telephone: location.phone,
     email: siteConfig.email,

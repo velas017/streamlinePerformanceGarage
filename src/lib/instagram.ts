@@ -40,7 +40,8 @@ const responseSchema = z.object({ data: z.array(mediaSchema) });
 export const INSTAGRAM_REVALIDATE_SECONDS = 60 * 60;
 export const INSTAGRAM_POST_LIMIT = 8;
 
-export const instagramProfileUrl = `https://www.instagram.com/${siteConfig.instagramHandle}/` as const;
+export const instagramProfileUrl =
+  `https://www.instagram.com/${siteConfig.instagramHandle}/` as const;
 
 export type InstagramFeedMode = "live" | "mock" | "off";
 
@@ -91,7 +92,7 @@ function mockPosts(limit: number): InstagramPost[] {
   return Array.from({ length: limit }, (_, index) => ({
     id: `mock-${index + 1}`,
     permalink: instagramProfileUrl,
-    imageUrl: `/images/instagram-mock/post-${(index % 8) + 1}.svg`,
+    imageUrl: `/images/instagram-mock/instagram-placeholder-post-${(index % 8) + 1}.svg`,
     caption: `Placeholder post ${index + 1} — replace by connecting the Instagram API`,
     mediaType: types[index % types.length] ?? "IMAGE",
     timestamp: new Date(Date.UTC(2026, 7, 28 - index)).toISOString(),

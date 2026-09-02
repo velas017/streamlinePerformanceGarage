@@ -1,3 +1,4 @@
+import { images, type SiteImage } from "@/content/images";
 import { env } from "@/lib/env";
 
 /**
@@ -57,7 +58,7 @@ export interface Location {
   readonly mapsUrl: string;
   /** Google Maps embed query (address or place id) used by the map iframe. */
   readonly mapsEmbedQuery: string;
-  readonly image: string;
+  readonly image: SiteImage;
 }
 
 export interface SocialLink {
@@ -85,7 +86,7 @@ export const siteConfig = {
   /** TODO(owner): confirm the year the shop opened; null hides "since" copy and schema. */
   foundingYear: null as number | null,
   priceRange: "$$",
-  logo: "/images/logo/mark-black.png",
+  logo: "/images/logo/logo-mark-black.png",
   locale: "en_US",
   instagramHandle: "streamline_performance_garage",
   socials: [
@@ -116,7 +117,7 @@ export const siteConfig = {
         "https://www.google.com/maps/search/?api=1&query=Streamline+Performance+Garage+5978+Grand+National+Ln+SW+Concord+NC+28027",
       mapsEmbedQuery:
         "Streamline Performance Garage, 5978 Grand National Ln SW, Concord, NC 28027",
-      image: "/images/locations/concord-shop.svg",
+      image: images.concordShop,
     },
   ] as const satisfies readonly Location[],
   /** Makes the shop is known for; drives hero copy, schema and content ordering. */

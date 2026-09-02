@@ -246,8 +246,9 @@ Rules:
   correct dimensions; no layout shift from fonts (`next/font`) or images
   (always sized); third-party scripts only via `next/script` with
   `strategy="lazyOnload"` or `afterInteractive`.
-- **Images:** descriptive filenames (`nissan-gtr-r35-dyno-tuning-concord.jpg`),
-  WebP/AVIF via `next/image`, alt text as in §5.
+- **Images:** filenames follow `<page or purpose>-<subject>-<place>.<ext>`, e.g.
+  `home-hero-honda-s2000-track-concord-nc.jpg`, so the folder reads at a glance
+  and search engines get the subject. WebP/AVIF via `next/image`, alt text as in §5.
 - **Verify with Chrome DevTools MCP:** Lighthouse SEO + Performance ≥ 95 on mobile
   before a page is considered done. Check rendered `<head>` for duplicates.
 
@@ -261,9 +262,9 @@ Rules:
   contrast never depends on the photo.
 - **Brand mark:** a split-face car silhouette (left half Honda S2000, right half
   bug-eye Subaru Impreza). The master is black on transparent
-  (`assets/source/logo`, exported to `public/images/logo/mark-black.png` for
+  (`assets/source/logo`, exported to `public/images/logo/logo-mark-black.png` for
   schema.org and light surfaces); the UI uses the white alpha-mask derivative
-  `mark-white.png`. Never recolor it beyond black/white/silver. Icons are
+  `logo-mark-white.png`. Never recolor it beyond black/white/silver. Icons are
   generated from it (`public/icons`, `src/app/icon.png`, `src/app/apple-icon.png`).
 - **Images:** every referenced image is an entry in `content/images.ts` (src,
   alt, dimensions, blur placeholder). The home hero (`images.hero`) is the

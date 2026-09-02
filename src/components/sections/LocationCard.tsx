@@ -24,9 +24,12 @@ export function LocationCard({
     <Card className="w-full p-0 sm:p-0">
       <div className="relative aspect-[3/2] w-full overflow-hidden rounded-t-lg">
         <Image
-          src={location.image}
-          alt={`Exterior of the ${location.name} shop`}
+          src={location.image.src}
+          alt={location.image.alt}
           fill
+          {...(location.image.blurDataURL
+            ? { placeholder: "blur" as const, blurDataURL: location.image.blurDataURL }
+            : {})}
           sizes="(min-width: 1024px) 560px, 100vw"
           className="object-cover"
         />

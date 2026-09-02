@@ -4,12 +4,15 @@ import { CtaBanner } from "@/components/sections/CtaBanner";
 import { Hero } from "@/components/sections/Hero";
 import { LocationCard } from "@/components/sections/LocationCard";
 import { ServiceAreaCard } from "@/components/sections/ServiceAreaCard";
+import { Button } from "@/components/ui/Button";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
+import { images } from "@/content/images";
+import { primaryCta } from "@/content/navigation";
 import { serviceAreas } from "@/content/service-areas";
 import { buildMetadata } from "@/lib/seo";
-import { siteConfig } from "@/lib/site-config";
-import { joinWithAnd } from "@/lib/utils";
+import { primaryLocation, siteConfig } from "@/lib/site-config";
+import { formatPhone, joinWithAnd, telHref } from "@/lib/utils";
 
 export const metadata: Metadata = buildMetadata({
   title: "Our Concord, NC Shop & Service Area",
@@ -26,6 +29,23 @@ export default function LocationsPage() {
         eyebrow="Location"
         title="One shop in Concord, serving the Charlotte metro"
         lead={`We serve ${joinWithAnd(siteConfig.serviceAreas)} and the surrounding ${joinWithAnd(siteConfig.counties)} area from our shop just off I-85.`}
+        image={images.concordShop}
+        actions={
+          <>
+            <Button href={primaryCta.href} size="lg">
+              {primaryCta.label}
+            </Button>
+            <Button
+              href={telHref(primaryLocation.phone)}
+              variant="secondary"
+              size="lg"
+              icon="phone"
+              iconPosition="start"
+            >
+              Call {formatPhone(primaryLocation.phone)}
+            </Button>
+          </>
+        }
       />
       <Section id="shop" labelledBy="shop-heading">
         <SectionHeader id="shop-heading" eyebrow="Visit us" title="The shop" />

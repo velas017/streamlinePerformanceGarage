@@ -3,11 +3,13 @@ import type {
   AutoRepair,
   BreadcrumbList,
   FAQPage,
+  ImageGallery,
   Organization,
   Service as ServiceSchema,
   WebSite,
   WithContext,
 } from "schema-dts";
+import type { GalleryPhoto } from "@/content/gallery";
 import type { Faq } from "@/content/types";
 import type { Service } from "@/content/services";
 import { locationHref, serviceHref, type AppHref } from "@/lib/routes";
@@ -188,6 +190,30 @@ export function breadcrumbSchema(
       position: index + 1,
       name: item.name,
       item: absoluteUrl(item.href),
+    })),
+  };
+}
+
+export function imageGallerySchema(input: {
+  readonly name: string;
+  readonly description: string;
+  readonly path: AppHref;
+  readonly photos: readonly GalleryPhoto[];
+}): WithContext<ImageGallery> {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ImageGallery",
+    name: input.name,
+    description: input.description,
+    url: absoluteUrl(input.path),
+    isPartOf: { "@id": WEBSITE_ID },
+    image: input.photos.map((photo) => ({
+      "@type": "ImageObject" as const,
+      contentUrl: absoluteUrl(photo.src),
+      name: photo.caption,
+      description: photo.alt,
+      width: String(photo.width),
+      height: String(photo.height),
     })),
   };
 }

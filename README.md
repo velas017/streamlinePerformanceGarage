@@ -44,6 +44,18 @@ Everything below is marked `TODO(owner)` in code.
 - `.env.local`: `NEXT_PUBLIC_SITE_URL` (canonical domain), `LEAD_WEBHOOK_URL`
   (where contact-form leads are POSTed), optional `NEXT_PUBLIC_GOOGLE_MAPS_EMBED_KEY`.
 
+## Gallery
+
+`/gallery` is a board-style photo wall (CSS multi-column, every photo at its own
+aspect ratio) with a native-dialog viewer. To add photos:
+
+1. Drop originals into `assets/source/gallery/` with descriptive filenames
+   (`wrx-sti-engine-removal.jpg`); the filename becomes the photo id.
+2. Run `npm run gallery:import`. It writes optimized, EXIF-stripped copies to
+   `public/images/gallery/` and appends entries to `src/content/gallery.json`.
+3. Fill in `alt` and `caption` for the new entries. Tests fail on blank ones.
+4. Reorder entries in the JSON if needed; that order is the display order.
+
 ## Instagram feed
 
 The home page carousel mirrors the "Instafeed" slider on iagperformance.com but is

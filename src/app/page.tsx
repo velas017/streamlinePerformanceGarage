@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { CtaBanner } from "@/components/sections/CtaBanner";
 import { FaqSection } from "@/components/sections/FaqSection";
+import { GalleryTeaser } from "@/components/sections/GalleryTeaser";
 import { Hero } from "@/components/sections/Hero";
 import { InstagramFeed } from "@/components/sections/InstagramFeed";
 import { LocationsSection } from "@/components/sections/LocationsSection";
@@ -80,6 +81,7 @@ export default function HomePage() {
         }
       />
       <MakesSection />
+      <GalleryTeaser />
       <InstagramFeed />
       <Testimonials />
       <LocationsSection />

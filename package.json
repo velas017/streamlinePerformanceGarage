@@ -14,7 +14,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "check": "npm run lint && npm run typecheck && npm run test && npm run build",
-    "instagram:refresh": "node scripts/refresh-instagram-token.mjs"
+    "instagram:refresh": "node scripts/refresh-instagram-token.mjs",
+    "gallery:import": "node scripts/import-gallery.mjs"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",

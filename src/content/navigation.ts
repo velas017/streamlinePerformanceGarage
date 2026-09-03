@@ -32,6 +32,7 @@ const locationLinks: readonly NavLink[] = [
 export const mainNavigation: readonly NavItem[] = [
   { label: "Services", href: "/services", children: serviceLinks },
   { label: "Location", href: "/locations", children: locationLinks },
+  { label: "Gallery", href: "/gallery" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
@@ -47,6 +48,7 @@ export const footerNavigation: readonly FooterGroup[] = [
   {
     heading: "Company",
     links: [
+      { label: "Gallery", href: "/gallery" },
       { label: "About", href: "/about" },
       { label: "Contact & Booking", href: "/contact" },
       { label: "Privacy Policy", href: "/privacy" },

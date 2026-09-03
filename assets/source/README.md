@@ -7,14 +7,15 @@ which is what the pages reference.
 
 ## Where to put things
 
-| Folder  | What goes in it                                              |
-| ------- | ------------------------------------------------------------ |
-| `logo/` | Logo files, brand marks, any vector (SVG/AI/EPS) or PNG      |
-| `hero/` | Wide, high-resolution shots suited to the home page header   |
-| `shop/` | Building exterior, signage, lobby, bays, equipment           |
-| `work/` | Cars on lifts, builds, dyno pulls, alignments, before/after  |
-| `team/` | Owner and technicians (only people who have agreed to appear) |
-| `misc/` | Anything that does not fit above                             |
+| Folder     | What goes in it                                                        |
+| ---------- | ---------------------------------------------------------------------- |
+| `logo/`    | Logo files, brand marks, any vector (SVG/AI/EPS) or PNG                |
+| `hero/`    | Wide, high-resolution shots suited to the home page header             |
+| `shop/`    | Building exterior, signage, lobby, bays, equipment                     |
+| `work/`    | Cars on lifts, builds, dyno pulls, alignments, before/after            |
+| `team/`    | Owner and technicians (only people who have agreed to appear)          |
+| `gallery/` | Photos for the Gallery page. Run `npm run gallery:import` after adding |
+| `misc/`    | Anything that does not fit above                                       |
 
 Keep original filenames; we rename during optimization. Note which car and
 service each photo shows if the filename does not say (a `notes.txt` in the

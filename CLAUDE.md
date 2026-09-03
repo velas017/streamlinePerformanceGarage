@@ -52,6 +52,7 @@ src/
     locations/[slug]/page.tsx # Physical shop page(s) with NAP + AutoRepair schema
     service-areas/[slug]/page.tsx # City landing pages (no address/schema): charlotte
     about/page.tsx
+    gallery/page.tsx        # Board-style photo wall + viewer (content/gallery.json)
     contact/page.tsx
     sitemap.ts robots.ts manifest.ts
     not-found.tsx error.tsx
@@ -61,6 +62,7 @@ src/
     sections/               # Page sections composed from ui/: Hero, ServicesGrid, InstagramFeed…
     seo/                    # JsonLd component (typed via schema-dts)
   content/                  # Static content as typed data (services, locations, faqs…)
+                            # gallery.json is appended by scripts/import-gallery.mjs
   lib/
     site-config.ts          # SINGLE SOURCE OF TRUTH for business NAP, hours, socials
     routes.ts               # AppHref type + href helpers; validated by typedRoutes
@@ -266,6 +268,11 @@ Rules:
   schema.org and light surfaces); the UI uses the white alpha-mask derivative
   `logo-mark-white.png`. Never recolor it beyond black/white/silver. Icons are
   generated from it (`public/icons`, `src/app/icon.png`, `src/app/apple-icon.png`).
+- **Gallery:** `/gallery` is a Pinterest/Airbnb-style wall: CSS multi-column
+  (2/3/4 columns), every tile at its own aspect ratio, no hero or featured tile,
+  no categories, captions always visible on tiles, native `<dialog>` viewer that
+  closes on any click outside the photo. Photos come from `content/gallery.json`
+  via `npm run gallery:import`; alt + caption are hand-written and tested.
 - **Images:** every referenced image is an entry in `content/images.ts` (src,
   alt, dimensions, blur placeholder). The home hero (`images.hero`) is the
   business's Honda S2000 time-attack car; the same photo backs every

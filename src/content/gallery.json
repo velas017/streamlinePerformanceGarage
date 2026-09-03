@@ -11,6 +11,17 @@
     "addedAt": "2026-09-03"
   },
   {
+    "id": "nissan-silvia-s15-shop-floor",
+    "sourceFile": "nissan-silvia-s15-shop-floor.jpg",
+    "src": "/images/gallery/gallery-nissan-silvia-s15-shop-floor.jpg",
+    "width": 1600,
+    "height": 900,
+    "blurDataURL": "data:image/webp;base64,UklGRowAAABXRUJQVlA4IIAAAADQAwCdASoYAA0APu1kqU2ppaQiMAgBMB2JZQC7AB9iFgQGOY4b2gAA/s8rraJWJad8UmWhS4hajF+Vf/JPm7u2vYIeHTGckMKrt0XmRbQw4Zdfx0J6l0t7ajPW+oDnkv8b1f51qIbbZjXadN/8mEOeiloBquZM6VlIu168S3QAAA==",
+    "alt": "Silver right-hand-drive Nissan Silvia S15 on the shop floor with a white Nissan Skyline behind it",
+    "caption": "Silvia S15 on the shop floor",
+    "addedAt": "2026-09-03"
+  },
+  {
     "id": "acura-nsx-front-three-quarter",
     "sourceFile": "acura-nsx-front-three-quarter.jpg",
     "src": "/images/gallery/gallery-acura-nsx-front-three-quarter.jpg",
@@ -19,6 +30,28 @@
     "blurDataURL": "data:image/webp;base64,UklGRs4AAABXRUJQVlA4IMIAAABwBQCdASoYACAAPu1qrVCppaQiqAqpMB2JZwDMWdwAbasqK2CB7kPy428caDB5wMIDHowAAP7A0fFfYjhY3Kmk0f5vEGXyDDtdAdUrIpPL5CYVbhysb5myNzk8AgOJiXWleA4kRzx12kLegsCglcA1ARq+o4BxpdHIoRDE01MLLsnuqSjFh5u/bQB5cxCMGKA59kJJqm1DUHQZPUujUMy2mLz9KtfpwlsThJ+F8qwXjTX1rqWBaj51MusRIQu38Y1UAA==",
     "alt": "Front three-quarter view of a black first-generation Acura NSX on white wheels inside the Concord shop",
     "caption": "NSX, front three-quarter",
+    "addedAt": "2026-09-03"
+  },
+  {
+    "id": "subaru-boxer-engine-on-stand",
+    "sourceFile": "subaru-boxer-engine-on-stand.jpg",
+    "src": "/images/gallery/gallery-subaru-boxer-engine-on-stand.jpg",
+    "width": 1600,
+    "height": 900,
+    "blurDataURL": "data:image/webp;base64,UklGRpoAAABXRUJQVlA4II4AAAAwBACdASoYAA0APu1iqU2ppaOiMAgBMB2JYwCzgCLveTvTKMDtM3lZfQAA/cPbRYOpbvP8WF26l8SGFk0697z5spvPqgGqwNf98c0K3hBwgVa1akey8B29yGssmSdAVK2gfYCmeAK3qSXhRK+4NstNFP1e6q4enmrUFi2UMeXmdtGyix1R24hBk2wsIAAA",
+    "alt": "Bare Subaru boxer engine block and heads on an engine stand on the shop floor at Streamline Performance Garage in Concord, NC",
+    "caption": "Boxer engine on the stand, ready for assembly",
+    "addedAt": "2026-09-03"
+  },
+  {
+    "id": "honda-civic-type-r-fl5",
+    "sourceFile": "honda-civic-type-r-fl5.jpg",
+    "src": "/images/gallery/gallery-honda-civic-type-r-fl5.jpg",
+    "width": 1600,
+    "height": 900,
+    "blurDataURL": "data:image/webp;base64,UklGRpIAAABXRUJQVlA4IIYAAAAwBACdASoYAA0APu1iqU2ppaQiMAgBMB2JYwCw7Yv02Ly0NxXrnx0uYAAA/kEzVH9MimVC/StwfDVX6FnJGn8FBmfoiKWYoPGZRn2pnaOTRyHNlGRhGK9FYpScVIZBmPiqeN9d0qIkHg3EQWqto9WdIjMh+zTrTpczANiAmCD0bKEV5sAAAA==",
+    "alt": "Gray eleventh-generation Honda Civic Type R on the shop floor at Streamline Performance Garage in Concord, NC",
+    "caption": "Civic Type R, FL5",
     "addedAt": "2026-09-03"
   },
   {
@@ -33,6 +66,17 @@
     "addedAt": "2026-09-03"
   },
   {
+    "id": "honda-acty-kei-truck-on-lift",
+    "sourceFile": "honda-acty-kei-truck-on-lift.jpg",
+    "src": "/images/gallery/gallery-honda-acty-kei-truck-on-lift.jpg",
+    "width": 1600,
+    "height": 900,
+    "blurDataURL": "data:image/webp;base64,UklGRqAAAABXRUJQVlA4IJQAAADwAwCdASoYAA0APu1iqU2ppaOiMAgBMB2JZQDDNBZrkhyXsdT0dTLAAP6CjPFNSs9ojhwct9pp65pau+XusRrY6nFZTjvqWcSZQ6ZEsVVQ9SF+9TJQrW6ynF/ccv28OwHiGD87fAIPrjnsvTHUZFe3RDgFnLoZUE0l05+F/3bGZ9PC2o9vqxXwRpFrjy1fJzgWpAAA",
+    "alt": "White Honda Acty kei truck on the alignment rack inside the Concord shop",
+    "caption": "Honda Acty kei truck on the rack",
+    "addedAt": "2026-09-03"
+  },
+  {
     "id": "wrx-sti-engine-removal",
     "sourceFile": "wrx-sti-engine-removal.jpg",
     "src": "/images/gallery/gallery-wrx-sti-engine-removal.jpg",
@@ -41,6 +85,17 @@
     "blurDataURL": "data:image/webp;base64,UklGRqAAAABXRUJQVlA4IJQAAAAQBACdASoYAA0APu1iqk2ppaQiMAgBMB2JQBbZMYnVhzLpGY70/6PQgAD9xEONVe2JZGi1lR0IR0NBMGjyN/DWbNWGOX637VGvQ68tMBNudtr1GuR3USxtozuyZg5EsSG64/h4dbMyn+LpVt2XzQ4Yv1TxgrSsvQFnm2SCDQsSkjTVc7GJIDsTAIIqt4fNzMhsqnAA",
     "alt": "Blue Subaru WRX STI with its boxer engine removed and hanging from an engine hoist inside the Concord shop",
     "caption": "WRX STI, engine out on the hoist",
+    "addedAt": "2026-09-03"
+  },
+  {
+    "id": "honda-s2000-769-time-attack",
+    "sourceFile": "honda-s2000-769-time-attack.jpg",
+    "src": "/images/gallery/gallery-honda-s2000-769-time-attack.jpg",
+    "width": 1600,
+    "height": 900,
+    "blurDataURL": "data:image/webp;base64,UklGRpgAAABXRUJQVlA4IIwAAABQBACdASoYAA0APu1iqU2ppaOiMAgBMB2JYwDE2ywYYArWiDGhDCv9cyUAAP7PeqBIB8WlELj4Mnc3KJi1e5w592N/M/c39KvpTchfdcHYCSyLfc4/VlsNSlsN2V5xpYcLSgx8FTO/lNMCDRsgChj8gNNkMsj5vOUbQd/tMDUABJDSxaMrK80JE4qAAA==",
+    "alt": "Gray Honda S2000 time attack car, number 769, on the shop floor with another car on the scissor lift behind it",
+    "caption": "S2000 time attack car, #769",
     "addedAt": "2026-09-03"
   },
   {
@@ -55,6 +110,17 @@
     "addedAt": "2026-09-03"
   },
   {
+    "id": "red-toyota-86-hood-up",
+    "sourceFile": "red-toyota-86-hood-up.jpg",
+    "src": "/images/gallery/gallery-red-toyota-86-hood-up.jpg",
+    "width": 1600,
+    "height": 900,
+    "blurDataURL": "data:image/webp;base64,UklGRpIAAABXRUJQVlA4IIYAAADwAwCdASoYAA0APu1iqU2ppaQiMAgBMB2JZAC+SYvq5xiR/4rD0gAAAP6FX61IspUNEsvl0hBJbWr4QF+9TD2URJexBVHW7AsCQKxESRj4MC5FNVD1yOvA+LbLex6HfIGuSnXQhvyTloUON+Zy8fn85xWnRkUFBKI+NvBNR12ADMT1Z1wAAA==",
+    "alt": "Red Toyota 86 with its hood up between the lifts inside the Streamline Performance Garage shop",
+    "caption": "Red 86 in for work, hood up",
+    "addedAt": "2026-09-03"
+  },
+  {
     "id": "service-bays-three-s2000s",
     "sourceFile": "service-bays-three-s2000s.jpg",
     "src": "/images/gallery/gallery-service-bays-three-s2000s.jpg",
@@ -66,6 +132,17 @@
     "addedAt": "2026-09-03"
   },
   {
+    "id": "engine-out-car-on-two-post-lift",
+    "sourceFile": "engine-out-car-on-two-post-lift.jpg",
+    "src": "/images/gallery/gallery-engine-out-car-on-two-post-lift.jpg",
+    "width": 1600,
+    "height": 900,
+    "blurDataURL": "data:image/webp;base64,UklGRrAAAABXRUJQVlA4IKQAAACQBACdASoYAA0APu1iqU2ppaQiMAgBMB2JZQDG+agR/4xll7psS9j2XY1o2wgA/oVlFDApQgUDPzOqNBuyuJcBxQ50ePrG5sm6QDGqB6VsIICpWM5oEgWjk63z/eJYHGNu/BSRUXXYDHCQoaEjye/YbLeN3tMvOLW1SBxJ5ly3Z0lI2ctvclLIbns8nCy4K4kon9/ry6mAMy7y6RSPtrFtoDqAAA==",
+    "alt": "Car raised high on a two-post lift with its engine removed and sitting on a stand beneath it inside the shop",
+    "caption": "Engine out, car up on the two-post lift",
+    "addedAt": "2026-09-03"
+  },
+  {
     "id": "acura-nsx-shop-floor",
     "sourceFile": "acura-nsx-shop-floor.jpg",
     "src": "/images/gallery/gallery-acura-nsx-shop-floor.jpg",
@@ -74,6 +151,17 @@
     "blurDataURL": "data:image/webp;base64,UklGRpYAAABXRUJQVlA4IIoAAABQBACdASoYAA0APu1iqU2ppaOiMAgBMB2JZQDImCPQKGhZFlZLnIRelIqAAP4Y95eYbDjQ0Lvd6o+vCe9jP/X6SAEFvy996Rb04mG7S73/sUZHZHhppUtb/Dfc+E+Iie3Bm9mAXFsGbbRuqMp4x66IvDVAZ8aVlPg/ixuq71G4NITHw6kOLSkvAAA=",
     "alt": "Black first-generation Acura NSX on the shop floor with a white Subaru WRX on the lift behind it",
     "caption": "First-gen NSX on the shop floor",
+    "addedAt": "2026-09-03"
+  },
+  {
+    "id": "subaru-impreza-engine-swap",
+    "sourceFile": "subaru-impreza-engine-swap.jpg",
+    "src": "/images/gallery/gallery-subaru-impreza-engine-swap.jpg",
+    "width": 1600,
+    "height": 900,
+    "blurDataURL": "data:image/webp;base64,UklGRp4AAABXRUJQVlA4IJIAAADQAwCdASoYAA0APu1iqU2ppaQiMAgBMB2JZQDImCad9lNGQXMi0GAA34zepM1bnEr2Sqc/xxPLLx1QgOcNEQKJOy8rhSz0r+XYklRAFuTOk7xR0sw76o0ty/sNWs8oJknQiTKeP5iYo7Oz4MATditVUh+xOsN6L0ugmg7KHfU/VvXFN1V29DxlsnmmsjHNMoAAAA==",
+    "alt": "Silver Subaru Impreza with its hood open and its boxer engine on a stand beside it during an engine swap",
+    "caption": "Impreza engine swap, engine on the stand",
     "addedAt": "2026-09-03"
   },
   {

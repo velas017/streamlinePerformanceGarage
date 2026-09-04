@@ -1,7 +1,9 @@
 import { screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
+import { MakesSection } from "@/components/sections/MakesSection";
 import { ServicesCarousel } from "@/components/sections/ServicesCarousel";
 import { Testimonials } from "@/components/sections/Testimonials";
+import { makes } from "@/content/makes";
 import { featuredServices } from "@/content/services";
 import { testimonials } from "@/content/testimonials";
 import { renderAccessible } from "@/test/render";
@@ -25,5 +27,11 @@ describe("home page carousels", () => {
     await renderAccessible(<Testimonials />);
     const list = screen.getByRole("list", { name: "Customer reviews" });
     expect(list.querySelectorAll("li")).toHaveLength(testimonials.length);
+  });
+
+  it("makes carousel lists every make", async () => {
+    await renderAccessible(<MakesSection />);
+    const list = screen.getByRole("list", { name: "Makes we specialize in" });
+    expect(list.querySelectorAll(":scope > li")).toHaveLength(makes.length);
   });
 });

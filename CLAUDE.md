@@ -285,7 +285,7 @@ Rules:
   recent posts in a slider with a follow link).
 - **Home page order:** Hero → trust bar → Services carousel → Specialties by make →
   Gallery teaser → Instagram feed → Testimonials carousel → Location + service
-  areas → FAQ → final CTA. Services and reviews use the shared `ui/Carousel`
+  areas → FAQ → final CTA. Services, makes and reviews use the shared `ui/Carousel`
   (1 card per view on phones, 2 on tablets, 3 on desktop) so phones swipe
   instead of scrolling a long column; the Services page keeps the full grid.
 - **Primary CTAs:** "Book service" (contact form) and "Call (704) 277-5099"

@@ -1,9 +1,7 @@
-import { Card, CardLink } from "@/components/ui/Card";
-import { Icon } from "@/components/ui/Icon";
+import { ServiceCard } from "@/components/sections/ServiceCard";
 import { Section, type SectionProps } from "@/components/ui/Section";
 import { SectionHeader, type SectionHeaderProps } from "@/components/ui/SectionHeader";
 import type { Service } from "@/content/services";
-import { serviceHref } from "@/lib/routes";
 import { cn } from "@/lib/utils";
 
 export interface ServicesGridProps {
@@ -36,24 +34,7 @@ export function ServicesGrid({
       >
         {services.map((service) => (
           <li key={service.slug} className="flex">
-            <Card interactive className="w-full">
-              <Icon name={service.icon} className="size-8 text-accent" />
-              <h3 className="text-display-sm">
-                <CardLink
-                  href={serviceHref(service.slug)}
-                  className="text-fg after:rounded-lg hover:text-accent"
-                >
-                  {service.name}
-                </CardLink>
-              </h3>
-              {compact ? null : <p className="text-muted">{service.summary}</p>}
-              <span
-                aria-hidden="true"
-                className="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-accent"
-              >
-                Learn more <Icon name="arrow-right" className="size-4" />
-              </span>
-            </Card>
+            <ServiceCard service={service} compact={compact} />
           </li>
         ))}
       </ul>

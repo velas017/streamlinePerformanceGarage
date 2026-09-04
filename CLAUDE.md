@@ -283,8 +283,11 @@ Rules:
   secondary CTA), Rivian (dark, centered statement), Humble (trust bar under hero),
   and the Instagram carousel from iagperformance.com (Shopify "Instafeed" app:
   recent posts in a slider with a follow link).
-- **Home page order:** Hero → trust bar → Services grid → Specialties by make →
-  Instagram feed → Testimonials → Location + service areas → FAQ → final CTA.
+- **Home page order:** Hero → trust bar → Services carousel → Specialties by make →
+  Gallery teaser → Instagram feed → Testimonials carousel → Location + service
+  areas → FAQ → final CTA. Services and reviews use the shared `ui/Carousel`
+  (1 card per view on phones, 2 on tablets, 3 on desktop) so phones swipe
+  instead of scrolling a long column; the Services page keeps the full grid.
 - **Primary CTAs:** "Book service" (contact form) and "Call (704) 277-5099"
   (`tel:`). Both visible above the fold on mobile.
 - **Instagram feed:** `lib/instagram.ts` fetches the business account's media

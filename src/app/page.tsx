@@ -6,7 +6,7 @@ import { Hero } from "@/components/sections/Hero";
 import { InstagramFeed } from "@/components/sections/InstagramFeed";
 import { LocationsSection } from "@/components/sections/LocationsSection";
 import { MakesSection } from "@/components/sections/MakesSection";
-import { ServicesGrid } from "@/components/sections/ServicesGrid";
+import { ServicesCarousel } from "@/components/sections/ServicesCarousel";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { TrustBar } from "@/components/sections/TrustBar";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -66,20 +66,7 @@ export default function HomePage() {
         }
       />
       <TrustBar />
-      <ServicesGrid
-        services={featuredServices}
-        header={{
-          eyebrow: "What we do",
-          title: "Performance and repair, done properly",
-          description:
-            "From a factory-schedule oil change to a full engine build, every job gets the same documentation, the same standards and the same technicians.",
-        }}
-        footer={
-          <Button href="/services" variant="secondary" icon="arrow-right">
-            See all services
-          </Button>
-        }
-      />
+      <ServicesCarousel services={featuredServices} />
       <MakesSection />
       <GalleryTeaser />
       <InstagramFeed />

@@ -1,9 +1,10 @@
-import { Card } from "@/components/ui/Card";
+import { TestimonialCard } from "@/components/sections/TestimonialCard";
+import { CARD_SLIDE_WIDTH, Carousel, CarouselItem } from "@/components/ui/Carousel";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { StarRating } from "@/components/ui/StarRating";
 import { testimonials } from "@/content/testimonials";
 
+/** Customer reviews in the shared carousel: 1 per view on phones, 2 on tablets, 3 on desktop. */
 export function Testimonials() {
   return (
     <Section id="reviews" labelledBy="reviews-heading">
@@ -12,22 +13,13 @@ export function Testimonials() {
         eyebrow="Customer reviews"
         title="Trusted by enthusiasts across the Carolinas"
       />
-      <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <Carousel label="Customer reviews">
         {testimonials.map((item) => (
-          <li key={`${item.name}-${item.vehicle}`} className="flex">
-            <Card className="w-full">
-              <StarRating rating={item.rating} />
-              <blockquote className="flex-1">
-                <p className="text-fg">“{item.quote}”</p>
-              </blockquote>
-              <p className="text-sm text-muted">
-                <span className="font-semibold text-fg">{item.name}</span> ·{" "}
-                {item.vehicle} · {item.hometown}
-              </p>
-            </Card>
-          </li>
+          <CarouselItem key={`${item.name}-${item.vehicle}`} className={CARD_SLIDE_WIDTH}>
+            <TestimonialCard testimonial={item} />
+          </CarouselItem>
         ))}
-      </ul>
+      </Carousel>
     </Section>
   );
 }

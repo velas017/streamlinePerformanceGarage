@@ -49,6 +49,8 @@ type NativeButtonProps = SharedProps &
   };
 
 export type ButtonProps = AnchorLikeProps | NativeButtonProps;
+/** Props of the link-rendering variant, for wrappers that fix the href. */
+export type ButtonLinkProps = AnchorLikeProps;
 
 function isAnchor(props: ButtonProps): props is AnchorLikeProps {
   return typeof props.href === "string";

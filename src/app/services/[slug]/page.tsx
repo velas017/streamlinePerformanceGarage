@@ -7,13 +7,13 @@ import { Hero } from "@/components/sections/Hero";
 import { LocationsSection } from "@/components/sections/LocationsSection";
 import { ServicesGrid } from "@/components/sections/ServicesGrid";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { BookNowButton } from "@/components/layout/BookNowButton";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Icon } from "@/components/ui/Icon";
 import { Prose } from "@/components/ui/Prose";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { primaryCta } from "@/content/navigation";
 import { getService, services } from "@/content/services";
 import { serviceHref } from "@/lib/routes";
 import { buildMetadata, serviceSchema } from "@/lib/seo";
@@ -65,9 +65,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
         lead={service.summary}
         actions={
           <>
-            <Button href={primaryCta.href} size="lg">
-              {primaryCta.label}
-            </Button>
+            <BookNowButton size="lg" />
             <Button
               href={telHref(siteConfig.primaryPhone)}
               variant="secondary"
@@ -128,7 +126,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
       ) : null}
 
       <FaqSection faqs={service.faqs} title={`${service.shortName} questions`} />
-      <CtaBanner title={`Book ${service.shortName.toLowerCase()} today`} />
+      <CtaBanner />
     </>
   );
 }

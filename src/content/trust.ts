@@ -1,6 +1,4 @@
 import type { IconName } from "@/components/ui/Icon";
-import { siteConfig } from "@/lib/site-config";
-import { joinWithAnd } from "@/lib/utils";
 
 export interface TrustPoint {
   readonly icon: IconName;
@@ -8,26 +6,28 @@ export interface TrustPoint {
   readonly detail: string;
 }
 
-/** TODO(owner): confirm certification and warranty claims before launch. */
+/** Copy supplied by the shop (2026-09-07). */
 export const trustPoints = [
   {
     icon: "car",
-    label: `${joinWithAnd(siteConfig.primaryMakes)} specialists`,
-    detail: "Japanese platforms only, so the tools and the know-how are always in-house.",
+    label: "Subaru, Honda, Nissan & Toyota",
+    detail: "Japanese specific, so the experience and the know-how are always in-house.",
   },
   {
     icon: "gauge",
-    label: "Alignment rack & dyno on site",
-    detail: "Performance alignments and dyno tuning verified with data, never guessed.",
+    label: "Hunter Engineering laser alignment machine & Mustang AWD dyno",
+    detail:
+      "Performance alignments and dyno tuning verified with accurate data, never guessed.",
   },
   {
-    icon: "shield",
-    label: "Parts & labor warranty",
-    detail: "Every repair is backed by a written warranty.",
+    icon: "cog",
+    label: "Full range of performance parts & upgrades",
+    detail:
+      "We are dealers for the biggest names in the performance industry. Contact us for a quote.",
   },
   {
     icon: "map-pin",
-    label: "Concord, NC · serving Charlotte",
+    label: "Conveniently located in Concord, NC",
     detail: "Just off I-85 near Charlotte Motor Speedway, 20 minutes from Uptown.",
   },
 ] as const satisfies readonly TrustPoint[];

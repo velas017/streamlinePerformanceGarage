@@ -14,7 +14,7 @@ import { primaryLocation, siteConfig } from "@/lib/site-config";
 import { formatPhone, telHref } from "@/lib/utils";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Book Service or Contact Us",
+  title: "Book Now or Contact Us",
   description:
     "Book an appointment at Streamline Performance Garage in Concord, NC. Request alignments, tuning, repairs or maintenance for your Subaru, Nissan or Honda online, or call the shop.",
   path: "/contact",
@@ -26,7 +26,7 @@ export default function ContactPage() {
       <Breadcrumbs items={[{ name: "Contact", href: "/contact" }]} />
       <Hero
         eyebrow="Contact & booking"
-        title="Book your car in"
+        title="Book your next appointment"
         lead="Tell us what you drive and what you need. We confirm most requests within one business day, and you can always call the shop directly."
         image={images.contactHero}
         actions={

@@ -37,12 +37,12 @@ export const testimonials = [
   },
   {
     name: "Devon L.",
-    vehicle: "1999 Nissan Skyline GT-R R34",
+    vehicle: "2018 Toyota 86",
     location: "concord",
     hometown: "Kannapolis",
     rating: 5,
     quote:
-      "Bringing a fresh import to a shop that actually knows right-hand-drive cars made all the difference. They sourced OEM parts from Japan and had it road-ready in two weeks.",
+      "Coilovers, an alignment on the Hunter machine and a set of tires, all set up for autocross. The car has never felt this planted.",
   },
   {
     name: "Hannah K.",

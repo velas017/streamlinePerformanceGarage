@@ -1,23 +1,18 @@
 import type { Metadata } from "next";
 import { CtaBanner } from "@/components/sections/CtaBanner";
-import { FaqSection } from "@/components/sections/FaqSection";
 import { GalleryTeaser } from "@/components/sections/GalleryTeaser";
 import { Hero } from "@/components/sections/Hero";
 import { InstagramFeed } from "@/components/sections/InstagramFeed";
-import { LocationsSection } from "@/components/sections/LocationsSection";
-import { MakesSection } from "@/components/sections/MakesSection";
 import { ServicesCarousel } from "@/components/sections/ServicesCarousel";
-import { Testimonials } from "@/components/sections/Testimonials";
 import { TrustBar } from "@/components/sections/TrustBar";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { BookNowButton } from "@/components/layout/BookNowButton";
 import { Button } from "@/components/ui/Button";
-import { generalFaqs } from "@/content/faqs";
 import { images } from "@/content/images";
-import { primaryCta } from "@/content/navigation";
 import { featuredServices } from "@/content/services";
 import { autoRepairSchema, buildMetadata } from "@/lib/seo";
 import { primaryLocation, siteConfig } from "@/lib/site-config";
-import { formatPhone, joinWithAnd, telHref } from "@/lib/utils";
+import { formatPhone, telHref } from "@/lib/utils";
 
 export const metadata: Metadata = buildMetadata({
   title: `${siteConfig.name} | Japanese Car Repair & Tuning in Concord, NC`,
@@ -39,20 +34,19 @@ export default function HomePage() {
     <>
       <JsonLd data={siteConfig.locations.map(autoRepairSchema)} />
       <Hero
-        eyebrow="Concord, NC · Serving Charlotte"
+        eyebrow="Located in Concord, NC · Serving Charlotte and the surrounding area"
         title={
           <>
-            Japanese automotive specialists,
-            <br className="hidden sm:block" /> built for how you drive
+            Japanese Automotive Specialists
+            <br />
+            Service. Repair. Performance.
           </>
         }
-        lead={`Alignments, suspension, brakes, wheels and tires, dyno tuning, engine work and honest maintenance for ${joinWithAnd(siteConfig.primaryMakes)} and the rest of the Japanese performance lineup. One shop in Concord, serving the whole Charlotte metro.`}
+        lead="Comprehensive Japanese Automotive Experts. Offering alignments, suspension, brakes, wheels and tires, performance upgrades, dyno tuning, engine work and honest repairs and maintenance for Subaru, Honda, Toyota, Nissan and other Japanese vehicles."
         image={images.hero}
         actions={
           <>
-            <Button href={primaryCta.href} size="lg">
-              {primaryCta.label}
-            </Button>
+            <BookNowButton size="lg" />
             <Button
               href={telHref(primaryLocation.phone)}
               variant="secondary"
@@ -66,13 +60,11 @@ export default function HomePage() {
         }
       />
       <TrustBar />
+      {/* Hidden at the client's request for now: MakesSection, Testimonials (placeholders until
+          Google reviews are wired), LocationsSection and FaqSection. See CLAUDE.md §8. */}
       <ServicesCarousel services={featuredServices} />
-      <MakesSection />
       <GalleryTeaser />
       <InstagramFeed />
-      <Testimonials />
-      <LocationsSection />
-      <FaqSection faqs={generalFaqs} />
       <CtaBanner />
     </>
   );

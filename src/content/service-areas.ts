@@ -29,7 +29,7 @@ export const serviceAreas = [
     headline: "Japanese Car Repair & Tuning for Charlotte, NC Drivers",
     lead: "Our shop is in Concord, roughly 20 minutes up I-85 from Uptown Charlotte and even closer to University City, Harrisburg and the north side of town.",
     intro: [
-      "A large share of the Subarus, Nissans and Hondas in our bays come from Charlotte. Drivers make the short trip up I-85 because they want a shop that works on their platform every day, explains what it finds with data, and does not treat an enthusiast car like an appliance.",
+      "A large share of the Subarus, Hondas, Nissans and Toyotas in our bays come from Charlotte. Drivers make the short trip up I-85 because they want a shop that works on their platform every day, explains what it finds with data, and does not treat an enthusiast car like an appliance.",
       "Whether you are in University City, NoDa, South End or out toward Huntersville and Lake Norman, we are an easy morning drop-off: get on I-85 North, take the Concord Mills / Speedway exit, and you are minutes from the shop. Book online, tell us what you drive, and we will confirm a time.",
     ],
     neighborhoods: [

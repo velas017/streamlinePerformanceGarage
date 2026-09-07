@@ -1,7 +1,7 @@
+import { BookNowButton } from "@/components/layout/BookNowButton";
 import { Button } from "@/components/ui/Button";
 import { Heading } from "@/components/ui/Heading";
 import { Section } from "@/components/ui/Section";
-import { primaryCta } from "@/content/navigation";
 import { siteConfig } from "@/lib/site-config";
 import { formatPhone, telHref } from "@/lib/utils";
 
@@ -11,7 +11,7 @@ export interface CtaBannerProps {
 }
 
 export function CtaBanner({
-  title = "Ready to book your car in?",
+  title = "Ready to book your next appointment?",
   description = "Tell us what you drive and what you need. We will confirm a time at our Concord shop, usually the same day.",
 }: CtaBannerProps) {
   return (
@@ -24,13 +24,7 @@ export function CtaBanner({
           <p className="mt-2 text-lg text-accent-fg/80">{description}</p>
         </div>
         <div className="flex flex-col gap-3 sm:flex-row">
-          <Button
-            href={primaryCta.href}
-            size="lg"
-            className="bg-bg text-fg hover:bg-surface-2"
-          >
-            {primaryCta.label}
-          </Button>
+          <BookNowButton size="lg" className="bg-bg text-fg hover:bg-surface-2" />
           <Button
             href={telHref(siteConfig.primaryPhone)}
             variant="secondary"

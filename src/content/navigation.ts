@@ -56,4 +56,4 @@ export const footerNavigation: readonly FooterGroup[] = [
   },
 ];
 
-export const primaryCta: NavLink = { label: "Book service", href: "/contact" };
+export const primaryCta: NavLink = { label: "Book now", href: "/contact" };

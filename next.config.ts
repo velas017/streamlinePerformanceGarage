@@ -29,7 +29,14 @@ const nextConfig: NextConfig = {
   },
   // Slug changes must be redirected here so indexed URLs never 404 (CLAUDE.md §7).
   async redirects() {
-    return [];
+    return [
+      // JDM Import Service was removed on 2026-09-07; keep the indexed URL alive.
+      {
+        source: "/services/jdm-import-service",
+        destination: "/services",
+        permanent: true,
+      },
+    ];
   },
 };
 

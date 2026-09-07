@@ -4,11 +4,11 @@ import { CtaBanner } from "@/components/sections/CtaBanner";
 import { Hero } from "@/components/sections/Hero";
 import { LocationCard } from "@/components/sections/LocationCard";
 import { ServiceAreaCard } from "@/components/sections/ServiceAreaCard";
+import { BookNowButton } from "@/components/layout/BookNowButton";
 import { Button } from "@/components/ui/Button";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { images } from "@/content/images";
-import { primaryCta } from "@/content/navigation";
 import { serviceAreas } from "@/content/service-areas";
 import { buildMetadata } from "@/lib/seo";
 import { primaryLocation, siteConfig } from "@/lib/site-config";
@@ -32,9 +32,7 @@ export default function LocationsPage() {
         image={images.concordShop}
         actions={
           <>
-            <Button href={primaryCta.href} size="lg">
-              {primaryCta.label}
-            </Button>
+            <BookNowButton size="lg" />
             <Button
               href={telHref(primaryLocation.phone)}
               variant="secondary"

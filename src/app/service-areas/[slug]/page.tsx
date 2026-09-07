@@ -6,11 +6,11 @@ import { FaqSection } from "@/components/sections/FaqSection";
 import { Hero } from "@/components/sections/Hero";
 import { LocationCard } from "@/components/sections/LocationCard";
 import { ServicesGrid } from "@/components/sections/ServicesGrid";
+import { BookNowButton } from "@/components/layout/BookNowButton";
 import { Button } from "@/components/ui/Button";
 import { Prose } from "@/components/ui/Prose";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { primaryCta } from "@/content/navigation";
 import { getServiceArea } from "@/content/service-areas";
 import { services } from "@/content/services";
 import { serviceAreaHref } from "@/lib/routes";
@@ -65,9 +65,7 @@ export default async function ServiceAreaPage({
         lead={area.lead}
         actions={
           <>
-            <Button href={primaryCta.href} size="lg">
-              {primaryCta.label}
-            </Button>
+            <BookNowButton size="lg" />
             <Button
               href={telHref(primaryLocation.phone)}
               variant="secondary"
@@ -130,7 +128,7 @@ export default async function ServiceAreaPage({
       />
 
       <FaqSection faqs={area.faqs} title={`Questions from ${area.name} drivers`} />
-      <CtaBanner title={`Book your car in from ${area.name}`} />
+      <CtaBanner />
     </>
   );
 }

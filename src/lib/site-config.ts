@@ -79,7 +79,7 @@ export const siteConfig = {
   wordmark: { primary: "Streamline", secondary: "Performance Garage" },
   tagline: "Japanese Automotive Specialists",
   description:
-    "Streamline Performance Garage is an independent Japanese automotive specialist in Concord, NC serving the Charlotte metro. Alignments, suspension, brakes, wheels and tires, maintenance, diagnostics, engine work and dyno tuning for Subaru, Nissan, Honda and other Japanese platforms.",
+    "Streamline Performance Garage is an independent Japanese automotive specialist in Concord, NC serving the Charlotte metro. Alignments, suspension, brakes, wheels and tires, performance upgrades, dyno tuning, engine work and honest repairs for Subaru, Honda, Nissan and Toyota.",
   url: env.NEXT_PUBLIC_SITE_URL,
   email: "streamlineperformancellc@gmail.com",
   primaryPhone: "+17042775099",
@@ -121,7 +121,7 @@ export const siteConfig = {
     },
   ] as const satisfies readonly Location[],
   /** Makes the shop is known for; drives hero copy, schema and content ordering. */
-  primaryMakes: ["Subaru", "Nissan", "Honda"] as const,
+  primaryMakes: ["Subaru", "Honda", "Nissan", "Toyota"] as const,
   /** Cities/areas used for areaServed schema and service-area copy. */
   serviceAreas: [
     "Concord",

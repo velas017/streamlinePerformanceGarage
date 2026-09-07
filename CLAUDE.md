@@ -195,20 +195,22 @@ Rules:
   Cornelius, Matthews, Mint Hill and the Cabarrus / Mecklenburg County area.
   `siteConfig.locations` holds physical shops; `content/service-areas.ts` holds
   cities that get a landing page. Never invent an address for a service area.
-- **Specialty:** Japanese cars, with Subaru, Nissan and Honda first (per the
-  business's own listing). Reference makes/models naturally: Subaru (WRX / STI,
-  BRZ), Nissan (GT-R, 350Z / 370Z / Z, Skyline, Silvia 240SX), Honda / Acura
-  (Civic Type R, S2000, NSX, Integra), Toyota
-  (Supra, GR86 / 86, MR2, Celica), Subaru (WRX / STI, BRZ), Honda / Acura (Civic
-  Type R, S2000, NSX, Integra), Mazda (RX-7, RX-8, MX-5 Miata), Mitsubishi
-  (Lancer Evolution, Eclipse, 3000GT), Lexus (IS F, RC F, LC).
-- **Core services (each gets its own page):** performance tuning / ECU tuning,
-  turbo & supercharger installs, engine builds & rebuilds, suspension &
-  alignment, brake upgrades, scheduled maintenance, diagnostics, pre-purchase
-  inspections, JDM import service & compliance, drivetrain / clutch, exhaust &
-  intake, track prep.
-- **Primary keyword patterns:** "Japanese car repair Concord NC", "JDM mechanic
-  Charlotte NC", "{make} specialist Charlotte", "{model} tuning Concord NC",
+- **Specialty:** Japanese cars, limited to **Subaru, Honda, Nissan and Toyota**
+  (client decision 2026-09-07; they do not focus on Mazda, Mitsubishi or Lexus and
+  no longer offer JDM / right-hand-drive import service). Reference models
+  naturally: Subaru (WRX / STI, BRZ, Impreza), Honda / Acura (Civic Type R,
+  S2000, NSX, Integra), Nissan (350Z / 370Z / Z, 240SX, GT-R), Toyota (Supra,
+  GR86 / 86, GR Corolla, MR2). Gallery photos may show other makes (real customer cars).
+- **Core services (each gets its own page):** performance ECU tuning, turbo &
+  supercharger installs, engine builds & rebuilds, suspension & performance
+  alignments, wheels & tires, brake service & upgrades, scheduled maintenance,
+  diagnostics, pre-purchase inspections, drivetrain / clutch, exhaust & intake,
+  track prep. (JDM import service was removed 2026-09-07; its URL redirects.)
+- **Equipment (confirmed by the client):** Hunter Engineering laser alignment
+  machine and a Mustang AWD dyno. Name them; never invent other equipment.
+- **No warranty claims anywhere** (client decision 2026-09-07). FAQs about a
+  car's _manufacturer_ warranty are fine; claims about the shop's own warranty are not.
+- **Primary keyword patterns:** "Japanese car repair Concord NC", "Subaru specialist Charlotte NC", "{make} specialist Charlotte", "{model} tuning Concord NC",
   "performance shop near me", "import performance shop Charlotte".
 
 ### Rules
@@ -283,13 +285,16 @@ Rules:
   secondary CTA), Rivian (dark, centered statement), Humble (trust bar under hero),
   and the Instagram carousel from iagperformance.com (Shopify "Instafeed" app:
   recent posts in a slider with a follow link).
-- **Home page order:** Hero → trust bar → Services carousel → Specialties by make →
-  Gallery teaser → Instagram feed → Testimonials carousel → Location + service
-  areas → FAQ → final CTA. Services, makes and reviews use the shared `ui/Carousel`
-  (1 card per view on phones, 2 on tablets, 3 on desktop) so phones swipe
-  instead of scrolling a long column; the Services page keeps the full grid.
-- **Primary CTAs:** "Book service" (contact form) and "Call (704) 277-5099"
-  (`tel:`). Both visible above the fold on mobile.
+- **Home page order (current):** Hero → trust bar → Services carousel → Gallery
+  teaser → Instagram feed → final CTA. **Hidden at the client's request
+  (2026-09-07), components kept:** MakesSection, Testimonials (placeholder reviews;
+  to be replaced by Google reviews once the client supplies a Place ID + API key),
+  LocationsSection and FaqSection. Re-add them in `app/page.tsx` when asked.
+  Carousels use the shared `ui/Carousel` (1 card per view on phones, 2 on tablets,
+  3 on desktop); the Services page keeps the full grid.
+- **Primary CTAs:** "BOOK NOW" (label "Book now" in `content/navigation.ts`,
+  rendered in caps by `layout/BookNowButton`; always use that component) and
+  "Call (704) 277-5099" (`tel:`). Both visible above the fold on mobile.
 - **Instagram feed:** `lib/instagram.ts` fetches the business account's media
   (ISR 1h) when `INSTAGRAM_ACCESS_TOKEN` is set; `INSTAGRAM_FEED_MODE=mock`
   renders local placeholders for design review; otherwise a follow card renders.
@@ -358,8 +363,8 @@ Rules:
 - Don't ship placeholder Lorem Ipsum — write real, location-aware copy.
 - Don't hand-maintain sitemap URLs, type unions, or nav lists.
 - Don't import `next/link` directly in features; use `InternalLink` / `Button`.
-- Don't ship fabricated reviews, certifications, history or warranty claims —
-  placeholders in `content/testimonials.ts`, `content/trust.ts` and the About
-  story are marked `TODO(owner)` and must be replaced with real content.
+- Don't ship fabricated reviews, certifications, history or warranty claims.
+  `content/testimonials.ts` holds layout placeholders and is hidden until real
+  Google reviews are wired; the About story is still marked `TODO(owner)`.
 - Don't add a second "location" unless the business actually opens one; cities
   served get a service-area page instead.

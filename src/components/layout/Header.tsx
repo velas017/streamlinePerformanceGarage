@@ -1,9 +1,10 @@
 import { ActiveLink } from "@/components/layout/ActiveLink";
 import { Logo } from "@/components/layout/Logo";
+import { BookNowButton } from "@/components/layout/BookNowButton";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { mainNavigation, primaryCta } from "@/content/navigation";
+import { mainNavigation } from "@/content/navigation";
 import { siteConfig } from "@/lib/site-config";
 import { formatPhone, telHref } from "@/lib/utils";
 
@@ -41,14 +42,8 @@ export function Header() {
           >
             {formatPhone(siteConfig.primaryPhone)}
           </Button>
-          <Button href={primaryCta.href} size="sm" className="hidden sm:inline-flex">
-            {primaryCta.label}
-          </Button>
-          <MobileNav
-            items={mainNavigation}
-            cta={primaryCta}
-            phone={siteConfig.primaryPhone}
-          />
+          <BookNowButton size="sm" className="hidden sm:inline-flex" />
+          <MobileNav items={mainNavigation} phone={siteConfig.primaryPhone} />
         </div>
       </Container>
     </header>

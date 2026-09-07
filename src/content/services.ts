@@ -11,7 +11,6 @@ export const serviceSlugs = [
   "scheduled-maintenance",
   "diagnostics",
   "pre-purchase-inspections",
-  "jdm-import-service",
   "drivetrain-and-clutch",
   "exhaust-and-intake",
   "track-prep",
@@ -40,19 +39,19 @@ export interface Service {
 export const services = [
   {
     slug: "performance-tuning",
-    name: "Performance & ECU Tuning",
+    name: "Performance ECU Tuning",
     shortName: "ECU Tuning",
     icon: "gauge",
     featured: true,
     summary:
-      "Dyno-proven ECU calibration for boosted and naturally aspirated Japanese platforms, from a safe daily map to a full E85 setup.",
+      "Dyno-proven ECU calibration for forced induction and naturally aspirated engine platforms. Supporting Cobb, Hondata, Versa, & various standalone engine management platforms.",
     description: [
-      "A tune is only as good as the data behind it. Every calibration at Streamline Performance Garage starts with a baseline pull, a leak-down and boost-leak check, and a datalog review so we are tuning a healthy car, not masking a problem. We work with EcuTek, HP Tuners, Cobb Accessport, Hondata, Haltech and Link, so whether you drive a GT-R, a WRX STI, a Civic Type R or a Supra, we are tuning on the platform your car was built for.",
-      "Street and E85 flex-fuel calibrations are done in-house in Concord, with dyno time for wide-open-throttle work. You leave with a datalog, a before-and-after graph, and a map that is conservative where it needs to be and aggressive where it counts.",
+      "A tune is only as good as the data behind it. Every calibration at Streamline Performance Garage starts with a baseline pull on our Mustang AWD dyno, a leak-down and boost-leak check, and a datalog review so we are tuning a healthy car, not masking a problem. We support Cobb, Hondata, Versa and a range of standalone engine management platforms, so whether you drive a WRX STI, a Civic Type R, a 370Z or a Supra, we are tuning on the platform your car was built for.",
+      "Street and E85 flex-fuel calibrations are done in-house in Concord on the AWD dyno. You leave with a datalog, a before-and-after graph, and a map that is conservative where it needs to be and aggressive where it counts.",
     ],
     highlights: [
-      "Baseline dyno pull and health check before any calibration",
-      "EcuTek, Cobb, Hondata, HP Tuners, Haltech and Link supported",
+      "Baseline pull on our Mustang AWD dyno and health check before any calibration",
+      "Cobb, Hondata, Versa and standalone engine management supported",
       "Street, E85 and flex-fuel maps with datalog review",
       "Before-and-after dyno graphs included with every tune",
     ],
@@ -65,7 +64,7 @@ export const services = [
       {
         question: "Can you tune E85 or flex fuel?",
         answer:
-          "Yes. We build flex-fuel calibrations for most Subaru, Nissan, Toyota and Honda platforms, and we install ethanol content sensors in-house.",
+          "Yes. We build flex-fuel calibrations for most Subaru, Honda, Nissan and Toyota platforms, and we install ethanol content sensors in-house.",
       },
       {
         question: "Will a tune void my warranty?",
@@ -92,15 +91,15 @@ export const services = [
     icon: "turbo",
     featured: true,
     summary:
-      "Bolt-on turbo upgrades, big single conversions and supercharger kits, installed with the fuel system and tune to support them.",
+      "Bolt-on turbo kits, turbo upgrades, and supercharger installations; installed with the fuel systems, modifications, and tuning to support them.",
     description: [
       "Forced induction is where a lot of shops cut corners. We size the turbo or blower to your goals, then build the whole system around it: injectors, fuel pump, intercooler, oil and coolant lines, wastegate and boost control. Everything is pressure-tested before the car ever sees the dyno.",
-      "We regularly install upgraded turbos on the R35 GT-R, 370Z and Z, WRX STI and Supra, and supercharger kits on the S2000, GR86 and BRZ, Miata and NSX. If you bring a kit you already bought, we will inspect it first and tell you honestly whether it is worth putting on the car.",
+      "We regularly install upgraded turbos on the WRX STI, 370Z and Z, Supra and Civic Type R, and supercharger kits on the S2000, GR86 and BRZ, and NSX. If you bring a kit you already bought, we will inspect it first and tell you honestly whether it is worth putting on the car.",
     ],
     highlights: [
       "Turbo sizing and fuel system planning for your power goal",
       "Pressure and leak testing before the first dyno pull",
-      "Supercharger kits for S2000, GR86 / BRZ, Miata and NSX",
+      "Supercharger kits for S2000, GR86 / BRZ and NSX",
       "Complete install and calibration under one roof",
     ],
     faqs: [
@@ -134,9 +133,9 @@ export const services = [
     icon: "engine",
     featured: true,
     summary:
-      "Forged short blocks, built long blocks and precision rebuilds for VR38, EJ, FA, 2JZ, RB, SR and K-series engines.",
+      "Forged short blocks, built cylinder heads with upgraded camshafts & valvetrain upgrades, and precision rebuilds for Subaru EJ & FA engines, and Honda K-series.",
     description: [
-      "From a ringland-failed EJ257 to a 1,000-horsepower VR38DETT, we build engines that are measured, documented and blueprinted. Every block is cleaned, magnafluxed, bored and honed with a torque plate, and every rotating assembly is balanced. We keep a full build sheet with clearances and torque values that goes home with the car.",
+      "From a ringland-failed EJ257 to a built FA24 or a boosted K24, we build engines that are measured, documented and blueprinted. Every block is cleaned, magnafluxed, bored and honed with a torque plate, and every rotating assembly is balanced. We keep a full build sheet with clearances and torque values that goes home with the car.",
       "Engine assembly happens in a dedicated area of our Concord shop, and we source components from brands we trust: Manley, CP-Carrillo, JE, King, ACL, Cometic, ARP and OEM where OEM is the right answer.",
     ],
     highlights: [
@@ -151,16 +150,6 @@ export const services = [
         answer:
           "Most builds run four to eight weeks depending on machine-shop turnaround and parts availability. We give you a written timeline and update you at each milestone.",
       },
-      {
-        question: "Do you warranty engine builds?",
-        answer:
-          "Yes. Assembly workmanship is warrantied, and we provide a break-in procedure and a follow-up inspection after the first 500 miles.",
-      },
-      {
-        question: "Can you rebuild a rotary?",
-        answer:
-          "Yes. We rebuild 13B engines for the RX-7 and RX-8, including porting and upgraded apex seals.",
-      },
     ],
     related: [
       "turbo-and-supercharger-installs",
@@ -170,24 +159,24 @@ export const services = [
     seo: {
       title: "Engine Builds & Rebuilds",
       description:
-        "Forged engine builds and precision rebuilds for GT-R, WRX STI, Supra, RX-7 and Civic Type R in Concord, NC. Documented, balanced and dyno-verified builds.",
+        "Forged engine builds and precision rebuilds for WRX STI, Supra, BRZ, 370Z and Civic Type R in Concord, NC. Documented, balanced and dyno-verified builds.",
     },
   },
   {
     slug: "suspension-and-alignment",
-    name: "Suspension & Performance Alignment",
+    name: "Suspension & Performance Alignments",
     shortName: "Suspension",
     icon: "suspension",
     featured: true,
     summary:
-      "Coilovers, sway bars, bushings and corner-balanced alignments set up for how and where you actually drive.",
+      "Coilovers, lowering springs, sway bars, adjustable control arms, bushings, corner balancing, and custom alignment setup for your driving goals.",
     description: [
       "Good suspension is a system, not a parts list. We install and set up coilovers from KW, Öhlins, Fortune Auto, BC Racing and Tein, then align the car to a spec built around your tires, ride height and use. Street, autocross, road course and drift all call for different numbers, and we will explain every one of them.",
-      "Alignments are done in-house on our rack in Concord, and we have scales for corner balancing. We also replace worn OEM bushings, ball joints and top hats on higher-mileage cars, because a 20-year-old 350Z or Integra will never feel right on new dampers with tired rubber.",
+      "Alignments are done in-house on our Hunter Engineering laser alignment machine, and we have scales for corner balancing. We also replace worn OEM bushings, ball joints and top hats on higher-mileage cars, because a 20-year-old 350Z or Integra will never feel right on new dampers with tired rubber.",
     ],
     highlights: [
-      "Coilover install, ride height and damping setup",
-      "Performance alignment specs for street, autocross and track",
+      "Coilover, lowering spring and adjustable control arm installs with ride height and damping setup",
+      "Performance alignments on a Hunter Engineering laser alignment machine",
       "Corner balancing on scales, in-house",
       "Bushing, ball joint and bearing replacement",
     ],
@@ -222,7 +211,7 @@ export const services = [
     icon: "tire",
     featured: true,
     summary:
-      "Wheel and tire fitment, mounting and balancing, TPMS service and fitment advice for lowered and wide-body Japanese cars.",
+      "Wheel and tire fitment advice, mounting & balancing, and TPMS replacement for both stock and modified vehicles.",
     description: [
       "Fitment on a lowered WRX, a wide-body 350Z or a track-prepped Civic is not a chart lookup. We measure offset, backspacing and clearance on your car, then mount and road-force balance the set so it is smooth at highway speed and quiet in the cabin.",
       "We install and service TPMS sensors, source tires from Michelin, Continental, Bridgestone, Falken, Yokohama and Toyo for street and track, and pair every set with a performance alignment so new rubber actually lasts.",
@@ -254,12 +243,12 @@ export const services = [
   },
   {
     slug: "brake-upgrades",
-    name: "Brake Upgrades & Service",
+    name: "Brake Service & Upgrades",
     shortName: "Brakes",
     icon: "brake",
     featured: true,
     summary:
-      "Big brake kits, track pads, stainless lines and high-temp fluid, plus honest advice on what your car really needs.",
+      "Everything from simple stock replacement to big brake kits, track pads, stainless lines and high-temp fluid, plus honest advice on what your car really needs.",
     description: [
       "Most street cars do not need a big brake kit; they need the right pads, fresh fluid and lines that do not swell. Track cars are a different story. We help you spend where it matters, from a pad-and-fluid refresh on a daily-driven WRX to a full StopTech, AP Racing or Brembo kit on a GT-R or Supra.",
       "Every brake job includes a rotor runout check, caliper slide inspection and a proper bleed with high-temperature fluid. We bed pads in before you leave so the first hard stop is predictable.",
@@ -323,7 +312,7 @@ export const services = [
     seo: {
       title: "Scheduled Maintenance",
       description:
-        "Factory-schedule maintenance for Nissan, Toyota, Subaru, Honda, Mazda and Lexus sports cars in Concord, NC near Charlotte. OEM fluids and photo inspections.",
+        "Factory-schedule maintenance for Subaru, Honda, Nissan and Toyota in Concord, NC near Charlotte. OEM or better fluids and a photo inspection with every visit.",
     },
   },
   {
@@ -335,7 +324,7 @@ export const services = [
     summary:
       "Check engine lights, misfires, boost leaks, electrical gremlins and noises, diagnosed with factory-level tools and fixed right.",
     description: [
-      "A code is a starting point, not a diagnosis. Our technicians use factory-level scan tools, smoke machines, oscilloscopes and datalogging to find the actual cause, whether it is a boost leak on a WRX, a failing cam sensor on a 2JZ or a corroded ground on a 30-year-old RX-7.",
+      "A code is a starting point, not a diagnosis. Our technicians use factory-level scan tools, smoke machines, oscilloscopes and datalogging to find the actual cause, whether it is a boost leak on a WRX, a failing cam sensor on a 2JZ or a corroded ground on a 30-year-old 240SX.",
       "You get a clear explanation, a photo or datalog of the fault, and a written estimate before any repair begins.",
     ],
     highlights: [
@@ -382,47 +371,11 @@ export const services = [
           "Yes. The seller can drop the car at our Concord shop, and we will send the report directly to you.",
       },
     ],
-    related: ["diagnostics", "jdm-import-service", "scheduled-maintenance"],
+    related: ["diagnostics", "engine-builds", "scheduled-maintenance"],
     seo: {
       title: "Pre-Purchase Inspections",
       description:
-        "Pre-purchase inspections for used Japanese sports cars and JDM imports in Concord, NC near Charlotte. Compression, leak-down, frame check and photo report.",
-    },
-  },
-  {
-    slug: "jdm-import-service",
-    name: "JDM Import Service",
-    shortName: "JDM Imports",
-    icon: "globe",
-    featured: true,
-    summary:
-      "Right-hand-drive Skylines, Silvias, Chasers and Kei cars: post-import inspection, US-road prep, parts sourcing and ongoing service.",
-    description: [
-      "Freshly imported JDM cars need more than an oil change. We perform a full post-import inspection, address the common issues that come with 25-year-old cars that sat in a container, and handle US-road prep like headlight and lighting corrections, speedometer conversions and tire replacement.",
-      "We maintain relationships with Japanese parts suppliers and can source OEM and Nismo, TRD, STI and Mugen components for R32, R33 and R34 Skylines, S13 to S15 Silvias, JZX Chasers and Mark IIs, and other right-hand-drive imports.",
-    ],
-    highlights: [
-      "Post-import inspection and US-road prep",
-      "Right-hand-drive experience across Nissan, Toyota and Honda",
-      "Japan parts sourcing including Nismo, TRD, STI and Mugen",
-      "Ongoing maintenance for 25-year-rule imports",
-    ],
-    faqs: [
-      {
-        question: "Can you help with NC titling for an imported car?",
-        answer:
-          "We are not a broker, but we can perform the inspections your titling process requires and point you to the importers we work with regularly.",
-      },
-      {
-        question: "Do you work on right-hand-drive cars?",
-        answer: "Yes. A large share of the cars in our shops are right-hand drive.",
-      },
-    ],
-    related: ["pre-purchase-inspections", "scheduled-maintenance", "engine-builds"],
-    seo: {
-      title: "JDM Import Service",
-      description:
-        "JDM import specialists in Concord, NC near Charlotte. Post-import inspection, US-road prep, Japan parts sourcing and service for Skyline, Silvia and Chaser.",
+        "Pre-purchase inspections for used Subaru, Honda, Nissan and Toyota cars in Concord, NC near Charlotte. Compression, leak-down, frame check and photo report.",
     },
   },
   {
@@ -434,7 +387,7 @@ export const services = [
     summary:
       "Clutches, flywheels, limited-slip differentials, axles and transmission rebuilds for manual and dual-clutch Japanese platforms.",
     description: [
-      "Whether you need a stock replacement clutch on a Miata, a twin-disc on a Supra or a GR6 transmission service on a GT-R, we have done it many times. We also install and set up limited-slip differentials from OS Giken, Cusco and Kaaz, and rebuild transmissions with upgraded synchros and carbon-lined components.",
+      "Whether you need a stock replacement clutch on an S2000, a twin-disc on a Supra or a GR6 transmission service on a GT-R, we have done it many times. We also install and set up limited-slip differentials from OS Giken, Cusco and Kaaz, and rebuild transmissions with upgraded synchros and carbon-lined components.",
       "Every clutch job includes a flywheel inspection, pilot and throw-out bearing replacement and a hydraulic system bleed, so you are not back in a month for a squeal we could have prevented.",
     ],
     highlights: [

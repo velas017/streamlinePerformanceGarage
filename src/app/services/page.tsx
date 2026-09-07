@@ -4,9 +4,9 @@ import { CtaBanner } from "@/components/sections/CtaBanner";
 import { Hero } from "@/components/sections/Hero";
 import { LocationsSection } from "@/components/sections/LocationsSection";
 import { ServicesGrid } from "@/components/sections/ServicesGrid";
+import { BookNowButton } from "@/components/layout/BookNowButton";
 import { Button } from "@/components/ui/Button";
 import { images } from "@/content/images";
-import { primaryCta } from "@/content/navigation";
 import { services } from "@/content/services";
 import { buildMetadata } from "@/lib/seo";
 import { primaryLocation } from "@/lib/site-config";
@@ -30,9 +30,7 @@ export default function ServicesPage() {
         image={images.servicesHero}
         actions={
           <>
-            <Button href={primaryCta.href} size="lg">
-              {primaryCta.label}
-            </Button>
+            <BookNowButton size="lg" />
             <Button
               href={telHref(primaryLocation.phone)}
               variant="secondary"

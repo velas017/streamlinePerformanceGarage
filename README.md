@@ -36,8 +36,9 @@ Everything below is marked `TODO(owner)` in code.
   listing — confirm them, set `foundingYear`, and verify the map pin.
 - `src/content/locations.ts`: confirm the directions wording.
 - `src/app/about/page.tsx`: supply the real founding story and team.
-- `src/content/testimonials.ts`: real, permissioned reviews (never fabricated).
-- `src/content/trust.ts`: confirm certification and warranty claims.
+- Reviews: the home-page reviews section is hidden until Google reviews are
+  wired (needs the shop's Google Place ID and a Places API key). The placeholder
+  quotes in `src/content/testimonials.ts` must never ship.
 - `public/images/**`: replace SVG placeholders with real photography (JPG/WebP,
   descriptive filenames such as `nissan-gtr-r35-dyno-tuning-concord.jpg`).
 - `public/icons`: add 192px / 512px PNG icons and list them in `src/app/manifest.ts`.

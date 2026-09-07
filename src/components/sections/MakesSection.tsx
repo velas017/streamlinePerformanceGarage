@@ -12,7 +12,7 @@ export function MakesSection() {
         id="makes-heading"
         eyebrow="Platforms we specialize in"
         title="Built around Japanese performance"
-        description="We work on these makes every day, which means the right tools, the right parts relationships and the platform knowledge that keeps your car reliable."
+        description="We work on these cars every day, which means we have the right tools, the right parts relationships, and the platform knowledge to keep your car reliable at a fraction of the cost of the dealer."
       />
       <Carousel label="Makes we specialize in">
         {makes.map((entry) => (

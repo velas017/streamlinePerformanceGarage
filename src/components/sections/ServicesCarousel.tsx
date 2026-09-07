@@ -19,8 +19,8 @@ export function ServicesCarousel({ services }: ServicesCarouselProps) {
       <SectionHeader
         id="services-heading"
         eyebrow="What we do"
-        title="Performance and repair, done properly"
-        description="From a factory-schedule oil change to a full engine build, every job gets the same documentation, the same standards and the same technicians."
+        title="Performance, service, and repair, done right"
+        description="From factory-scheduled maintenance services to full engine builds, every job gets the same attention to detail and quality standards."
       />
       <Carousel label="Services">
         {services.map((service) => (

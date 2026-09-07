@@ -4,47 +4,30 @@ export interface MakeSpecialty {
   readonly blurb: string;
 }
 
+/** The four makes the shop focuses on (per the client, 2026-09-07). Section hidden on the home page for now. */
 export const makes = [
   {
     make: "Subaru",
-    models: ["WRX / STI", "BRZ", "Legacy GT", "Forester XT"],
+    models: ["WRX / STI", "BRZ", "Legacy GT", "Forester XT", "Impreza"],
     blurb:
       "EJ and FA engine builds, ringland-failure rebuilds, flex-fuel calibrations and the routine service that keeps boxers alive.",
   },
   {
-    make: "Nissan",
-    models: ["GT-R (R32–R35)", "350Z / 370Z / Z", "Skyline", "Silvia / 240SX"],
-    blurb:
-      "VR38 builds, GR6 service, VQ and SR20 work and the right-hand-drive Skyline experience that comes from years of imports.",
-  },
-  {
     make: "Honda / Acura",
-    models: ["Civic Type R", "S2000", "NSX", "Integra / RSX", "Prelude"],
+    models: ["Civic Type R", "S2000", "NSX", "Integra / RSX", "Civic Si"],
     blurb:
       "K-series and F20C specialists. Superchargers, valve adjustments, Hondata and K-swap support.",
   },
   {
+    make: "Nissan",
+    models: ["350Z / 370Z / Z", "240SX", "GT-R", "Infiniti G35 / G37"],
+    blurb:
+      "VQ and SR20 work, drivetrain and suspension setups, and honest maintenance for older chassis.",
+  },
+  {
     make: "Toyota",
-    models: ["Supra (A80 / A90)", "GR86 / 86", "MR2", "Celica", "Chaser / Mark II"],
+    models: ["Supra (A80 / A90)", "GR86 / 86", "GR Corolla", "MR2"],
     blurb:
-      "2JZ and B58 tuning, single-turbo conversions and honest maintenance for the new and old Supra alike.",
-  },
-  {
-    make: "Mazda",
-    models: ["RX-7 (FC / FD)", "RX-8", "MX-5 Miata (NA–ND)", "Mazdaspeed 3 / 6"],
-    blurb:
-      "13B rotary rebuilds and porting, Miata turbo and supercharger kits, and suspension setups for the best-handling cars on the road.",
-  },
-  {
-    make: "Mitsubishi",
-    models: ["Lancer Evolution (VIII–X)", "Eclipse GSX", "3000GT VR-4"],
-    blurb:
-      "4G63 and 4B11 builds, AWD drivetrain service and the diagnostic patience these cars deserve.",
-  },
-  {
-    make: "Lexus",
-    models: ["IS F", "RC F", "GS F", "LC 500", "IS 300"],
-    blurb:
-      "V8 F-car maintenance, exhaust and suspension, plus 2JZ IS 300 swaps and tuning.",
+      "2JZ and B58 tuning, GR86 bolt-ons and the maintenance that keeps them reliable.",
   },
 ] as const satisfies readonly MakeSpecialty[];

@@ -5,11 +5,11 @@ import { CtaBanner } from "@/components/sections/CtaBanner";
 import { Hero } from "@/components/sections/Hero";
 import { LocationsSection } from "@/components/sections/LocationsSection";
 import { TrustBar } from "@/components/sections/TrustBar";
+import { BookNowButton } from "@/components/layout/BookNowButton";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Icon, type IconName } from "@/components/ui/Icon";
 import { images } from "@/content/images";
-import { primaryCta } from "@/content/navigation";
 import { Prose } from "@/components/ui/Prose";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
@@ -53,9 +53,7 @@ export default function AboutPage() {
         image={images.aboutHero}
         actions={
           <>
-            <Button href={primaryCta.href} size="lg">
-              {primaryCta.label}
-            </Button>
+            <BookNowButton size="lg" />
             <Button
               href={telHref(primaryLocation.phone)}
               variant="secondary"
@@ -81,8 +79,8 @@ export default function AboutPage() {
               <p>
                 {siteConfig.name} is an independent, enthusiast-run shop in Concord, North
                 Carolina that works on Japanese cars and nothing else.{" "}
-                {joinWithAnd(siteConfig.primaryMakes)} fill most of the bays, alongside
-                Toyota, Mazda, Mitsubishi and Lexus, from daily drivers to full builds.
+                {joinWithAnd(siteConfig.primaryMakes)} fill the bays, from daily drivers
+                to full builds.
               </p>
               <p>
                 The idea is simple: give Japanese car owners a shop that treats their cars

@@ -3,14 +3,14 @@
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { ActiveLink } from "@/components/layout/ActiveLink";
+import { BookNowButton } from "@/components/layout/BookNowButton";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
-import type { NavItem, NavLink } from "@/content/navigation";
+import type { NavItem } from "@/content/navigation";
 import { formatPhone, telHref } from "@/lib/utils";
 
 export interface MobileNavProps {
   readonly items: readonly NavItem[];
-  readonly cta: NavLink;
   readonly phone: string;
 }
 
@@ -24,7 +24,7 @@ const childLinkClasses =
  * focus trap, Escape-to-close and focus return to the trigger. We only sync
  * React state with the dialog and close it on navigation.
  */
-export function MobileNav({ items, cta, phone }: MobileNavProps) {
+export function MobileNav({ items, phone }: MobileNavProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [open, setOpen] = useState(false);
   const dialogId = useId();
@@ -117,9 +117,7 @@ export function MobileNav({ items, cta, phone }: MobileNavProps) {
         </nav>
 
         <div className="flex flex-col gap-3 border-t border-border p-4">
-          <Button href={cta.href} size="lg">
-            {cta.label}
-          </Button>
+          <BookNowButton size="lg" />
           <Button
             href={telHref(phone)}
             variant="secondary"

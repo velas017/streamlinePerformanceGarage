@@ -139,7 +139,7 @@ export default async function LocationPage({ params }: PageProps<"/locations/[sl
       />
 
       <FaqSection faqs={content.faqs} title={`${location.city} shop questions`} />
-      <CtaBanner title={`Book your car in at ${location.city}`} />
+      <CtaBanner />
     </>
   );
 }

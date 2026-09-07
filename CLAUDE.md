@@ -285,8 +285,8 @@ Rules:
   secondary CTA), Rivian (dark, centered statement), Humble (trust bar under hero),
   and the Instagram carousel from iagperformance.com (Shopify "Instafeed" app:
   recent posts in a slider with a follow link).
-- **Home page order (current):** Hero → trust bar → Services carousel → Gallery
-  teaser → Instagram feed → final CTA. **Hidden at the client's request
+- **Home page order (current):** Hero → trust bar → Services carousel → Instagram
+  feed → Gallery teaser → final CTA. **Hidden at the client's request
   (2026-09-07), components kept:** MakesSection, Testimonials (placeholder reviews;
   to be replaced by Google reviews once the client supplies a Place ID + API key),
   LocationsSection and FaqSection. Re-add them in `app/page.tsx` when asked.

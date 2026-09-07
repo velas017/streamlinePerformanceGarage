@@ -63,8 +63,8 @@ export default function HomePage() {
       {/* Hidden at the client's request for now: MakesSection, Testimonials (placeholders until
           Google reviews are wired), LocationsSection and FaqSection. See CLAUDE.md §8. */}
       <ServicesCarousel services={featuredServices} />
-      <GalleryTeaser />
       <InstagramFeed />
+      <GalleryTeaser />
       <CtaBanner />
     </>
   );

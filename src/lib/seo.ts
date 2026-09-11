@@ -210,8 +210,7 @@ export function imageGallerySchema(input: {
     image: input.photos.map((photo) => ({
       "@type": "ImageObject" as const,
       contentUrl: absoluteUrl(photo.src),
-      name: photo.caption,
-      description: photo.alt,
+      name: photo.alt,
       width: String(photo.width),
       height: String(photo.height),
     })),

@@ -272,9 +272,10 @@ Rules:
   generated from it (`public/icons`, `src/app/icon.png`, `src/app/apple-icon.png`).
 - **Gallery:** `/gallery` is a Pinterest/Airbnb-style wall: CSS multi-column
   (2/3/4 columns), every tile at its own aspect ratio, no hero or featured tile,
-  no categories, captions always visible on tiles, native `<dialog>` viewer that
+  no categories, no visible captions (client decision 2026-09-11: only the
+  hidden `alt` describes a photo), native `<dialog>` viewer that
   closes on any click outside the photo. Photos come from `content/gallery.json`
-  via `npm run gallery:import`; alt + caption are hand-written and tested.
+  via `npm run gallery:import`; alt text is hand-written and tested.
 - **Images:** every referenced image is an entry in `content/images.ts` (src,
   alt, dimensions, blur placeholder). The home hero (`images.hero`) is the
   business's Honda S2000 time-attack car; the same photo backs every

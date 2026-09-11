@@ -10,10 +10,9 @@ describe("gallery registry", () => {
   });
 
   it.each(galleryPhotos.map((photo) => [photo.id, photo] as const))(
-    "%s has alt text, a caption and an existing file",
+    "%s has alt text and an existing file",
     (_id, photo) => {
       expect(photo.alt.trim().length).toBeGreaterThan(10);
-      expect(photo.caption.trim().length).toBeGreaterThan(0);
       expect(photo.alt.toLowerCase()).not.toContain("todo");
       expect(existsSync(path.join(process.cwd(), "public", photo.src))).toBe(true);
     },

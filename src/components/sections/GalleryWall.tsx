@@ -50,7 +50,7 @@ export function GalleryWall({ photos }: GalleryWallProps) {
   );
 
   // A click anywhere that is not the photo or a control closes the viewer
-  // (backdrop, empty space, caption area). Keyboard users have Esc and Close.
+  // (backdrop, empty space, footer). Keyboard users have Esc and Close.
   useEffect(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
@@ -81,7 +81,6 @@ export function GalleryWall({ photos }: GalleryWallProps) {
           <li key={photo.id} className="mb-3 break-inside-avoid">
             <button
               type="button"
-              aria-label={`Open photo: ${photo.caption}`}
               aria-haspopup="dialog"
               aria-controls={dialogId}
               onClick={(event) => {
@@ -100,12 +99,6 @@ export function GalleryWall({ photos }: GalleryWallProps) {
                 blurDataURL={photo.blurDataURL}
                 className="h-auto w-full transition-transform group-hover:scale-[1.03] motion-safe:duration-300"
               />
-              <span
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-bg/90 via-bg/60 to-bg/0 px-3 pt-10 pb-3 text-sm font-medium text-fg"
-              >
-                {photo.caption}
-              </span>
             </button>
           </li>
         ))}
@@ -157,11 +150,8 @@ export function GalleryWall({ photos }: GalleryWallProps) {
             </div>
 
             <div className="flex items-center justify-between gap-4 px-4 py-3">
-              <p className="text-base">
-                {active.caption}
-                <span className="block text-sm text-muted">
-                  {current !== null ? current + 1 : 0} of {photos.length}
-                </span>
+              <p className="text-sm text-muted">
+                Photo {current !== null ? current + 1 : 0} of {photos.length}
               </p>
               <div className="flex gap-2">
                 <button

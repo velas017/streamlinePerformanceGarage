@@ -9,7 +9,10 @@ describe("gallery", () => {
   it("renders one named button per photo and a closed viewer", async () => {
     const photos = galleryPhotos.slice(0, 3);
     await renderAccessible(<GalleryWall photos={photos} />);
-    const buttons = screen.getAllByRole("button", { name: /open photo/i });
+    // No visible caption, so each button is named by its photo's alt text.
+    const buttons = photos.map((photo) =>
+      screen.getByRole("button", { name: photo.alt }),
+    );
     expect(buttons).toHaveLength(photos.length);
     expect(buttons[0]).toHaveAttribute("aria-haspopup", "dialog");
     expect(document.querySelector("dialog")?.hasAttribute("open")).toBe(false);

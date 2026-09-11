@@ -56,7 +56,9 @@ aspect ratio) with a native-dialog viewer. To add photos:
    (`sips -s format jpeg -s formatOptions 95 IMG.HEIC --out name.jpg`).
 2. Run `npm run gallery:import`. It writes optimized, EXIF-stripped copies to
    `public/images/gallery/` and appends entries to `src/content/gallery.json`.
-3. Fill in `alt` and `caption` for the new entries. Tests fail on blank ones.
+3. Fill in `alt` for the new entries (descriptive, names the car). Tests fail
+   on blank ones. Tiles carry no visible caption; the alt is what screen
+   readers, Google Images and the ImageGallery schema use.
 4. Reorder entries in the JSON if needed; that order is the display order.
 
 ## Instagram feed

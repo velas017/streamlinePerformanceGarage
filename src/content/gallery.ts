@@ -3,7 +3,9 @@ import raw from "@/content/gallery.json";
 
 /**
  * Gallery photo registry. Entries are appended by `npm run gallery:import`
- * (see scripts/import-gallery.mjs); alt and caption are written by hand.
+ * (see scripts/import-gallery.mjs); alt text is written by hand. Nothing is
+ * printed on the tiles: the alt is the only description (feeds Google Images
+ * and the ImageGallery schema) and the client asked for no visible captions.
  * Order in gallery.json is display order.
  */
 const galleryPhotoSchema = z.object({
@@ -15,8 +17,6 @@ const galleryPhotoSchema = z.object({
   blurDataURL: z.string().startsWith("data:image/"),
   /** Descriptive alt text naming the car (CLAUDE.md §5). */
   alt: z.string(),
-  /** Short caption shown on the tile and in the viewer. */
-  caption: z.string(),
   addedAt: z.string(),
 });
 

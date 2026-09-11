@@ -24,7 +24,7 @@ export function GalleryTeaser() {
           <li key={photo.id}>
             <InternalLink
               href="/gallery"
-              aria-label={`Open the gallery: ${photo.caption}`}
+              aria-label={`Open the gallery: ${photo.alt}`}
               className="group relative block aspect-[4/3] overflow-hidden rounded-lg bg-surface-2 focus-ring"
             >
               <Image

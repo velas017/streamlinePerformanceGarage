@@ -8,8 +8,8 @@
  * For every image in assets/source/gallery that is not yet in
  * src/content/gallery.json, this writes an optimized, EXIF-stripped JPEG to
  * public/images/gallery/gallery-<name>.jpg, measures it, builds a blur
- * placeholder and appends a registry entry with empty alt/caption fields.
- * Fill those in (the test suite refuses blank ones), then commit.
+ * placeholder and appends a registry entry with an empty alt field.
+ * Fill it in (the test suite refuses blank ones), then commit.
  */
 import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
@@ -73,7 +73,6 @@ for (const file of files) {
     height: info.height,
     blurDataURL: `data:image/webp;base64,${blur.toString("base64")}`,
     alt: "",
-    caption: "",
     addedAt: new Date().toISOString().slice(0, 10),
   });
   added += 1;
@@ -87,6 +86,6 @@ if (added === 0) {
   console.log("Nothing new in assets/source/gallery.");
 } else {
   console.log(
-    `\n${added} photo(s) added. Now fill in "alt" and "caption" for each new entry in src/content/gallery.json.`,
+    `\n${added} photo(s) added. Now fill in "alt" for each new entry in src/content/gallery.json.`,
   );
 }

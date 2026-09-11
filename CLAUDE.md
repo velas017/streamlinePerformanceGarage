@@ -204,9 +204,9 @@ Rules:
 - **Core services (each gets its own page):** performance ECU tuning, turbo &
   supercharger installs, engine builds & rebuilds, suspension & performance
   alignments, wheels & tires, brake service & upgrades, scheduled maintenance,
-  diagnostics, drivetrain / clutch, exhaust & intake, track prep. (JDM import
-  service was removed 2026-09-07 and pre-purchase inspections 2026-09-11; the
-  business does not offer them and both URLs redirect to `/services`.)
+  diagnostics, drivetrain / clutch, exhaust & intake. (JDM import service was
+  removed 2026-09-07; pre-purchase inspections and track prep 2026-09-11. The
+  business does not offer them and their URLs redirect to `/services`.)
 - **Equipment (confirmed by the client):** Hunter Engineering laser alignment
   machine and a Mustang AWD dyno. Name them; never invent other equipment.
 - **No warranty claims anywhere** (client decision 2026-09-07). FAQs about a

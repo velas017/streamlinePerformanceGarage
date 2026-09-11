@@ -12,7 +12,6 @@ export const serviceSlugs = [
   "diagnostics",
   "drivetrain-and-clutch",
   "exhaust-and-intake",
-  "track-prep",
 ] as const;
 
 export type ServiceSlug = (typeof serviceSlugs)[number];
@@ -196,7 +195,7 @@ export const services = [
           "It is the process of adjusting each spring perch so the car's weight is split evenly across diagonal pairs of wheels. It makes handling symmetrical and is worth it on any track car.",
       },
     ],
-    related: ["brake-upgrades", "track-prep", "scheduled-maintenance"],
+    related: ["brake-upgrades", "wheels-and-tires", "scheduled-maintenance"],
     seo: {
       title: "Suspension & Alignment",
       description:
@@ -233,7 +232,7 @@ export const services = [
           "Yes. We source most major performance brands and will recommend a compound based on how and where you drive.",
       },
     ],
-    related: ["suspension-and-alignment", "brake-upgrades", "track-prep"],
+    related: ["suspension-and-alignment", "brake-upgrades", "scheduled-maintenance"],
     seo: {
       title: "Wheels & Tires",
       description:
@@ -270,7 +269,7 @@ export const services = [
           "Every two years for street use, and before every track weekend for cars that see hard use.",
       },
     ],
-    related: ["suspension-and-alignment", "track-prep", "scheduled-maintenance"],
+    related: ["suspension-and-alignment", "wheels-and-tires", "scheduled-maintenance"],
     seo: {
       title: "Brake Upgrades & Service",
       description:
@@ -370,7 +369,7 @@ export const services = [
           "We match clutch torque capacity and pedal feel to your power level and how you drive. Most street cars are happiest one step above stock rather than a race clutch.",
       },
     ],
-    related: ["engine-builds", "track-prep", "scheduled-maintenance"],
+    related: ["engine-builds", "performance-tuning", "scheduled-maintenance"],
     seo: {
       title: "Drivetrain & Clutch",
       description:
@@ -407,38 +406,6 @@ export const services = [
       title: "Exhaust & Intake",
       description:
         "Exhaust, header, downpipe and intake installs for Japanese sports cars in Concord, NC near Charlotte. HKS, Tomei, Invidia, Borla and AWE fitted and tuned.",
-    },
-  },
-  {
-    slug: "track-prep",
-    name: "Track Prep & Safety",
-    shortName: "Track Prep",
-    icon: "flag",
-    featured: false,
-    summary:
-      "Pre-event inspections, brake and fluid prep, cooling upgrades, seats, harnesses and roll bars for HPDE, time attack and drift.",
-    description: [
-      "Charlotte Motor Speedway, VIR, Road Atlanta and CMP are all within reach, and we get a lot of cars ready for them. Our track-prep service starts with a tech inspection against the event's requirements, then covers brakes, fluids, cooling, tires and any safety equipment you are adding.",
-      "We install seats, harnesses, harness bars and bolt-in roll bars with the correct hardware and geometry, and we set up oil coolers, transmission coolers and radiators for cars that are seeing sustained high load.",
-    ],
-    highlights: [
-      "Tech inspection against event requirements",
-      "Cooling, brake and fluid prep for sustained abuse",
-      "Seat, harness and roll bar installation",
-      "Post-event inspection and reset",
-    ],
-    faqs: [
-      {
-        question: "How far in advance should I book track prep?",
-        answer:
-          "Two weeks before your event is ideal so there is time to order pads or parts if the inspection turns something up.",
-      },
-    ],
-    related: ["brake-upgrades", "suspension-and-alignment", "drivetrain-and-clutch"],
-    seo: {
-      title: "Track Prep & Safety",
-      description:
-        "Track day and HPDE prep for Japanese sports cars near Charlotte Motor Speedway. Tech inspections, cooling, brakes, seats and roll bars in Concord, NC.",
     },
   },
 ] as const satisfies readonly Service[];

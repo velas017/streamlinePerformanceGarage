@@ -36,6 +36,12 @@ const nextConfig: NextConfig = {
         destination: "/services",
         permanent: true,
       },
+      // Pre-purchase inspections were removed on 2026-09-11 (not offered).
+      {
+        source: "/services/pre-purchase-inspections",
+        destination: "/services",
+        permanent: true,
+      },
     ];
   },
 };

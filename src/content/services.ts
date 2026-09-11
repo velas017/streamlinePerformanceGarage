@@ -10,7 +10,6 @@ export const serviceSlugs = [
   "brake-upgrades",
   "scheduled-maintenance",
   "diagnostics",
-  "pre-purchase-inspections",
   "drivetrain-and-clutch",
   "exhaust-and-intake",
   "track-prep",
@@ -308,7 +307,7 @@ export const services = [
           "OEM-spec or better for your platform, including Motul, Mobil 1 and factory fluids where the manufacturer specification calls for them.",
       },
     ],
-    related: ["diagnostics", "brake-upgrades", "pre-purchase-inspections"],
+    related: ["diagnostics", "brake-upgrades", "suspension-and-alignment"],
     seo: {
       title: "Scheduled Maintenance",
       description:
@@ -339,43 +338,11 @@ export const services = [
           "We charge a flat diagnostic fee that is credited toward the repair if you have us do the work. Call the shop for current pricing.",
       },
     ],
-    related: ["scheduled-maintenance", "performance-tuning", "pre-purchase-inspections"],
+    related: ["scheduled-maintenance", "performance-tuning", "engine-builds"],
     seo: {
       title: "Diagnostics & Repair",
       description:
         "Check engine light and performance diagnostics for Japanese cars in Concord, NC near Charlotte. Factory-level tools, written estimates and honest repairs.",
-    },
-  },
-  {
-    slug: "pre-purchase-inspections",
-    name: "Pre-Purchase Inspections",
-    shortName: "Pre-Purchase Inspection",
-    icon: "clipboard-check",
-    featured: false,
-    summary:
-      "Know exactly what you are buying. Compression, leak-down, boost leak, frame and mod audit with a photo report before you pay.",
-    description: [
-      "Modified Japanese cars can hide expensive problems behind clean paint. Our pre-purchase inspection covers compression and leak-down, boost-leak testing on turbo cars, a full underbody and frame check, a modification audit and a road test with datalogging.",
-      "You receive a photo report with findings ranked by urgency and a realistic repair estimate you can use to negotiate. Sellers can drop the car at our Concord shop.",
-    ],
-    highlights: [
-      "Compression, leak-down and boost-leak testing",
-      "Frame, rust and prior-repair inspection",
-      "Modification audit and datalogged road test",
-      "Photo report you can use to negotiate",
-    ],
-    faqs: [
-      {
-        question: "Can the seller drop the car off?",
-        answer:
-          "Yes. The seller can drop the car at our Concord shop, and we will send the report directly to you.",
-      },
-    ],
-    related: ["diagnostics", "engine-builds", "scheduled-maintenance"],
-    seo: {
-      title: "Pre-Purchase Inspections",
-      description:
-        "Pre-purchase inspections for used Subaru, Honda, Nissan and Toyota cars in Concord, NC near Charlotte. Compression, leak-down, frame check and photo report.",
     },
   },
   {

@@ -20,7 +20,7 @@ npm run dev                  # http://localhost:3000
 | Script              | What it does                                           |
 | ------------------- | ------------------------------------------------------ |
 | `npm run dev`       | Dev server                                             |
-| `npm run build`     | Production build (fully static, 41 routes)             |
+| `npm run build`     | Production build (fully static, 39 routes)             |
 | `npm run start`     | Serve the production build                             |
 | `npm run lint`      | ESLint incl. jsx-a11y strict                           |
 | `npm run typecheck` | `next typegen` + `tsc` (validates every internal href) |

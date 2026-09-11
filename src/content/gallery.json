@@ -44,14 +44,14 @@
     "addedAt": "2026-09-03"
   },
   {
-    "id": "honda-civic-type-r-fl5",
-    "sourceFile": "honda-civic-type-r-fl5.jpg",
-    "src": "/images/gallery/gallery-honda-civic-type-r-fl5.jpg",
+    "id": "acura-integra-type-s-shop-floor",
+    "sourceFile": "acura-integra-type-s-shop-floor.jpg",
+    "src": "/images/gallery/gallery-acura-integra-type-s-shop-floor.jpg",
     "width": 1600,
     "height": 900,
     "blurDataURL": "data:image/webp;base64,UklGRpIAAABXRUJQVlA4IIYAAAAwBACdASoYAA0APu1iqU2ppaQiMAgBMB2JYwCw7Yv02Ly0NxXrnx0uYAAA/kEzVH9MimVC/StwfDVX6FnJGn8FBmfoiKWYoPGZRn2pnaOTRyHNlGRhGK9FYpScVIZBmPiqeN9d0qIkHg3EQWqto9WdIjMh+zTrTpczANiAmCD0bKEV5sAAAA==",
-    "alt": "Gray eleventh-generation Honda Civic Type R on the shop floor at Streamline Performance Garage in Concord, NC",
-    "caption": "Civic Type R, FL5",
+    "alt": "Gray Acura Integra Type S on black wheels on the shop floor at Streamline Performance Garage in Concord, NC",
+    "caption": "Integra Type S on the shop floor",
     "addedAt": "2026-09-03"
   },
   {
@@ -174,5 +174,126 @@
     "alt": "Blue Lexus IS F and a gray Lexus IS 300 on the alignment rack inside the Concord shop",
     "caption": "Lexus IS F on the alignment rack",
     "addedAt": "2026-09-03"
+  },
+  {
+    "id": "bmw-e36-m3-shop-floor",
+    "sourceFile": "bmw-e36-m3-shop-floor.jpg",
+    "src": "/images/gallery/gallery-bmw-e36-m3-shop-floor.jpg",
+    "width": 1600,
+    "height": 900,
+    "blurDataURL": "data:image/webp;base64,UklGRpIAAABXRUJQVlA4IIYAAADQAwCdASoYAA0APu1iqU2ppaQiMAgBMB2JQBOgBF7UiOByaOhzNaAA/Iw3iNDlY/wGU47hX9+r+IT3r/rzu7y5fBnyOF4lAuqpWqoAgHvmEbpSOQZmwAGxdtOYUREoKCPlPvN3azoEsr7k3jALx9xeszxzvMuXsirFRyhDXOfhFKy4iYgAAA==",
+    "alt": "Dakar yellow BMW E36 M3 on the shop floor with a blue Subaru BRZ raised on the lift behind it",
+    "caption": "E36 M3 visiting the shop",
+    "addedAt": "2026-09-11"
+  },
+  {
+    "id": "honda-civic-type-r-fl5-championship-white",
+    "sourceFile": "honda-civic-type-r-fl5-championship-white.jpg",
+    "src": "/images/gallery/gallery-honda-civic-type-r-fl5-championship-white.jpg",
+    "width": 1600,
+    "height": 900,
+    "blurDataURL": "data:image/webp;base64,UklGRoYAAABXRUJQVlA4IHoAAACwAwCdASoYAA0APu1iqk4ppaQiMAgBMB2JQBdgAp+HVXbYkWa/rAD+J69Igf8DM5W8TkBJN406GNwjND25utWLY7yluCE/e/SIUm8uJZx0IwHd3DJaNSXznItClX8ImvBeiTaCpu0tst/vKIt5rzwjvPULMAQNY9gAAA==",
+    "alt": "Championship White Honda Civic Type R FL5 on black wheels on the shop floor with a silver Honda S2000 behind it",
+    "caption": "FL5 Civic Type R in Championship White",
+    "addedAt": "2026-09-11"
+  },
+  {
+    "id": "honda-civic-type-r-prl-intercooler-install",
+    "sourceFile": "honda-civic-type-r-prl-intercooler-install.jpg",
+    "src": "/images/gallery/gallery-honda-civic-type-r-prl-intercooler-install.jpg",
+    "width": 1600,
+    "height": 900,
+    "blurDataURL": "data:image/webp;base64,UklGRrgAAABXRUJQVlA4IKwAAAAQBACdASoYAA0APu1iqU2ppaOiMAgBMB2JZQAD5aGMuuJDFIbwCcu0wAD+dFplKcDB8WNREiZG3e7A6NJ3s60nSLRWXmyhiJO00TfoJq6mlC6MuX4s8KC+uw2EVmVc+FVzqFLcQanPZTrtCD3ba07UJ6P/sNnAPadyQuvMIH83Lv2g8HFfTRkfTonYyt15isfZuZIFlojc7/w7UyKd35m3ZiovQ6sAJmRXAAAA",
+    "alt": "White Honda Civic Type R with the front bumper removed, showing a PRL Motorsports front-mount intercooler being installed inside the Concord shop",
+    "caption": "Type R intercooler install, bumper off",
+    "addedAt": "2026-09-11"
+  },
+  {
+    "id": "honda-s2000-hardtop-shop-floor",
+    "sourceFile": "honda-s2000-hardtop-shop-floor.jpg",
+    "src": "/images/gallery/gallery-honda-s2000-hardtop-shop-floor.jpg",
+    "width": 1600,
+    "height": 900,
+    "blurDataURL": "data:image/webp;base64,UklGRowAAABXRUJQVlA4IIAAAAAwBACdASoYAA0APu1kqU2ppaOiMAgBMB2JZwDA3CBYMHks7r5JZdHE0AAA/qN2rcBCgMdNZef8qaYC/ognAmo4VSGSnzEFtw9m5z2o8MbdrIYPVz0btHqLQPcJfxuZ6HVPCJv6gO0r7GviPzrHQYoZzoVY0UZTF9iEYgKUAF/MAA==",
+    "alt": "Silver Honda S2000 with a hardtop on the shop floor at Streamline Performance Garage in Concord, NC, with a magenta sedan on the lift behind it",
+    "caption": "Hardtop S2000 on the shop floor",
+    "addedAt": "2026-09-11"
+  },
+  {
+    "id": "lexus-center-exit-exhaust-on-lift",
+    "sourceFile": "lexus-center-exit-exhaust-on-lift.jpg",
+    "src": "/images/gallery/gallery-lexus-center-exit-exhaust-on-lift.jpg",
+    "width": 1600,
+    "height": 900,
+    "blurDataURL": "data:image/webp;base64,UklGRqwAAABXRUJQVlA4IKAAAAAQBACdASoYAA0APu1iqU2ppaOiMAgBMB2JZQDG9Yw65YRJ8vYX2We9AAD8XgnmGZODDMOFrsNGmbfc5BEAc6yngIF1igN2jrPGOBe+djwJ/5zgdzFMu2Nnub6Z+9TxDFZKKw47XcEwfYZljhFigyQ79e1ibxLsZZxDQnX6i38DfVA7SPY5uxvrVkaI5WbpNCSlOl8XvF1WVUJXDwBqgAAA",
+    "alt": "Underside of a black Lexus raised on the two-post lift, showing a center-exit exhaust with three tips and red rear suspension arms",
+    "caption": "Center-exit exhaust, up on the two-post lift",
+    "addedAt": "2026-09-11"
+  },
+  {
+    "id": "nissan-240sx-s13-drift-car-alignment-rack",
+    "sourceFile": "nissan-240sx-s13-drift-car-alignment-rack.jpg",
+    "src": "/images/gallery/gallery-nissan-240sx-s13-drift-car-alignment-rack.jpg",
+    "width": 1600,
+    "height": 900,
+    "blurDataURL": "data:image/webp;base64,UklGRrYAAABXRUJQVlA4IKoAAADwAwCdASoYAA0APu1iqU2ppaOiMAgBMB2JZgCdAYwwsygfEzqMPFFIAP6iz4pVpj+k2XIrfKy+CKtPZkeTM2Qbqirl1ZmU0y8uxEKsGVkm0xVtKgYTFiHEV8z0R0XijNqcOEOVTH+H3glJqa/IH7CaYUiYHObT5NBhjajX2zTl7IekTMDjbxr4IPG2IWjTBbLSdK8HCD0GtDPgOVY9bJ+nCrXz+m6MDwAAAA==",
+    "alt": "Nissan 240SX S13 drift car in a teal and pink Spirit Street livery on yellow wheels, sitting on the alignment rack with a cracked front bumper",
+    "caption": "S13 drift car on the alignment rack",
+    "addedAt": "2026-09-11"
+  },
+  {
+    "id": "nissan-gtr-r35-shop-floor",
+    "sourceFile": "nissan-gtr-r35-shop-floor.jpg",
+    "src": "/images/gallery/gallery-nissan-gtr-r35-shop-floor.jpg",
+    "width": 1600,
+    "height": 900,
+    "blurDataURL": "data:image/webp;base64,UklGRp4AAABXRUJQVlA4IJIAAAAQBACdASoYAA0APu1iqU2ppaOiMAgBMB2JQBYdg9gj5Wf2+un/Hl8cAAD9uoqsFMLW2drEZp0naj/aDiJVkKcCJ68D+Ni/V130NY0JWySYGsEXzjQuK0NgrFkGnANq4YAm9QMfa+MM5wDN/p856EwIeBcwJipfjXRb26Cj4YyPv73y/U9CeKwsmGPY5oVvzgAAAA==",
+    "alt": "Pearl white Nissan GT-R R35 on black wheels on the shop floor with a blue Subaru WRX STI beside it",
+    "caption": "R35 GT-R on the shop floor",
+    "addedAt": "2026-09-11"
+  },
+  {
+    "id": "nissan-z-rz34-shop-floor",
+    "sourceFile": "nissan-z-rz34-shop-floor.jpg",
+    "src": "/images/gallery/gallery-nissan-z-rz34-shop-floor.jpg",
+    "width": 1600,
+    "height": 900,
+    "blurDataURL": "data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAAAwBACdASoYAA0APu1iqk2ppaQiMAgBMB2JYwDE2CPqiUcYpodBPTCJl8AA4mJBDLQ6UgB07PZE6gCD/dl0bnWN0NoqEgigFmtLe1dAQoddV7M8Uhx2ffHLHmCteNnEFCuIHVmHDs7y9MyN7St7fHEZkkrDirI6WzshQAAA",
+    "alt": "Black Nissan Z, RZ34, on black wheels on the shop floor at Streamline Performance Garage in Concord, NC",
+    "caption": "New Nissan Z on the shop floor",
+    "addedAt": "2026-09-11"
+  },
+  {
+    "id": "shop-floor-bug-eye-wrx-brz-forester-lift",
+    "sourceFile": "shop-floor-bug-eye-wrx-brz-forester-lift.jpg",
+    "src": "/images/gallery/gallery-shop-floor-bug-eye-wrx-brz-forester-lift.jpg",
+    "width": 1600,
+    "height": 900,
+    "blurDataURL": "data:image/webp;base64,UklGRpQAAABXRUJQVlA4IIgAAAAwBACdASoYAA0APu1kqk4ppaQiMAgBMB2JQBibBFrHjCYu9Ac5G/mjskwA/NYBFLo6qYW22XwoRdTjSlUYrcIRMvFaUpqTBXl/Va+X8bQPFx8mothNpQGuZtmMVfiGABezxMm+kVe9toojbO4NPUJWl29Xw1CBlMuxFyN9ZojXmAuyjVMySAAA",
+    "alt": "Busy shop floor with a blue bug-eye Subaru Impreza WRX, a purple Subaru BRZ, a yellow Impreza WRX and a silver Subaru Forester raised on a lift at Streamline Performance Garage in Concord, NC",
+    "caption": "Full house: bug-eye WRX, BRZ and a Forester on the lift",
+    "addedAt": "2026-09-11"
+  },
+  {
+    "id": "subaru-boxer-engine-build-turbo-clutch",
+    "sourceFile": "subaru-boxer-engine-build-turbo-clutch.jpg",
+    "src": "/images/gallery/gallery-subaru-boxer-engine-build-turbo-clutch.jpg",
+    "width": 1600,
+    "height": 900,
+    "blurDataURL": "data:image/webp;base64,UklGRqIAAABXRUJQVlA4IJYAAAAwBACdASoYAA0APu1iqU2ppaQiMAgBMB2JZADCgYxsqmdCMHWLwPPtL4AA/hmLe6VIcD8ye4rRNXCRx5tPbBZu0Cx3ocUYlUrefgCe099AYc/DXWCFzqhNbGjdzR/h0vJaiNiehflwD3Lm9Kt18FI66JpWKknD2OuYqSHpk7fBEMe+XFhetLiB0pEdyC+YDTt6os8AAAA=",
+    "alt": "Built Subaru boxer engine on a stand with the turbo, heat-wrapped up-pipe, equal-length header and a red performance clutch fitted, with a blue Subaru WRX behind it",
+    "caption": "Boxer build: turbo, header and clutch fitted",
+    "addedAt": "2026-09-11"
+  },
+  {
+    "id": "toyota-ae86-corolla-gts-shop-floor",
+    "sourceFile": "toyota-ae86-corolla-gts-shop-floor.jpg",
+    "src": "/images/gallery/gallery-toyota-ae86-corolla-gts-shop-floor.jpg",
+    "width": 1600,
+    "height": 900,
+    "blurDataURL": "data:image/webp;base64,UklGRpAAAABXRUJQVlA4IIQAAADwAwCdASoYAA0APu1kqU2ppaQiMAgBMB2JZQC06BuQEi3hp2ItinAAAP6mx99CWT6RRMjJB2MxEykjVV97zzMG3BG4RGyTcGVWAcwNbkjTjeyvuiHhzpMpSeOfdV0D5r1KqyKH1y35s+Y8A8W1M8RQqS3xQ/5uu9Q4Jp8uiKcm70dEAAA=",
+    "alt": "Red and black Toyota AE86 Corolla GT-S hatchback on the shop floor with a silver Toyota GR86 on the lift behind it, hood up",
+    "caption": "AE86 Corolla GT-S, with a GR86 on the lift",
+    "addedAt": "2026-09-11"
   }
 ]

@@ -51,7 +51,9 @@ Everything below is marked `TODO(owner)` in code.
 aspect ratio) with a native-dialog viewer. To add photos:
 
 1. Drop originals into `assets/source/gallery/` with descriptive filenames
-   (`wrx-sti-engine-removal.jpg`); the filename becomes the photo id.
+   (`wrx-sti-engine-removal.jpg`); the filename becomes the photo id. The
+   importer reads JPG, PNG and WebP only; convert iPhone HEIC files first
+   (`sips -s format jpeg -s formatOptions 95 IMG.HEIC --out name.jpg`).
 2. Run `npm run gallery:import`. It writes optimized, EXIF-stripped copies to
    `public/images/gallery/` and appends entries to `src/content/gallery.json`.
 3. Fill in `alt` and `caption` for the new entries. Tests fail on blank ones.

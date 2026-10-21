@@ -26,7 +26,7 @@ export default function ServicesPage() {
       <Hero
         eyebrow="Services"
         title="Everything your Japanese sports car needs"
-        lead="Performance work and everyday maintenance under one roof at our Concord, NC shop. Pick a service to see what is included and the questions owners ask most."
+        lead="Performance work and everyday maintenance under one roof at our Concord, NC shop."
         image={images.servicesHero}
         actions={
           <>

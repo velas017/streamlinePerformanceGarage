@@ -1,5 +1,6 @@
 import { serviceAreas } from "@/content/service-areas";
 import { services } from "@/content/services";
+import { visibility } from "@/content/visibility";
 import { type AppHref, locationHref, serviceAreaHref, serviceHref } from "@/lib/routes";
 import { siteConfig } from "@/lib/site-config";
 
@@ -30,7 +31,11 @@ const locationLinks: readonly NavLink[] = [
 
 /** Drives both the desktop nav and the mobile menu. */
 export const mainNavigation: readonly NavItem[] = [
-  { label: "Services", href: "/services", children: serviceLinks },
+  {
+    label: "Services",
+    href: "/services",
+    children: visibility.servicePages ? serviceLinks : undefined,
+  },
   { label: "Location", href: "/locations", children: locationLinks },
   { label: "Gallery", href: "/gallery" },
   { label: "About", href: "/about" },

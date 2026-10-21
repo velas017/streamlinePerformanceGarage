@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { serviceAreas } from "@/content/service-areas";
 import { services } from "@/content/services";
+import { visibility } from "@/content/visibility";
 import { locationHref, serviceAreaHref, serviceHref, staticRoutes } from "@/lib/routes";
 import { siteConfig } from "@/lib/site-config";
 import { absoluteUrl } from "@/lib/utils";
@@ -27,7 +28,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: 0.8,
     })),
-    ...services.map((service) => ({
+    // Hidden service pages redirect to /services, so they stay out of the sitemap.
+    ...(visibility.servicePages ? services : []).map((service) => ({
       url: absoluteUrl(serviceHref(service.slug)),
       lastModified,
       changeFrequency: "monthly" as const,

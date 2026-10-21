@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/Button";
 import { generalFaqs } from "@/content/faqs";
 import { images } from "@/content/images";
 import { featuredServices } from "@/content/services";
+import { visibility } from "@/content/visibility";
 import { getLocation } from "@/lib/site-config";
 import { formatPhone } from "@/lib/utils";
 import { renderAccessible } from "@/test/render";
@@ -37,15 +38,20 @@ describe("page sections", () => {
     );
   });
 
-  it("ServicesGrid renders one link per service", async () => {
+  it("ServicesGrid renders one card per service, linked only while pages are published", async () => {
     await renderAccessible(
       <ServicesGrid services={featuredServices} header={{ title: "Services" }} />,
     );
     for (const service of featuredServices) {
-      expect(screen.getByRole("link", { name: service.name })).toHaveAttribute(
-        "href",
-        `/services/${service.slug}`,
-      );
+      expect(
+        screen.getByRole("heading", { level: 3, name: service.name }),
+      ).toBeInTheDocument();
+      const links = screen.queryAllByRole("link", { name: service.name });
+      if (visibility.servicePages) {
+        expect(links[0]).toHaveAttribute("href", `/services/${service.slug}`);
+      } else {
+        expect(links).toHaveLength(0);
+      }
     }
   });
 

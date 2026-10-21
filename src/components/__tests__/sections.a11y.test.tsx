@@ -55,6 +55,9 @@ describe("page sections", () => {
     expect(
       screen.getByRole("link", { name: formatPhone(location.phone) }),
     ).toHaveAttribute("href", `tel:${location.phone}`);
+    expect(
+      screen.getByRole("link", { name: new RegExp(location.address.streetAddress) }),
+    ).toHaveAttribute("href", location.mapsUrl);
     expect(screen.getByText("Mon–Fri")).toBeInTheDocument();
   });
 

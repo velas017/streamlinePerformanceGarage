@@ -18,15 +18,20 @@ describe("layout chrome", () => {
     expect(menuButton).toHaveAttribute("aria-controls");
   });
 
-  it("Footer renders NAP for every location from site-config", async () => {
+  it("Footer renders NAP for every location, each address opening Google Maps", async () => {
     const { container } = render(<Footer />);
     await expectNoA11yViolations(container);
     for (const location of siteConfig.locations) {
-      expect(
-        screen.getByText(new RegExp(location.address.streetAddress)),
-      ).toBeInTheDocument();
+      const address = screen.getByRole("link", {
+        name: new RegExp(`${location.address.streetAddress}.*Google Maps`),
+      });
+      expect(address).toHaveAttribute("href", location.mapsUrl);
+      expect(address).toHaveAttribute("target", "_blank");
     }
-    expect(screen.getByRole("navigation", { name: "Footer" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Privacy Policy" })).toHaveAttribute(
+      "href",
+      "/privacy",
+    );
   });
 
   it("SkipLink targets #main", () => {

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { AddressLink } from "@/components/sections/AddressLink";
 import { HoursTable } from "@/components/sections/HoursTable";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
@@ -39,15 +40,7 @@ export function LocationCard({
           {location.city}, {location.address.addressRegion}
         </HeadingTag>
         <address className="flex flex-col gap-3 not-italic">
-          <p className="flex items-start gap-2 text-muted">
-            <Icon name="map-pin" className="mt-1" />
-            <span>
-              {location.address.streetAddress}
-              <br />
-              {location.address.addressLocality}, {location.address.addressRegion}{" "}
-              {location.address.postalCode}
-            </span>
-          </p>
+          <AddressLink location={location} />
           <p className="flex items-center gap-2">
             <Icon name="phone" className="text-muted" />
             <a

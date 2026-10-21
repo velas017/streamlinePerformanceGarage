@@ -37,23 +37,4 @@ export const mainNavigation: readonly NavItem[] = [
   { label: "Contact", href: "/contact" },
 ];
 
-export interface FooterGroup {
-  readonly heading: string;
-  readonly links: readonly NavLink[];
-}
-
-export const footerNavigation: readonly FooterGroup[] = [
-  { heading: "Services", links: serviceLinks },
-  { heading: "Visit", links: locationLinks },
-  {
-    heading: "Company",
-    links: [
-      { label: "Gallery", href: "/gallery" },
-      { label: "About", href: "/about" },
-      { label: "Contact & Booking", href: "/contact" },
-      { label: "Privacy Policy", href: "/privacy" },
-    ],
-  },
-];
-
 export const primaryCta: NavLink = { label: "Book now", href: "/contact" };

@@ -4,8 +4,10 @@ import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { SkipLink } from "@/components/layout/SkipLink";
+import { visibility } from "@/content/visibility";
 import { siteConfig } from "@/lib/site-config";
 import { expectNoA11yViolations } from "@/test/a11y";
+import { locationPageLinks } from "@/test/links";
 import { render } from "@testing-library/react";
 
 describe("layout chrome", () => {
@@ -16,6 +18,8 @@ describe("layout chrome", () => {
     const menuButton = screen.getByRole("button", { name: /open menu/i });
     expect(menuButton).toHaveAttribute("aria-expanded", "false");
     expect(menuButton).toHaveAttribute("aria-controls");
+    // Desktop nav and mobile menu: the Location item exists only while visible.
+    expect(locationPageLinks(container).length > 0).toBe(visibility.locationPages);
   });
 
   it("Footer renders NAP for every location, each address opening Google Maps", async () => {
@@ -32,6 +36,7 @@ describe("layout chrome", () => {
       "href",
       "/privacy",
     );
+    expect(locationPageLinks(container).length > 0).toBe(visibility.locationPages);
   });
 
   it("SkipLink targets #main", () => {

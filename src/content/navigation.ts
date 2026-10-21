@@ -29,6 +29,12 @@ const locationLinks: readonly NavLink[] = [
   })),
 ];
 
+const locationItem: NavItem = {
+  label: "Location",
+  href: "/locations",
+  children: locationLinks,
+};
+
 /** Drives both the desktop nav and the mobile menu. */
 export const mainNavigation: readonly NavItem[] = [
   {
@@ -36,7 +42,7 @@ export const mainNavigation: readonly NavItem[] = [
     href: "/services",
     children: visibility.servicePages ? serviceLinks : undefined,
   },
-  { label: "Location", href: "/locations", children: locationLinks },
+  ...(visibility.locationPages ? [locationItem] : []),
   { label: "Gallery", href: "/gallery" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },

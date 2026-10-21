@@ -16,6 +16,7 @@ import { featuredServices } from "@/content/services";
 import { visibility } from "@/content/visibility";
 import { getLocation } from "@/lib/site-config";
 import { formatPhone } from "@/lib/utils";
+import { locationPageLinks } from "@/test/links";
 import { renderAccessible } from "@/test/render";
 
 describe("page sections", () => {
@@ -55,6 +56,11 @@ describe("page sections", () => {
     }
   });
 
+  it("LocationsSection links to the location pages only while they are visible", async () => {
+    const { container } = await renderAccessible(<LocationsSection />);
+    expect(locationPageLinks(container).length > 0).toBe(visibility.locationPages);
+  });
+
   it("LocationCard exposes address, phone and hours", async () => {
     const location = getLocation("concord");
     await renderAccessible(<LocationCard location={location} />);
@@ -81,7 +87,6 @@ describe("page sections", () => {
         <TrustBar />
         <MakesSection />
         <Testimonials />
-        <LocationsSection />
         <CtaBanner />
       </>,
     );

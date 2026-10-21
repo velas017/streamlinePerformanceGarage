@@ -4,13 +4,17 @@ import { HoursTable } from "@/components/sections/HoursTable";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Icon } from "@/components/ui/Icon";
+import { visibility } from "@/content/visibility";
 import { locationHref } from "@/lib/routes";
 import type { SiteLocation } from "@/lib/site-config";
 import { formatPhone, telHref } from "@/lib/utils";
 
 export interface LocationCardProps {
   readonly location: SiteLocation;
-  /** Hide the "View shop" link when already on that location's page. */
+  /**
+   * Show the "View shop" link. Off on that location's own page, and by default
+   * while the location pages are hidden (content/visibility.ts).
+   */
   readonly showDetailsLink?: boolean;
   readonly headingLevel?: "h2" | "h3";
 }
@@ -18,7 +22,7 @@ export interface LocationCardProps {
 /** NAP + hours card for a location. Data comes exclusively from site-config. */
 export function LocationCard({
   location,
-  showDetailsLink = true,
+  showDetailsLink = visibility.locationPages,
   headingLevel: HeadingTag = "h3",
 }: LocationCardProps) {
   return (

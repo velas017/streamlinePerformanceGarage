@@ -11,8 +11,15 @@ export interface SiteVisibility {
    * cannot read this file, so a test fails if the two ever disagree.
    */
   readonly servicePages: boolean;
+  /**
+   * The /locations and /service-areas/* pages. They stay live and in the
+   * sitemap so searches can still land on them, but while false nothing on the
+   * site links to them: no "Location" menu item, footer link or card link.
+   */
+  readonly locationPages: boolean;
 }
 
 export const visibility: SiteVisibility = {
   servicePages: false,
+  locationPages: false,
 };

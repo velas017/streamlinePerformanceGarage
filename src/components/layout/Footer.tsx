@@ -4,6 +4,7 @@ import { Icon } from "@/components/ui/Icon";
 import { InternalLink } from "@/components/ui/Link";
 import { AddressLink } from "@/components/sections/AddressLink";
 import { HoursTable } from "@/components/sections/HoursTable";
+import { visibility } from "@/content/visibility";
 import { locationHref } from "@/lib/routes";
 import { siteConfig } from "@/lib/site-config";
 import { formatPhone, joinWithAnd, mailtoHref, telHref } from "@/lib/utils";
@@ -44,12 +45,16 @@ export function Footer() {
             {siteConfig.locations.map((location) => (
               <address key={location.id} className="flex flex-col gap-3 not-italic">
                 <h2 className="font-display text-xl font-bold tracking-wide uppercase">
-                  <InternalLink
-                    href={locationHref(location.id)}
-                    className="rounded-md focus-ring hover:text-accent"
-                  >
-                    {location.city}, {location.address.addressRegion}
-                  </InternalLink>
+                  {visibility.locationPages ? (
+                    <InternalLink
+                      href={locationHref(location.id)}
+                      className="rounded-md focus-ring hover:text-accent"
+                    >
+                      {location.city}, {location.address.addressRegion}
+                    </InternalLink>
+                  ) : (
+                    `${location.city}, ${location.address.addressRegion}`
+                  )}
                 </h2>
                 <AddressLink location={location} />
                 <a

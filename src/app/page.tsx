@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { CtaBanner } from "@/components/sections/CtaBanner";
 import { GalleryTeaser } from "@/components/sections/GalleryTeaser";
+import { GoogleReviews } from "@/components/sections/GoogleReviews";
 import { Hero } from "@/components/sections/Hero";
 import { InstagramFeed } from "@/components/sections/InstagramFeed";
 import { ServicesCarousel } from "@/components/sections/ServicesCarousel";
@@ -60,10 +61,11 @@ export default function HomePage() {
         }
       />
       <TrustBar />
-      {/* Hidden at the client's request for now: MakesSection, Testimonials (placeholders until
-          Google reviews are wired), LocationsSection and FaqSection. See CLAUDE.md §8. */}
+      {/* Hidden at the client's request for now: MakesSection, LocationsSection and
+          FaqSection. See CLAUDE.md §8. */}
       <ServicesCarousel services={featuredServices} />
       <InstagramFeed />
+      <GoogleReviews />
       <GalleryTeaser />
       <CtaBanner />
     </>

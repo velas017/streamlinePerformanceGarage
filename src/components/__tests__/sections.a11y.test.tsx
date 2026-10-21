@@ -7,7 +7,6 @@ import { LocationCard } from "@/components/sections/LocationCard";
 import { LocationsSection } from "@/components/sections/LocationsSection";
 import { MakesSection } from "@/components/sections/MakesSection";
 import { ServicesGrid } from "@/components/sections/ServicesGrid";
-import { Testimonials } from "@/components/sections/Testimonials";
 import { TrustBar } from "@/components/sections/TrustBar";
 import { Button } from "@/components/ui/Button";
 import { FaqList } from "@/components/ui/FaqList";
@@ -97,7 +96,6 @@ describe("page sections", () => {
       <>
         <TrustBar />
         <MakesSection />
-        <Testimonials />
         <CtaBanner />
       </>,
     );

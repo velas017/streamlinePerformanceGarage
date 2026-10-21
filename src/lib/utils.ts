@@ -97,3 +97,27 @@ export function joinWithAnd(items: readonly string[]): string {
   if (items.length <= 1) return items.join("");
   return `${items.slice(0, -1).join(", ")} and ${items[items.length - 1]}`;
 }
+
+/** Collapse whitespace and cut to at most `max` characters, ending with "…". */
+export function excerpt(text: string, max: number): string {
+  const clean = text.replace(/\s+/g, " ").trim();
+  return clean.length > max ? `${clean.slice(0, max - 1).trimEnd()}…` : clean;
+}
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+const RELATIVE_STEPS: readonly (readonly [Intl.RelativeTimeFormatUnit, number])[] = [
+  ["year", 365 * DAY_MS],
+  ["month", 30 * DAY_MS],
+  ["week", 7 * DAY_MS],
+  ["day", DAY_MS],
+];
+const relativeTime = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
+
+/** "today", "yesterday", "3 weeks ago", "last month": how long ago an ISO date was. */
+export function formatRelativeDate(iso: string, now: Date = new Date()): string {
+  const elapsed = now.getTime() - Date.parse(iso);
+  for (const [unit, size] of RELATIVE_STEPS) {
+    if (elapsed >= size) return relativeTime.format(-Math.floor(elapsed / size), unit);
+  }
+  return relativeTime.format(0, "day");
+}

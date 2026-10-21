@@ -15,8 +15,8 @@ export default function NotFound() {
           <Button href="/services" size="lg">
             Browse services
           </Button>
-          <Button href="/locations" variant="secondary" size="lg">
-            Find a shop
+          <Button href="/gallery" variant="secondary" size="lg">
+            See the gallery
           </Button>
           <Button href="/contact" variant="ghost" size="lg">
             Contact us

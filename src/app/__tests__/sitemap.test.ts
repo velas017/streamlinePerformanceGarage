@@ -3,16 +3,19 @@ import robots from "@/app/robots";
 import sitemap from "@/app/sitemap";
 import { serviceAreas } from "@/content/service-areas";
 import { services } from "@/content/services";
+import { visibility } from "@/content/visibility";
 import { siteConfig } from "@/lib/site-config";
 
 describe("sitemap + robots", () => {
   const entries = sitemap();
   const urls = entries.map((entry) => entry.url);
 
-  it("lists every service and location exactly once", () => {
+  it("lists every location exactly once, and service pages only while published", () => {
     expect(new Set(urls).size).toBe(urls.length);
     for (const service of services) {
-      expect(urls).toContain(`${siteConfig.url}/services/${service.slug}`);
+      expect(urls.includes(`${siteConfig.url}/services/${service.slug}`)).toBe(
+        visibility.servicePages,
+      );
     }
     for (const location of siteConfig.locations) {
       expect(urls).toContain(`${siteConfig.url}/locations/${location.id}`);

@@ -1,5 +1,6 @@
 import { serviceAreas } from "@/content/service-areas";
 import { services } from "@/content/services";
+import { visibility } from "@/content/visibility";
 import { type AppHref, locationHref, serviceAreaHref, serviceHref } from "@/lib/routes";
 import { siteConfig } from "@/lib/site-config";
 
@@ -28,32 +29,23 @@ const locationLinks: readonly NavLink[] = [
   })),
 ];
 
+const locationItem: NavItem = {
+  label: "Location",
+  href: "/locations",
+  children: locationLinks,
+};
+
 /** Drives both the desktop nav and the mobile menu. */
 export const mainNavigation: readonly NavItem[] = [
-  { label: "Services", href: "/services", children: serviceLinks },
-  { label: "Location", href: "/locations", children: locationLinks },
+  {
+    label: "Services",
+    href: "/services",
+    children: visibility.servicePages ? serviceLinks : undefined,
+  },
+  ...(visibility.locationPages ? [locationItem] : []),
   { label: "Gallery", href: "/gallery" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
-];
-
-export interface FooterGroup {
-  readonly heading: string;
-  readonly links: readonly NavLink[];
-}
-
-export const footerNavigation: readonly FooterGroup[] = [
-  { heading: "Services", links: serviceLinks },
-  { heading: "Visit", links: locationLinks },
-  {
-    heading: "Company",
-    links: [
-      { label: "Gallery", href: "/gallery" },
-      { label: "About", href: "/about" },
-      { label: "Contact & Booking", href: "/contact" },
-      { label: "Privacy Policy", href: "/privacy" },
-    ],
-  },
 ];
 
 export const primaryCta: NavLink = { label: "Book now", href: "/contact" };

@@ -209,13 +209,13 @@ export const services = [
     icon: "tire",
     featured: true,
     summary:
-      "Wheel and tire fitment advice, mounting & balancing, and TPMS replacement for both stock and modified vehicles.",
+      "Wheel and tire advice, mounting & balancing, and TPMS replacement for both stock and modified vehicles.",
     description: [
-      "Fitment on a lowered WRX, a wide-body 350Z or a track-prepped Civic is not a chart lookup. We measure offset, backspacing and clearance on your car, then mount and road-force balance the set so it is smooth at highway speed and quiet in the cabin.",
+      "Choosing wheels and tires for a lowered WRX, a wide-body 350Z or a track-prepped Civic is not a chart lookup. We measure offset, backspacing and clearance on your car, then mount and road-force balance the set so it is smooth at highway speed and quiet in the cabin.",
       "We install and service TPMS sensors, source tires from Michelin, Continental, Bridgestone, Falken, Yokohama and Toyo for street and track, and pair every set with a performance alignment so new rubber actually lasts.",
     ],
     highlights: [
-      "Fitment checks for offset, clearance and rolled fenders",
+      "Wheel and tire advice for offset, clearance and rolled fenders",
       "Mounting and road-force balancing for street and track sets",
       "TPMS sensor install and programming",
       "Alignment with every new set",
@@ -236,7 +236,7 @@ export const services = [
     seo: {
       title: "Wheels & Tires",
       description:
-        "Wheel and tire fitment, mounting, balancing and TPMS service in Concord, NC near Charlotte. Fitment advice for lowered Subaru, Nissan and Honda builds.",
+        "Wheel and tire advice, mounting, balancing and TPMS service in Concord, NC near Charlotte for stock and lowered Subaru, Honda, Nissan and Toyota builds.",
     },
   },
   {

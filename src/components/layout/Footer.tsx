@@ -2,11 +2,12 @@ import { Logo } from "@/components/layout/Logo";
 import { Container } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
 import { InternalLink } from "@/components/ui/Link";
+import { AddressLink } from "@/components/sections/AddressLink";
 import { HoursTable } from "@/components/sections/HoursTable";
-import { footerNavigation } from "@/content/navigation";
+import { visibility } from "@/content/visibility";
 import { locationHref } from "@/lib/routes";
 import { siteConfig } from "@/lib/site-config";
-import { formatPhone, joinWithAnd, telHref } from "@/lib/utils";
+import { formatPhone, joinWithAnd, mailtoHref, telHref } from "@/lib/utils";
 
 const footerLinkClasses =
   "focus-ring inline-flex min-h-11 items-center rounded-md text-muted hover:text-fg";
@@ -44,22 +45,18 @@ export function Footer() {
             {siteConfig.locations.map((location) => (
               <address key={location.id} className="flex flex-col gap-3 not-italic">
                 <h2 className="font-display text-xl font-bold tracking-wide uppercase">
-                  <InternalLink
-                    href={locationHref(location.id)}
-                    className="rounded-md focus-ring hover:text-accent"
-                  >
-                    {location.city}, {location.address.addressRegion}
-                  </InternalLink>
+                  {visibility.locationPages ? (
+                    <InternalLink
+                      href={locationHref(location.id)}
+                      className="rounded-md focus-ring hover:text-accent"
+                    >
+                      {location.city}, {location.address.addressRegion}
+                    </InternalLink>
+                  ) : (
+                    `${location.city}, ${location.address.addressRegion}`
+                  )}
                 </h2>
-                <p className="flex items-start gap-2 text-muted">
-                  <Icon name="map-pin" className="mt-1" />
-                  <span>
-                    {location.address.streetAddress}
-                    <br />
-                    {location.address.addressLocality}, {location.address.addressRegion}{" "}
-                    {location.address.postalCode}
-                  </span>
-                </p>
+                <AddressLink location={location} />
                 <a
                   href={telHref(location.phone)}
                   className={`${footerLinkClasses} gap-2`}
@@ -73,42 +70,24 @@ export function Footer() {
           </div>
         </div>
 
-        <nav
-          aria-label="Footer"
-          className="mt-14 grid gap-10 border-t border-border pt-12 sm:grid-cols-3"
-        >
-          {footerNavigation.map((group) => (
-            <div key={group.heading}>
-              <h2 className="mb-3 font-display text-lg font-bold tracking-wide uppercase">
-                {group.heading}
-              </h2>
-              <ul className="flex flex-col">
-                {group.links.map((link) => (
-                  <li key={link.href}>
-                    <InternalLink href={link.href} className={footerLinkClasses}>
-                      {link.label}
-                    </InternalLink>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </nav>
-
+        {/* The Services / Visit / Company link columns were removed at the client's
+            request (2026-10-21); the header nav covers the same pages. */}
         <div className="mt-12 flex flex-col gap-3 border-t border-border pt-8 text-sm text-muted">
           <p>
             Serving {joinWithAnd(siteConfig.serviceAreas)} and the greater{" "}
             {joinWithAnd(siteConfig.counties)} area.
           </p>
-          <p>
-            © {year} {siteConfig.legalName}. All rights reserved.{" "}
-            <a
-              href={`mailto:${siteConfig.email}`}
-              className="rounded-md underline-offset-4 focus-ring hover:text-fg hover:underline"
-            >
+          <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6">
+            <p>
+              © {year} {siteConfig.legalName}. All rights reserved.
+            </p>
+            <a href={mailtoHref(siteConfig.email)} className={footerLinkClasses}>
               {siteConfig.email}
             </a>
-          </p>
+            <InternalLink href="/privacy" className={footerLinkClasses}>
+              Privacy Policy
+            </InternalLink>
+          </div>
         </div>
       </Container>
     </footer>

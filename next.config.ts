@@ -48,6 +48,15 @@ const nextConfig: NextConfig = {
         destination: "/services",
         permanent: true,
       },
+      // The client asked to hide every individual service page for now
+      // (2026-10-21). Temporary (307) so search engines keep the URLs; remove it
+      // when `servicePages` in src/content/visibility.ts is switched back on
+      // (next.config cannot import from src/, so a test keeps the two in step).
+      {
+        source: "/services/:slug",
+        destination: "/services",
+        permanent: false,
+      },
     ];
   },
 };

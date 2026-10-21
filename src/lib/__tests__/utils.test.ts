@@ -2,13 +2,34 @@ import { describe, expect, it } from "vitest";
 import {
   absoluteUrl,
   cn,
+  excerpt,
   formatDayRange,
   formatOpeningHours,
   formatPhone,
+  formatRelativeDate,
   formatTime,
   joinWithAnd,
   telHref,
 } from "@/lib/utils";
+
+describe("excerpt", () => {
+  it("collapses whitespace and cuts long text with an ellipsis", () => {
+    expect(excerpt("  short\n text ", 20)).toBe("short text");
+    expect(excerpt("one two three four", 9)).toBe("one two…");
+  });
+});
+
+describe("formatRelativeDate", () => {
+  const now = new Date("2026-10-21T12:00:00Z");
+  it("says how long ago a date was, in plain words", () => {
+    expect(formatRelativeDate("2026-10-21T08:00:00Z", now)).toBe("today");
+    expect(formatRelativeDate("2026-10-20T08:00:00Z", now)).toBe("yesterday");
+    expect(formatRelativeDate("2026-10-18T12:00:00Z", now)).toBe("3 days ago");
+    expect(formatRelativeDate("2026-10-01T12:00:00Z", now)).toBe("2 weeks ago");
+    expect(formatRelativeDate("2026-07-01T12:00:00Z", now)).toBe("3 months ago");
+    expect(formatRelativeDate("2024-09-01T12:00:00Z", now)).toBe("2 years ago");
+  });
+});
 
 describe("cn", () => {
   it("merges conflicting tailwind classes, last wins", () => {

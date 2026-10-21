@@ -8,6 +8,7 @@ import {
   useId,
   useRef,
   useState,
+  useSyncExternalStore,
 } from "react";
 import { Icon } from "@/components/ui/Icon";
 import { cn } from "@/lib/utils";
@@ -17,19 +18,53 @@ export interface CarouselProps {
   readonly label: string;
   readonly children: ReactNode;
   readonly className?: string;
+  /**
+   * Advance one card every N milliseconds, looping at the end. Adds a Pause
+   * button, holds while the pointer or focus is on the cards, stops for good
+   * once the visitor scrolls it themselves, and never runs for visitors who
+   * prefer reduced motion (WCAG 2.2.2 Pause, Stop, Hide).
+   */
+  readonly autoAdvanceMs?: number;
 }
+
+const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
+
+function subscribeToMotionPreference(onChange: () => void): () => void {
+  const query = window.matchMedia(REDUCED_MOTION);
+  query.addEventListener("change", onChange);
+  return () => query.removeEventListener("change", onChange);
+}
+
+/** The server render assumes reduced motion, so nothing moves before hydration. */
+function usePrefersReducedMotion(): boolean {
+  return useSyncExternalStore(
+    subscribeToMotionPreference,
+    () => window.matchMedia(REDUCED_MOTION).matches,
+    () => true,
+  );
+}
+
+const controlClasses =
+  "inline-flex size-11 items-center justify-center rounded-md border border-border-strong text-fg focus-ring hover:bg-surface-2 disabled:cursor-not-allowed disabled:opacity-40";
 
 /**
  * Horizontal scroll-snap carousel shared by the Instagram feed, the services
- * strip and the reviews strip. Scrolling works without JavaScript (swipe,
- * trackpad, keyboard focus moving between items); the prev/next buttons are
- * progressive enhancement and disable at either end. Items are server-rendered
- * children wrapped in <CarouselItem>, so content stays in the static HTML.
+ * strip and the Google reviews. Scrolling works without JavaScript (swipe,
+ * trackpad, keyboard focus moving between items); the prev/next buttons and
+ * auto-advance are progressive enhancement. Items are server-rendered children
+ * wrapped in <CarouselItem>, so content stays in the static HTML.
  */
-export function Carousel({ label, children, className }: CarouselProps) {
+export function Carousel({ label, children, className, autoAdvanceMs }: CarouselProps) {
   const listId = useId();
   const scrollerRef = useRef<HTMLUListElement>(null);
   const [canScroll, setCanScroll] = useState({ prev: false, next: true });
+  const reduceMotion = usePrefersReducedMotion();
+  /** The visitor pressed Pause or took over scrolling. */
+  const [paused, setPaused] = useState(false);
+  /** The pointer or focus is on the cards (resumes when it leaves). */
+  const [held, setHeld] = useState(false);
+  const rotates = autoAdvanceMs !== undefined && !reduceMotion;
+  const running = rotates && !paused && !held;
 
   const updateButtons = useCallback(() => {
     const el = scrollerRef.current;
@@ -52,10 +87,56 @@ export function Carousel({ label, children, className }: CarouselProps) {
     };
   }, [updateButtons]);
 
+  // Hold while the pointer or focus is on the cards, and hand over for good once
+  // the visitor touches them. Plain listeners, not JSX handlers: this is reading
+  // comfort for a list, not an interaction (the Pause button is the control).
+  useEffect(() => {
+    const el = scrollerRef.current;
+    if (!el || !rotates) return;
+    const hold = () => setHeld(true);
+    const release = () => setHeld(false);
+    const releaseFocus = (event: FocusEvent) => {
+      const next = event.relatedTarget;
+      if (!(next instanceof Node && el.contains(next))) setHeld(false);
+    };
+    const takeOver = () => setPaused(true);
+    el.addEventListener("pointerenter", hold);
+    el.addEventListener("pointerleave", release);
+    el.addEventListener("focusin", hold);
+    el.addEventListener("focusout", releaseFocus);
+    el.addEventListener("pointerdown", takeOver);
+    return () => {
+      el.removeEventListener("pointerenter", hold);
+      el.removeEventListener("pointerleave", release);
+      el.removeEventListener("focusin", hold);
+      el.removeEventListener("focusout", releaseFocus);
+      el.removeEventListener("pointerdown", takeOver);
+    };
+  }, [rotates]);
+
+  useEffect(() => {
+    if (!running) return;
+    const timer = window.setInterval(() => {
+      const el = scrollerRef.current;
+      if (!el) return;
+      if (el.scrollLeft >= el.scrollWidth - el.clientWidth - 4) {
+        el.scrollTo({ left: 0, behavior: "smooth" });
+        return;
+      }
+      const card = el.firstElementChild;
+      const gap = Number.parseFloat(getComputedStyle(el).columnGap) || 0;
+      el.scrollBy({
+        left: card ? card.getBoundingClientRect().width + gap : el.clientWidth,
+        behavior: "smooth",
+      });
+    }, autoAdvanceMs);
+    return () => window.clearInterval(timer);
+  }, [running, autoAdvanceMs]);
+
   const scrollBy = (direction: 1 | -1) => {
     const el = scrollerRef.current;
     if (!el) return;
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    setPaused(true);
     el.scrollBy({
       left: direction * el.clientWidth * 0.8,
       behavior: reduceMotion ? "auto" : "smooth",
@@ -74,6 +155,19 @@ export function Carousel({ label, children, className }: CarouselProps) {
       </ul>
 
       <div className="mt-4 flex justify-end gap-2">
+        {rotates ? (
+          <button
+            type="button"
+            aria-controls={listId}
+            aria-label={
+              paused ? "Start automatic scrolling" : "Pause automatic scrolling"
+            }
+            onClick={() => setPaused((value) => !value)}
+            className={controlClasses}
+          >
+            <Icon name={paused ? "play" : "pause"} className="size-5" />
+          </button>
+        ) : null}
         {(
           [
             {
@@ -97,7 +191,7 @@ export function Carousel({ label, children, className }: CarouselProps) {
             aria-label={control.label}
             disabled={!control.enabled}
             onClick={() => scrollBy(control.dir)}
-            className="inline-flex size-11 items-center justify-center rounded-md border border-border-strong text-fg focus-ring hover:bg-surface-2 disabled:cursor-not-allowed disabled:opacity-40"
+            className={controlClasses}
           >
             <Icon name={control.icon} className="size-5" />
           </button>

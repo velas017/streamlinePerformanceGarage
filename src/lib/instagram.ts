@@ -1,5 +1,7 @@
 import { z } from "zod";
 import { env } from "@/lib/env";
+import { getInstagramToken } from "@/lib/instagram-token";
+import { isKvConfigured } from "@/lib/kv";
 import { siteConfig } from "@/lib/site-config";
 
 /**
@@ -10,7 +12,8 @@ import { siteConfig } from "@/lib/site-config";
  *
  * Setup (README → "Instagram feed"): Instagram Business/Creator account →
  * Meta app with "Instagram API with Instagram Login" → long-lived token
- * (60 days, refreshable) → INSTAGRAM_ACCESS_TOKEN.
+ * (60 days) → INSTAGRAM_ACCESS_TOKEN. A weekly cron job then keeps a refreshed
+ * copy in Redis (lib/instagram-token.ts), which is read first.
  */
 
 export type InstagramMediaType = "IMAGE" | "VIDEO" | "CAROUSEL_ALBUM";
@@ -47,7 +50,7 @@ export type InstagramFeedMode = "live" | "mock" | "off";
 
 export function resolveFeedMode(): InstagramFeedMode {
   if (env.INSTAGRAM_FEED_MODE) return env.INSTAGRAM_FEED_MODE;
-  return env.INSTAGRAM_ACCESS_TOKEN ? "live" : "off";
+  return env.INSTAGRAM_ACCESS_TOKEN || isKvConfigured() ? "live" : "off";
 }
 
 function normalize(item: z.infer<typeof mediaSchema>): InstagramPost | null {
@@ -109,7 +112,7 @@ export async function getInstagramPosts(
   const mode = resolveFeedMode();
   if (mode === "off") return [];
   if (mode === "mock") return mockPosts(limit);
-  const token = env.INSTAGRAM_ACCESS_TOKEN;
+  const token = await getInstagramToken();
   if (!token) return [];
   try {
     return await fetchLivePosts(limit, token);

@@ -89,6 +89,20 @@ export const siteConfig = {
   logo: "/images/logo/logo-mark-black.png",
   locale: "en_US",
   instagramHandle: "streamline_performance_garage",
+  /**
+   * The Google Business Profile behind the reviews carousel (lib/google-reviews.ts).
+   * TODO(owner): fill in once Google approves API access: the numeric account and
+   * location IDs (Account Management / Business Information APIs) and the
+   * listing's `metadata.mapsUri` and `metadata.newReviewUri`.
+   */
+  googleBusiness: {
+    accountId: null as string | null,
+    locationId: null as string | null,
+    /** "See all reviews" target; falls back to the shop's Maps link while null. */
+    reviewsUrl: null as `https://${string}` | null,
+    /** "Leave a review" target; the button is hidden while null. */
+    writeReviewUrl: null as `https://${string}` | null,
+  },
   socials: [
     {
       label: "Instagram",

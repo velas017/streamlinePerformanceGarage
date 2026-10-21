@@ -56,6 +56,7 @@ src/
     contact/page.tsx
     sitemap.ts robots.ts manifest.ts
     not-found.tsx error.tsx
+    api/cron/refresh-instagram-token/route.ts # Weekly Vercel Cron job (vercel.json)
   components/
     ui/                     # Primitives: Button, Container, Section, Heading, Card…
     layout/                 # Header, Footer, MobileNav, SkipLink
@@ -72,6 +73,10 @@ src/
     env.ts                  # zod-validated process.env — import this, never process.env
     leads.ts                # Contact-form schema + deliverLead() (LEAD_WEBHOOK_URL)
     instagram.ts            # Instagram media fetch (ISR) + mock/off modes
+    instagram-token.ts      # Rotating Instagram token: Redis copy first, env fallback, refresh
+    google-reviews.ts       # Business Profile reviews (owner OAuth) + live/mock/off modes
+    kv.ts                   # Upstash Redis over REST with plain fetch (no SDK; keeps pages static)
+    cron.ts                 # CRON_SECRET check for Vercel Cron routes
     rate-limit.ts           # In-memory limiter for the contact action
     utils.ts                # cn(), formatters, pure helpers
   styles/globals.css        # Tailwind v4 @theme tokens + base layer
@@ -102,7 +107,7 @@ Rules:
   appears twice, turn it into a component/variant/function before continuing.
 - **Variants over copies.** Use `cva` (class-variance-authority) for Button, Badge,
   Heading, Section variants. Never duplicate a component to change a color.
-- **Data-driven rendering.** Lists (services, locations, FAQs, testimonials, nav)
+- **Data-driven rendering.** Lists (services, locations, FAQs, reviews, nav)
   are arrays in `content/` mapped in JSX. No hand-written repeated `<li>` blocks.
 - **Shared metadata builder.** Every page calls `buildMetadata({...})` from
   `lib/seo.ts`. Never hand-write the full `Metadata` object per page.
@@ -293,12 +298,22 @@ Rules:
   and the Instagram carousel from iagperformance.com (Shopify "Instafeed" app:
   recent posts in a slider with a follow link).
 - **Home page order (current):** Hero → trust bar → Services carousel → Instagram
-  feed → Gallery teaser → final CTA. **Hidden at the client's request
-  (2026-09-07), components kept:** MakesSection, Testimonials (placeholder reviews;
-  to be replaced by Google reviews once the client supplies a Place ID + API key),
-  LocationsSection and FaqSection. Re-add them in `app/page.tsx` when asked.
-  Carousels use the shared `ui/Carousel` (1 card per view on phones, 2 on tablets,
-  3 on desktop); the Services page keeps the full grid.
+  feed → Google reviews → Gallery teaser → final CTA. **Hidden at the client's
+  request (2026-09-07), components kept:** MakesSection, LocationsSection and
+  FaqSection. Re-add them in `app/page.tsx` when asked. Carousels use the shared
+  `ui/Carousel` (1 card per view on phones, 2 on tablets, 3 on desktop); the
+  Services page keeps the full grid.
+- **Google reviews (client decisions 2026-10-21):** `lib/google-reviews.ts` reads
+  the shop's own Business Profile (API v4 `reviews.list`) with the **shop owner's**
+  OAuth refresh token, keeps 4- and 5-star reviews with text, newest first (10),
+  refreshed with the page's hourly ISR. The description must keep saying which
+  reviews are shown, beside Google's rating and count across all reviews (FTC 16
+  CFR 465.7(b)). Cards auto-advance every 6 s via `Carousel autoAdvanceMs` with a
+  Pause button (holds on hover/focus, stops when the visitor scrolls, off for
+  reduced motion). No Review/AggregateRating schema (self-serving reviews are
+  ineligible). The section renders nothing until the API is configured
+  (`GOOGLE_BUSINESS_*` env + `siteConfig.googleBusiness` IDs); `GOOGLE_REVIEWS_MODE=mock`
+  shows labelled samples and is ignored when `VERCEL_ENV=production`.
 - **Hidden at the client's request (2026-10-21), one switch each in
   `content/visibility.ts`; flip it to restore that part everywhere:**
   - `servicePages`: service cards are plain cards (no link, no "Learn more"), the
@@ -317,9 +332,13 @@ Rules:
   rendered in caps by `layout/BookNowButton`; always use that component) and
   "Call (704) 277-5099" (`tel:`). Both visible above the fold on mobile.
 - **Instagram feed:** `lib/instagram.ts` fetches the business account's media
-  (ISR 1h) when `INSTAGRAM_ACCESS_TOKEN` is set; `INSTAGRAM_FEED_MODE=mock`
-  renders local placeholders for design review; otherwise a follow card renders.
-  Never fake posts in production.
+  (ISR 1h) when a token is available; `INSTAGRAM_FEED_MODE=mock` renders local
+  placeholders for design review; otherwise a follow card renders. Never fake
+  posts in production. The token refreshes itself: a Vercel Cron job (Mondays
+  09:00 UTC, `CRON_SECRET`-protected) saves a fresh one plus its expiry and the
+  run's outcome in Upstash Redis (`KV_REST_API_*`), which the feed reads before
+  `INSTAGRAM_ACCESS_TOKEN`. Never read Redis with `cache: "no-store"` or the
+  `@upstash/redis` SDK in page code: either makes the static home page dynamic.
 
 ## 9. Definition of done (per page / component)
 
@@ -385,7 +404,7 @@ Rules:
 - Don't hand-maintain sitemap URLs, type unions, or nav lists.
 - Don't import `next/link` directly in features; use `InternalLink` / `Button`.
 - Don't ship fabricated reviews, certifications, history or warranty claims.
-  `content/testimonials.ts` holds layout placeholders and is hidden until real
-  Google reviews are wired; the About story is still marked `TODO(owner)`.
+  Reviews come only from the Google Business Profile API (mock samples are
+  labelled and blocked in production); the About story is still marked `TODO(owner)`.
 - Don't add a second "location" unless the business actually opens one; cities
   served get a service-area page instead.

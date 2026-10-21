@@ -48,9 +48,9 @@ src/
     layout.tsx              # Root layout: fonts, skip link, Header, Footer, JSON-LD org
     page.tsx                # Home
     services/page.tsx       # Services index
-    services/[slug]/page.tsx# One page per service (generateStaticParams)
-    locations/[slug]/page.tsx # Physical shop page(s) with NAP + AutoRepair schema
-    service-areas/[slug]/page.tsx # City landing pages (no address/schema): charlotte
+    services/[slug]/page.tsx# One page per service (generateStaticParams); hidden, §8
+    locations/[slug]/page.tsx # Physical shop page(s) with NAP + AutoRepair schema; unlinked, §8
+    service-areas/[slug]/page.tsx # City landing pages (no address/schema): charlotte; unlinked
     about/page.tsx
     gallery/page.tsx        # Board-style photo wall + viewer (content/gallery.json)
     contact/page.tsx
@@ -63,6 +63,7 @@ src/
     seo/                    # JsonLd component (typed via schema-dts)
   content/                  # Static content as typed data (services, locations, faqs…)
                             # gallery.json is appended by scripts/import-gallery.mjs
+                            # visibility.ts: switches for parts hidden at the client's request
   lib/
     site-config.ts          # SINGLE SOURCE OF TRUTH for business NAP, hours, socials
     routes.ts               # AppHref type + href helpers; validated by typedRoutes
@@ -136,7 +137,8 @@ Rules:
 ## 5. Accessibility — WCAG 2.2 AA (non-negotiable)
 
 - **Landmarks:** exactly one `<main>`, `<header>`, `<footer>`; `<nav aria-label>`
-  for every nav (there are at least two: primary + footer). Use `<section>` with an
+  for every nav (primary, mobile menu and breadcrumbs; the footer has no link
+  columns since 2026-10-21). Use `<section>` with an
   `aria-labelledby` pointing at its heading.
 - **Headings:** exactly one `<h1>` per page; no skipped levels; headings describe
   content, not style. `Heading` component takes `as` and `size` independently.
@@ -201,7 +203,7 @@ Rules:
   naturally: Subaru (WRX / STI, BRZ, Impreza), Honda / Acura (Civic Type R,
   S2000, NSX, Integra), Nissan (350Z / 370Z / Z, 240SX, GT-R), Toyota (Supra,
   GR86 / 86, GR Corolla, MR2). Gallery photos may show other makes (real customer cars).
-- **Core services (each gets its own page):** performance ECU tuning, turbo &
+- **Core services (each has its own page, hidden for now, see §8):** performance ECU tuning, turbo &
   supercharger installs, engine builds & rebuilds, suspension & performance
   alignments, wheels & tires, brake service & upgrades, scheduled maintenance,
   diagnostics, drivetrain / clutch, exhaust & intake. (JDM import service was
@@ -230,18 +232,21 @@ Rules:
     `name`, `address`, `geo`, `telephone`, `openingHoursSpecification`,
     `areaServed`, `sameAs`, `priceRange`, `image`, `url`.
   - Service pages: `Service` with `provider` → the business, `areaServed`.
-  - FAQ sections: `FAQPage`. Every service/location page should have 3–6 FAQs.
+  - FAQ sections: `FAQPage`. Every service/location page should have 3–6 FAQs
+    (FAQs are hidden for now, see §8; keep the content ready for when they return).
   - All non-home pages: `BreadcrumbList` (also rendered visually).
   - Never emit schema for content not visible on the page.
 - **Location page** (`/locations/concord`): unique copy, embedded map, NAP block
   identical to `site-config`, directions, neighborhoods served, FAQs, AutoRepair
   schema. **Service-area pages** (`/service-areas/charlotte`): drive time from the
   shop, why it is worth the trip, neighborhoods, FAQs — Breadcrumb + FAQ schema
-  only, no LocalBusiness schema, no address.
+  only, no LocalBusiness schema, no address. Both stay live and in the sitemap but
+  are unlinked for now (§8).
 - **NAP consistency:** Name / Address / Phone rendered identically everywhere,
   sourced from `site-config`. Phone links are `tel:` with E.164 numbers.
 - **Internal linking:** every service page links to both location pages and 2–3
   related services; location pages link to all services. Descriptive anchor text.
+  While those pages are hidden (§8) the links are off; the switches restore them.
 - **Sitemap / robots / manifest** generated from route data (`sitemap.ts` maps over
   `content/` — never a hand-maintained URL list). `robots.ts` references sitemap.
 - **URLs:** lowercase, hyphenated, no trailing slashes, stable. Changing a slug
@@ -294,6 +299,20 @@ Rules:
   LocationsSection and FaqSection. Re-add them in `app/page.tsx` when asked.
   Carousels use the shared `ui/Carousel` (1 card per view on phones, 2 on tablets,
   3 on desktop); the Services page keeps the full grid.
+- **Hidden at the client's request (2026-10-21), one switch each in
+  `content/visibility.ts`; flip it to restore that part everywhere:**
+  - `servicePages`: service cards are plain cards (no link, no "Learn more"), the
+    mobile menu and sitemap leave the pages out, and `/services/:slug` gets a
+    temporary 307 to `/services` in `next.config.ts`. next.config cannot import
+    the switch, so `content/__tests__/visibility.test.ts` fails if they disagree.
+  - `locationPages`: no Location menu item and no link anywhere into `/locations`
+    or `/service-areas` (footer heading, "View Concord shop", Charlotte card); the
+    pages stay live and in the sitemap.
+  - `faqs`: every `FaqSection` renders nothing, schema included.
+- **Footer (client decision 2026-10-21):** no Services / Visit / Company link
+  columns. Logo, socials, NAP with the address linking to Google Maps
+  (`sections/AddressLink`, also used by the location card), hours, and a bottom
+  bar with the copyright, email and Privacy Policy link.
 - **Primary CTAs:** "BOOK NOW" (label "Book now" in `content/navigation.ts`,
   rendered in caps by `layout/BookNowButton`; always use that component) and
   "Call (704) 277-5099" (`tel:`). Both visible above the fold on mobile.

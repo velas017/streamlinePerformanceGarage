@@ -10,6 +10,7 @@ import { ServicesGrid } from "@/components/sections/ServicesGrid";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { TrustBar } from "@/components/sections/TrustBar";
 import { Button } from "@/components/ui/Button";
+import { FaqList } from "@/components/ui/FaqList";
 import { generalFaqs } from "@/content/faqs";
 import { images } from "@/content/images";
 import { featuredServices } from "@/content/services";
@@ -73,12 +74,22 @@ describe("page sections", () => {
     expect(screen.getByText("Mon–Fri")).toBeInTheDocument();
   });
 
-  it("FaqSection uses native disclosure widgets and emits FAQPage schema", async () => {
-    const { container } = await renderAccessible(<FaqSection faqs={generalFaqs} />);
+  it("FaqList uses native disclosure widgets", async () => {
+    const { container } = await renderAccessible(<FaqList items={generalFaqs} />);
     expect(container.querySelectorAll("details")).toHaveLength(generalFaqs.length);
-    expect(
-      container.querySelector('script[type="application/ld+json"]')?.textContent,
-    ).toContain('"FAQPage"');
+  });
+
+  it("FaqSection renders FAQs and FAQPage schema only while FAQs are visible", async () => {
+    const { container } = await renderAccessible(<FaqSection faqs={generalFaqs} />);
+    expect(container.querySelectorAll("details")).toHaveLength(
+      visibility.faqs ? generalFaqs.length : 0,
+    );
+    const schema = container.querySelector('script[type="application/ld+json"]');
+    if (visibility.faqs) {
+      expect(schema?.textContent).toContain('"FAQPage"');
+    } else {
+      expect(schema).toBeNull();
+    }
   });
 
   it("remaining sections have no axe violations", async () => {

@@ -17,9 +17,12 @@ export interface SiteVisibility {
    * site links to them: no "Location" menu item, footer link or card link.
    */
   readonly locationPages: boolean;
+  /** Every FAQ section (contact, location, service-area and service pages) and its FAQPage schema. */
+  readonly faqs: boolean;
 }
 
 export const visibility: SiteVisibility = {
   servicePages: false,
   locationPages: false,
+  faqs: false,
 };

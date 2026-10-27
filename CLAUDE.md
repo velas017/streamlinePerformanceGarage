@@ -313,7 +313,11 @@ Rules:
   reduced motion). No Review/AggregateRating schema (self-serving reviews are
   ineligible). The section renders nothing until the API is configured
   (`GOOGLE_BUSINESS_*` env + `siteConfig.googleBusiness` IDs); `GOOGLE_REVIEWS_MODE=mock`
-  shows labelled samples and is ignored when `VERCEL_ENV=production`.
+  shows the samples in `content/sample-reviews.ts`. **Client decision 2026-10-27:**
+  production runs mock while the site is in development, so the shop can see the
+  carousel; on production, live reviews take over by themselves once the API is
+  configured. Samples always carry the visible "Sample reviews and rating, not
+  from real customers" notice and `data-nosnippet`; never remove either.
 - **Hidden at the client's request (2026-10-21), one switch each in
   `content/visibility.ts`; flip it to restore that part everywhere:**
   - `servicePages`: service cards are plain cards (no link, no "Learn more"), the
@@ -404,7 +408,8 @@ Rules:
 - Don't hand-maintain sitemap URLs, type unions, or nav lists.
 - Don't import `next/link` directly in features; use `InternalLink` / `Button`.
 - Don't ship fabricated reviews, certifications, history or warranty claims.
-  Reviews come only from the Google Business Profile API (mock samples are
-  labelled and blocked in production); the About story is still marked `TODO(owner)`.
+  Reviews come only from the Google Business Profile API (mock samples are always
+  labelled as samples and give way to live reviews on production); the About
+  story is still marked `TODO(owner)`.
 - Don't add a second "location" unless the business actually opens one; cities
   served get a service-area page instead.

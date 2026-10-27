@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { sampleReviewSummary, sampleReviews } from "@/content/sample-reviews";
 import { env } from "@/lib/env";
 import { siteConfig } from "@/lib/site-config";
 
@@ -92,10 +93,15 @@ function liveConfig(): LiveConfig | null {
 
 export function resolveReviewsMode(): ReviewsMode {
   const requested = env.GOOGLE_REVIEWS_MODE;
-  // Sample reviews must never reach the live site, whatever the variable says.
-  if (requested === "mock") return env.VERCEL_ENV === "production" ? "off" : "mock";
+  const configured = liveConfig() !== null;
+  // The live site may show labelled samples while it is in development (client
+  // decision 2026-10-27), but only until the API is connected: then real
+  // reviews take over even if nobody removes the setting.
+  if (requested === "mock") {
+    return env.VERCEL_ENV === "production" && configured ? "live" : "mock";
+  }
   if (requested) return requested;
-  return liveConfig() ? "live" : "off";
+  return configured ? "live" : "off";
 }
 
 /** Pure: the newest `limit` reviews with at least `minRating` stars and some text. */
@@ -165,27 +171,26 @@ async function fetchLiveReviews(config: LiveConfig): Promise<GoogleReviewsData> 
   };
 }
 
-const SAMPLE_TEXTS = [
-  "Sample review. The shop's real Google reviews replace these cards once the Business Profile API is connected.",
-  "Sample review, short.",
-  "Sample review with a longer body, to check how the card handles a customer who writes several sentences about the car, the work and the visit. Real reviews vary this much in length, so the layout has to cope with both.",
-  "Sample review. Four stars, to show the rating row with an empty star.",
-] as const;
-
-/** Labelled samples for design review before the API is connected. Never shown in production. */
-function sampleReviews(now: Date): GoogleReviewsData {
+/**
+ * Labelled samples (content/sample-reviews.ts) for while the API is not
+ * connected, run through the same selection as live reviews.
+ */
+function buildSampleReviews(now: Date): GoogleReviewsData {
   const day = 24 * 60 * 60 * 1000;
-  const reviews = [3, 9, 16, 30, 52, 75].map((daysAgo, index): GoogleReview => {
-    const text = SAMPLE_TEXTS.at(index % SAMPLE_TEXTS.length) ?? SAMPLE_TEXTS[0];
-    return {
+  const reviews = sampleReviews.map(
+    (review, index): GoogleReview => ({
       id: `sample-${index + 1}`,
-      author: `Sample reviewer ${index + 1}`,
-      rating: text.includes("Four stars") ? 4 : 5,
-      text,
-      createdAt: new Date(now.getTime() - daysAgo * day).toISOString(),
-    };
-  });
-  return { reviews, averageRating: 4.9, totalReviewCount: 48, sample: true };
+      author: review.author,
+      rating: review.rating,
+      text: review.text,
+      createdAt: new Date(now.getTime() - review.daysAgo * day).toISOString(),
+    }),
+  );
+  return {
+    reviews: selectFeaturedReviews(reviews),
+    ...sampleReviewSummary,
+    sample: true,
+  };
 }
 
 /**
@@ -195,7 +200,7 @@ function sampleReviews(now: Date): GoogleReviewsData {
 export async function getGoogleReviews(now = new Date()): Promise<GoogleReviewsResult> {
   const mode = resolveReviewsMode();
   if (mode === "off") return { status: "off" };
-  if (mode === "mock") return { status: "ok", data: sampleReviews(now) };
+  if (mode === "mock") return { status: "ok", data: buildSampleReviews(now) };
   const config = liveConfig();
   if (!config) {
     console.error(

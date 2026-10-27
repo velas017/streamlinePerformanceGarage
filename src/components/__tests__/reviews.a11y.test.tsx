@@ -56,6 +56,7 @@ describe("ReviewsSection", () => {
     );
     const list = screen.getByRole("list", { name: "Google reviews" });
     expect(list.querySelectorAll(":scope > li")).toHaveLength(2);
+    expect(list.closest("[data-nosnippet]")).toBeNull();
     expect(screen.getByRole("img", { name: "5 out of 5 stars" })).toBeInTheDocument();
     expect(screen.getByText("last week")).toBeInTheDocument();
     const allReviews = screen.getByRole("link", { name: /see all reviews on google/i });
@@ -64,14 +65,18 @@ describe("ReviewsSection", () => {
     expect(screen.queryByText(/sample reviews/i)).toBeNull();
   });
 
-  it("labels sample data as samples", async () => {
+  it("labels sample data as samples and keeps it out of search snippets", async () => {
     await renderAccessible(
       <ReviewsSection
         result={{ status: "ok", data: { ...data, sample: true } }}
         now={NOW}
       />,
     );
-    expect(screen.getByText(/sample reviews for design review/i)).toBeInTheDocument();
+    const notice = screen.getByText(/sample reviews and rating, not from real customers/i);
+    expect(notice.closest("[data-nosnippet]")).not.toBeNull();
+    expect(
+      screen.getByRole("list", { name: "Google reviews" }).closest("[data-nosnippet]"),
+    ).not.toBeNull();
   });
 
   it("falls back to a link to Google when the reviews are unavailable", async () => {

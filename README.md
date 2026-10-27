@@ -36,8 +36,8 @@ Everything below is marked `TODO(owner)` in code.
   listing — confirm them, set `foundingYear`, and verify the map pin.
 - `src/content/locations.ts`: confirm the directions wording.
 - `src/app/about/page.tsx`: supply the real founding story and team.
-- Reviews: the Google reviews section stays hidden until the Business Profile
-  API is connected (see "Google reviews" below).
+- Reviews: the Google reviews section shows labelled sample reviews until the
+  Business Profile API is connected (see "Google reviews" below).
 - `public/images/**`: replace SVG placeholders with real photography (JPG/WebP,
   descriptive filenames such as `nissan-gtr-r35-dyno-tuning-concord.jpg`).
 - `public/icons`: add 192px / 512px PNG icons and list them in `src/app/manifest.ts`.
@@ -107,8 +107,14 @@ says which reviews it shows and gives Google's rating and count across all
 reviews, as the FTC review rule (16 CFR 465.7(b)) requires when filtering.
 
 Modes (`GOOGLE_REVIEWS_MODE`): `live` (default once configured), `mock`
-(labelled sample cards for design review; ignored on the production deployment),
-`off`. Until it is configured the section renders nothing.
+(the labelled samples in `src/content/sample-reviews.ts`), `off`. Without a mode
+and without the API the section renders nothing.
+
+Production runs `mock` for now (client decision 2026-10-27) so the shop can see
+the carousel before Google is connected. The samples say they are not real
+reviews and carry `data-nosnippet` so search results never quote them. On
+production, live reviews replace them automatically once the API is configured;
+remove the `GOOGLE_REVIEWS_MODE` variable from Vercel afterwards to tidy up.
 
 To connect it (Google approves API access by hand, so start early):
 

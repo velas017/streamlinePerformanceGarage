@@ -22,6 +22,8 @@ const nextConfig: NextConfig = {
       // Instagram media (feed carousel). Add a photography CDN here if one is used.
       { protocol: "https", hostname: "**.cdninstagram.com" },
       { protocol: "https", hostname: "**.fbcdn.net" },
+      // Reviewer profile photos in the Google reviews carousel.
+      { protocol: "https", hostname: "**.googleusercontent.com" },
     ],
   },
   async headers() {

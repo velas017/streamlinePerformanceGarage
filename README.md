@@ -36,9 +36,8 @@ Everything below is marked `TODO(owner)` in code.
   listing — confirm them, set `foundingYear`, and verify the map pin.
 - `src/content/locations.ts`: confirm the directions wording.
 - `src/app/about/page.tsx`: supply the real founding story and team.
-- Reviews: the home-page reviews section is hidden until Google reviews are
-  wired (needs the shop's Google Place ID and a Places API key). The placeholder
-  quotes in `src/content/testimonials.ts` must never ship.
+- Reviews: the Google reviews section stays hidden until the Business Profile
+  API is connected (see "Google reviews" below).
 - `public/images/**`: replace SVG placeholders with real photography (JPG/WebP,
   descriptive filenames such as `nissan-gtr-r35-dyno-tuning-concord.jpg`).
 - `public/icons`: add 192px / 512px PNG icons and list them in `src/app/manifest.ts`.
@@ -79,14 +78,59 @@ To connect the real account (@streamline_performance_garage):
 3. Add the account as an Instagram tester / log in, and generate a **long-lived
    access token** (valid 60 days).
 4. Put it in `INSTAGRAM_ACCESS_TOKEN` (server-only) and deploy.
-5. Refresh the token before it expires (it must be at least 24 hours old):
-   `npm run instagram:refresh` rewrites `.env.local` and prints the new expiry.
-   Paste the new value into Vercel's environment variables too. Set a calendar
-   reminder every ~50 days; if a refresh is missed the feed falls back to the
-   follow card and never breaks the page.
 
-Alternative with zero token management: a hosted feed service such as Behold.so
-exposes a JSON URL; swap `fetchLivePosts` for that endpoint.
+**The token refreshes itself.** Tokens die after 60 days unless refreshed, so a
+Vercel Cron Job (`vercel.json`, Mondays 09:00 UTC) calls
+`/api/cron/refresh-instagram-token`. The route only answers Vercel's
+`Authorization: Bearer $CRON_SECRET` header. It refreshes the token with Meta and
+stores it, its expiry and the run's outcome in Upstash Redis
+(`instagram:token`, `instagram:token:last-run`; Upstash added from the Vercel
+Marketplace sets `KV_REST_API_URL` and `KV_REST_API_TOKEN`). The feed reads that
+copy first and falls back to `INSTAGRAM_ACCESS_TOKEN`, so the first run
+bootstraps itself.
+
+- If a run fails, `instagram:token:last-run` says why (Vercel's Hobby plan keeps
+  runtime logs for only an hour). `npm run instagram:refresh` does the same
+  refresh by hand and updates both Redis and `.env.local`.
+- If the owner changes their Instagram password or removes the app, Meta kills
+  the token: generate a new one (steps above), put it in Vercel's
+  `INSTAGRAM_ACCESS_TOKEN` and run the script. Until then the feed shows the
+  follow card; it never breaks the page.
+
+## Google reviews
+
+The home page shows the shop's newest 4- and 5-star Google reviews with text, in
+an auto-advancing carousel with a Pause button. `src/lib/google-reviews.ts` reads
+them from the shop's own Business Profile (API v4 `reviews.list`) with the
+owner's OAuth refresh token, refreshed with the page's hourly ISR. The section
+says which reviews it shows and gives Google's rating and count across all
+reviews, as the FTC review rule (16 CFR 465.7(b)) requires when filtering.
+
+Modes (`GOOGLE_REVIEWS_MODE`): `live` (default once configured), `mock`
+(labelled sample cards for design review; ignored on the production deployment),
+`off`. Until it is configured the section renders nothing.
+
+To connect it (Google approves API access by hand, so start early):
+
+1. The Business Profile must be verified for 60+ days and list the shop's own
+   domain as its website.
+2. The **shop owner** creates a Google Cloud project, adds the developer as an
+   Editor, and submits the
+   [GBP API contact form](https://developers.google.com/my-business/content/prereqs)
+   ("Application for Basic API Access") from the owner's email. A 300 QPM quota
+   means approved.
+3. Enable the Google My Business API, the Account Management API and the Business
+   Information API. Create an OAuth client and set the consent screen to
+   **In production** (Testing-mode refresh tokens expire after 7 days).
+4. The owner signs in once with scope `https://www.googleapis.com/auth/business.manage`.
+   Store `GOOGLE_BUSINESS_CLIENT_ID`, `GOOGLE_BUSINESS_CLIENT_SECRET` and
+   `GOOGLE_BUSINESS_REFRESH_TOKEN` in Vercel (server-only).
+5. Look up the numeric account and location IDs and the listing's
+   `metadata.mapsUri` / `metadata.newReviewUri`, and fill in
+   `siteConfig.googleBusiness`.
+
+The refresh token keeps working as long as it is used at least every six months
+and the owner does not remove the site's access.
 
 ## MCP servers
 

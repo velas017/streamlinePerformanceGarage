@@ -2,10 +2,8 @@ import { screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { MakesSection } from "@/components/sections/MakesSection";
 import { ServicesCarousel } from "@/components/sections/ServicesCarousel";
-import { Testimonials } from "@/components/sections/Testimonials";
 import { makes } from "@/content/makes";
 import { featuredServices } from "@/content/services";
-import { testimonials } from "@/content/testimonials";
 import { visibility } from "@/content/visibility";
 import { renderAccessible } from "@/test/render";
 
@@ -31,12 +29,8 @@ describe("home page carousels", () => {
       list.id,
     );
     expect(screen.getByRole("button", { name: /next items/i })).toBeInTheDocument();
-  });
-
-  it("reviews carousel lists every testimonial", async () => {
-    await renderAccessible(<Testimonials />);
-    const list = screen.getByRole("list", { name: "Customer reviews" });
-    expect(list.querySelectorAll("li")).toHaveLength(testimonials.length);
+    // Only the reviews carousel rotates on its own.
+    expect(screen.queryByRole("button", { name: /automatic scrolling/i })).toBeNull();
   });
 
   it("makes carousel lists every make", async () => {

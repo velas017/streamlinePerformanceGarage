@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Carousel, CarouselItem } from "@/components/ui/Carousel";
 import { Icon } from "@/components/ui/Icon";
 import type { InstagramPost } from "@/lib/instagram";
+import { excerpt } from "@/lib/utils";
 
 export interface InstagramCarouselProps {
   readonly posts: readonly InstagramPost[];
@@ -9,11 +10,8 @@ export interface InstagramCarouselProps {
 }
 
 const MEDIA_ICON = { IMAGE: null, VIDEO: "play", CAROUSEL_ALBUM: "layers" } as const;
-
-function excerpt(caption: string, max = 90): string {
-  const clean = caption.replace(/\s+/g, " ").trim();
-  return clean.length > max ? `${clean.slice(0, max - 1)}…` : clean;
-}
+/** Screen-reader caption length for each post link. */
+const CAPTION_EXCERPT = 90;
 
 /** Instagram posts in the shared carousel: 1 tile wide on phones, 2 on tablets, 4 on desktop. */
 export function InstagramCarousel({ posts, handle }: InstagramCarouselProps) {
@@ -46,7 +44,7 @@ export function InstagramCarousel({ posts, handle }: InstagramCarouselProps) {
               ) : null}
               <span className="sr-only">
                 {post.caption
-                  ? `Instagram post: ${excerpt(post.caption)}`
+                  ? `Instagram post: ${excerpt(post.caption, CAPTION_EXCERPT)}`
                   : "View Instagram post"}
                 {post.mediaType === "VIDEO" ? " (video)" : ""} (opens in a new tab)
               </span>

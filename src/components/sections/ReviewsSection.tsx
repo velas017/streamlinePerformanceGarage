@@ -65,39 +65,43 @@ export function ReviewsSection({ result, now = new Date() }: ReviewsSectionProps
         </div>
       </div>
 
-      {data?.averageRating !== undefined && data.totalReviewCount ? (
-        <p className="mt-6 flex items-center gap-2 text-fg">
-          <Icon name="star" className="size-5 fill-current text-accent" />
-          <span>
-            <span className="font-semibold">{data.averageRating.toFixed(1)}</span> out of
-            5 from {data.totalReviewCount.toLocaleString("en-US")} Google reviews
-          </span>
-        </p>
-      ) : null}
-      {data?.sample ? (
-        <p className="mt-3 text-sm text-muted">
-          Sample reviews for design review. The shop&apos;s real Google reviews replace
-          them once the Business Profile API is connected.
-        </p>
-      ) : null}
+      {/* Samples stay out of search results: data-nosnippet keeps Google from
+          quoting invented review text without the notice beside it. */}
+      <div {...(data?.sample ? { "data-nosnippet": "" } : {})}>
+        {data?.averageRating !== undefined && data.totalReviewCount ? (
+          <p className="mt-6 flex items-center gap-2 text-fg">
+            <Icon name="star" className="size-5 fill-current text-accent" />
+            <span>
+              <span className="font-semibold">{data.averageRating.toFixed(1)}</span> out
+              of 5 from {data.totalReviewCount.toLocaleString("en-US")} Google reviews
+            </span>
+          </p>
+        ) : null}
+        {data?.sample ? (
+          <p className="mt-3 text-sm text-muted">
+            Sample reviews and rating, not from real customers. The shop&apos;s Google
+            reviews will replace them once they&apos;re connected.
+          </p>
+        ) : null}
 
-      <div className="mt-8 sm:mt-10">
-        {data && data.reviews.length > 0 ? (
-          <Carousel label="Google reviews" autoAdvanceMs={AUTO_ADVANCE_MS}>
-            {data.reviews.map((review) => (
-              <CarouselItem key={review.id} className={CARD_SLIDE_WIDTH}>
-                <ReviewCard review={review} now={now} />
-              </CarouselItem>
-            ))}
-          </Carousel>
-        ) : (
-          <Card className="items-start">
-            <Icon name="star" className="size-8 text-accent" />
-            <p className="text-lg text-fg">
-              Read what customers say about {siteConfig.name} on Google.
-            </p>
-          </Card>
-        )}
+        <div className="mt-8 sm:mt-10">
+          {data && data.reviews.length > 0 ? (
+            <Carousel label="Google reviews" autoAdvanceMs={AUTO_ADVANCE_MS}>
+              {data.reviews.map((review) => (
+                <CarouselItem key={review.id} className={CARD_SLIDE_WIDTH}>
+                  <ReviewCard review={review} now={now} />
+                </CarouselItem>
+              ))}
+            </Carousel>
+          ) : (
+            <Card className="items-start">
+              <Icon name="star" className="size-8 text-accent" />
+              <p className="text-lg text-fg">
+                Read what customers say about {siteConfig.name} on Google.
+              </p>
+            </Card>
+          )}
+        </div>
       </div>
     </Section>
   );

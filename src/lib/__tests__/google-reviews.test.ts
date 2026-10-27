@@ -132,12 +132,30 @@ describe("resolveReviewsMode", () => {
     expect(resolveReviewsMode()).toBe("live");
   });
 
-  it("never serves sample reviews in production", () => {
+  it("serves samples in production only until the API is connected", () => {
     mockEnv.GOOGLE_REVIEWS_MODE = "mock";
+    mockEnv.VERCEL_ENV = "production";
+    expect(resolveReviewsMode()).toBe("mock");
+    configureLive();
+    expect(resolveReviewsMode()).toBe("live");
     mockEnv.VERCEL_ENV = "preview";
     expect(resolveReviewsMode()).toBe("mock");
-    mockEnv.VERCEL_ENV = "production";
-    expect(resolveReviewsMode()).toBe("off");
+  });
+});
+
+describe("getGoogleReviews (mock)", () => {
+  it("returns the labelled samples, newest first, through the live selection", async () => {
+    mockEnv.GOOGLE_REVIEWS_MODE = "mock";
+    const now = new Date("2026-10-27T12:00:00Z");
+    const result = await getGoogleReviews(now);
+    if (result.status !== "ok") throw new Error(`expected ok, got ${result.status}`);
+    const { reviews, sample } = result.data;
+    expect(sample).toBe(true);
+    expect(reviews.length).toBeGreaterThan(3);
+    expect(reviews).toEqual(selectFeaturedReviews(reviews));
+    expect(reviews.every((item) => Date.parse(item.createdAt) < now.getTime())).toBe(
+      true,
+    );
   });
 });
 

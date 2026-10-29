@@ -7,8 +7,10 @@ independent **Japanese automotive specialist** (Subaru, Nissan, Honda first) at
 5978 Grand National Ln SW, **Concord, NC 28027**, serving the **Charlotte** metro.
 There is ONE physical shop; Charlotte and other cities are _service areas_ with
 their own landing pages, never fake second locations. (The repo folder is spelled
-`StreamlinePerfromance`; never copy that typo into user-facing text. The brand's
-old domain streamlineperformancegarage.com currently redirects elsewhere.)
+`StreamlinePerfromance`; never copy that typo into user-facing text. The site is
+live at **https://streamlineperformancellc.com** since 2026-10-29: GoDaddy DNS,
+hosted on Vercel; README → "Hosting and domain". The brand's old domain
+streamlineperformancegarage.com is not the shop's and redirects elsewhere.)
 
 Brand palette: **black, white and silver** only.
 
@@ -54,6 +56,7 @@ src/
     about/page.tsx
     gallery/page.tsx        # Board-style photo wall + viewer (content/gallery.json)
     contact/page.tsx
+    contact/actions.ts      # Server action: validate, rate-limit, deliverLead()
     sitemap.ts robots.ts manifest.ts
     not-found.tsx error.tsx
     api/cron/refresh-instagram-token/route.ts # Weekly Vercel Cron job (vercel.json)
@@ -314,8 +317,8 @@ Rules:
   ineligible). The section renders nothing until the API is configured
   (`GOOGLE_BUSINESS_*` env + `siteConfig.googleBusiness` IDs); `GOOGLE_REVIEWS_MODE=mock`
   shows the samples in `content/sample-reviews.ts`. **Client decision 2026-10-27:**
-  production runs mock while the site is in development, so the shop can see the
-  carousel; on production, live reviews take over by themselves once the API is
+  production runs mock while the site is in development (kept at launch,
+  2026-10-29), so the shop can see the carousel; on production, live reviews take over by themselves once the API is
   configured. Samples always carry the visible "Sample reviews and rating, not
   from real customers" notice and `data-nosnippet`; never remove either.
 - **Hidden at the client's request (2026-10-21), one switch each in
@@ -377,6 +380,11 @@ Rules:
 - JSON-LD is a plain `<script type="application/ld+json">` with `<` escaped
   (`components/seo/JsonLd.tsx`), not `next/script`.
 - Pages are static by default; do not enable `cacheComponents` without reason.
+- A `"use server"` file may export only async functions (exported types are fine).
+  Any other value makes Next.js reject every call at runtime, and mocked tests
+  never notice: this kept the booking form broken from 2026-09-02 to 2026-10-29.
+  Keep form state and constants in the component or `lib/`;
+  `app/contact/__tests__/actions.test.ts` imports the real module to enforce it.
 
 ## 11. Tooling & MCPs
 

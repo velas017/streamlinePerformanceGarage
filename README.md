@@ -28,22 +28,55 @@ npm run dev                  # http://localhost:3000
 | `npm run format`    | Prettier                                               |
 | `npm run check`     | lint → typecheck → test → build                        |
 
-## Before launch — replace placeholders
+## Hosting and domain
 
-Everything below is marked `TODO(owner)` in code.
+Live at **https://streamlineperformancellc.com** since 2026-10-29, hosted on
+Vercel (project `streamline-performance-garage`). `main` deploys to production
+and every branch gets a preview that only people signed in to the Vercel team
+can open. The domain is registered at
+GoDaddy and keeps GoDaddy's nameservers; these records in GoDaddy DNS point it
+at Vercel and Resend:
 
-- `src/lib/site-config.ts`: address, phone, email and hours are from the public
-  listing — confirm them, set `foundingYear`, and verify the map pin.
+| Type  | Name                | Value                                 | For                         |
+| ----- | ------------------- | ------------------------------------- | --------------------------- |
+| A     | `@`                 | `216.198.79.1`                        | Website (Vercel)            |
+| A     | `@`                 | `64.29.17.1`                          | Website (Vercel)            |
+| CNAME | `www`               | `5ad990b708bc3dad.vercel-dns-017.com` | Website; 308s to the apex   |
+| TXT   | `resend._domainkey` | DKIM key shown in Resend              | Booking-form email (Resend) |
+| CNAME | `send`              | `send.forge.rmta.net`                 | Booking-form email (Resend) |
+| CNAME | `rsend`             | `rsend.forge.rmta.net`                | Booking-form email (Resend) |
+
+- Vercel issues the HTTPS certificate itself. If it stalls after a DNS change,
+  run `vercel certs issue streamlineperformancellc.com www.streamlineperformancellc.com`.
+- `NEXT_PUBLIC_SITE_URL` on Production is `https://streamlineperformancellc.com`
+  and drives canonical URLs, Open Graph and the sitemap. It is inlined at build
+  time, so changing it needs a redeploy.
+- The domain has no mailbox. The shop's inbox is Gmail (`siteConfig.email`), and
+  booking requests are sent from the domain through Resend (see "Booking form").
+- Every environment variable is validated in `src/lib/env.ts` and listed in
+  `.env.example`. `vercel env pull` overwrites `.env.local`, so merge values in
+  by hand instead.
+
+## Still open
+
+Marked `TODO(owner)` in code:
+
+- `src/lib/site-config.ts`: confirm address, phone, email and hours, set
+  `foundingYear`, verify the map pin, and fill in `googleBusiness` once Google
+  approves API access.
 - `src/content/locations.ts`: confirm the directions wording.
-- `src/app/about/page.tsx`: supply the real founding story and team.
-- Reviews: the Google reviews section shows labelled sample reviews until the
-  Business Profile API is connected (see "Google reviews" below).
-- `public/images/**`: replace SVG placeholders with real photography (JPG/WebP,
-  descriptive filenames such as `nissan-gtr-r35-dyno-tuning-concord.jpg`).
-- `public/icons`: add 192px / 512px PNG icons and list them in `src/app/manifest.ts`.
-- `.env.local`: `NEXT_PUBLIC_SITE_URL` (canonical domain), `RESEND_API_KEY`
-  (sends booking-form requests, see "Booking form" below), optional
-  `NEXT_PUBLIC_GOOGLE_MAPS_EMBED_KEY`.
+- `src/app/about/page.tsx`: the real founding story and team.
+
+Outside the code:
+
+- Google reviews: the Google Cloud and API access steps under "Google reviews".
+  Labelled samples show until then.
+- Vercel plan: the project is on Hobby, whose terms do not allow commercial
+  sites; moving to Pro is undecided.
+- streamlineperformancegarage.com (registered elsewhere, not the shop's) still
+  redirects to an unrelated site.
+- Optional: verify the domain in Google Search Console and submit
+  `/sitemap.xml`; add a DMARC record (TXT `_dmarc`, `v=DMARC1; p=none;`).
 
 ## Gallery
 
@@ -111,8 +144,8 @@ Modes (`GOOGLE_REVIEWS_MODE`): `live` (default once configured), `mock`
 (the labelled samples in `src/content/sample-reviews.ts`), `off`. Without a mode
 and without the API the section renders nothing.
 
-Production runs `mock` for now (client decision 2026-10-27) so the shop can see
-the carousel before Google is connected. The samples say they are not real
+Production runs `mock` for now (client decision 2026-10-27, kept at launch on
+2026-10-29) so the shop can see the carousel before Google is connected. The samples say they are not real
 reviews and carry `data-nosnippet` so search results never quote them. On
 production, live reviews replace them automatically once the API is configured;
 remove the `GOOGLE_REVIEWS_MODE` variable from Vercel afterwards to tidy up.
@@ -120,7 +153,7 @@ remove the `GOOGLE_REVIEWS_MODE` variable from Vercel afterwards to tidy up.
 To connect it (Google approves API access by hand, so start early):
 
 1. The Business Profile must be verified for 60+ days and list the shop's own
-   domain as its website.
+   domain, `https://streamlineperformancellc.com`, as its website.
 2. The **shop owner** creates a Google Cloud project, adds the developer as an
    Editor, and submits the
    [GBP API contact form](https://developers.google.com/my-business/content/prereqs)

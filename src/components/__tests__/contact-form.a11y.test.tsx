@@ -20,7 +20,6 @@ const errorState: ContactFormState = {
 
 // The server action pulls in next/headers; replace it and drive state directly.
 vi.mock("@/app/contact/actions", () => ({
-  initialContactFormState: { status: "idle" },
   submitLead: vi.fn(),
 }));
 

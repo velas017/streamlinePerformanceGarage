@@ -1,11 +1,7 @@
 "use client";
 
 import { useActionState, useEffect, useId, useRef } from "react";
-import {
-  initialContactFormState,
-  submitLead,
-  type ContactFormState,
-} from "@/app/contact/actions";
+import { submitLead, type ContactFormState } from "@/app/contact/actions";
 import { Button } from "@/components/ui/Button";
 import { SelectField, TextAreaField, TextField } from "@/components/ui/Field";
 import {
@@ -17,6 +13,10 @@ import {
 } from "@/lib/leads";
 import { cn } from "@/lib/utils";
 
+// Lives here, not in actions.ts: a "use server" file may export only async
+// functions, and Next.js rejects every submission if it exports anything else.
+const initialState: ContactFormState = { status: "idle" };
+
 function valuesOf(state: ContactFormState) {
   return state.status === "error" ? state.values : undefined;
 }
@@ -26,10 +26,7 @@ function errorsOf(state: ContactFormState) {
 }
 
 export function ContactForm() {
-  const [state, formAction, pending] = useActionState(
-    submitLead,
-    initialContactFormState,
-  );
+  const [state, formAction, pending] = useActionState(submitLead, initialState);
   const formRef = useRef<HTMLFormElement>(null);
   const statusRef = useRef<HTMLParagraphElement>(null);
   const idPrefix = useId();

@@ -25,8 +25,6 @@ export type ContactFormState =
       readonly values: LeadValues;
     };
 
-export const initialContactFormState: ContactFormState = { status: "idle" };
-
 const RATE_LIMIT = { limit: 5, windowMs: 10 * 60 * 1000 } as const;
 
 function readValues(formData: FormData): LeadValues {

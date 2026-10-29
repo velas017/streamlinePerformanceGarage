@@ -20,7 +20,6 @@ const errorState: ContactFormState = {
 
 // The server action pulls in next/headers; replace it and drive state directly.
 vi.mock("@/app/contact/actions", () => ({
-  initialContactFormState: { status: "idle" },
   submitLead: vi.fn(),
 }));
 
@@ -48,5 +47,12 @@ describe("ContactForm", () => {
     );
     // Submitted values survive the error round-trip.
     expect(screen.getByLabelText(/name/i)).toHaveValue("Ada");
+  });
+
+  it("does not ask which shop while there is only one", async () => {
+    const { ContactForm } = await import("@/components/sections/ContactForm");
+    await renderAccessible(<ContactForm />);
+    expect(screen.queryByLabelText(/preferred shop/i)).toBeNull();
+    expect(screen.getByLabelText(/service/i)).toBeInTheDocument();
   });
 });

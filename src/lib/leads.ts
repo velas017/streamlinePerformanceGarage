@@ -1,7 +1,12 @@
 import { z } from "zod";
-import { isServiceSlug, type ServiceSlug } from "@/content/services";
+import { isServiceSlug, services, type ServiceSlug } from "@/content/services";
 import { env } from "@/lib/env";
-import { isLocationId, type LocationId } from "@/lib/site-config";
+import {
+  isLocationId,
+  primaryLocation,
+  siteConfig,
+  type LocationId,
+} from "@/lib/site-config";
 
 const PHONE_PATTERN = /^[\d\s().+-]{7,20}$/;
 
@@ -16,6 +21,33 @@ export const leadFields = [
   "message",
 ] as const;
 export type LeadField = (typeof leadFields)[number];
+
+/** Visible field labels, shared by the form and the email the shop receives. */
+export const leadFieldLabels = {
+  name: "Name",
+  email: "Email",
+  phone: "Phone",
+  vehicle: "Vehicle",
+  location: "Preferred shop",
+  service: "Service",
+  message: "Details",
+} as const satisfies Record<LeadField, string>;
+
+/**
+ * The form asks which shop only when there is more than one (client decision
+ * 2026-10-29); with one shop the question is left out and every lead is for it.
+ */
+export const asksForShop = siteConfig.locations.length > 1;
+
+export const leadLocationOptions = siteConfig.locations.map((location) => ({
+  value: location.id,
+  label: `${location.city}, ${location.address.addressRegion}`,
+}));
+
+export const leadServiceOptions = [
+  ...services.map((service) => ({ value: service.slug, label: service.name })),
+  { value: "other", label: "Something else / not sure" },
+];
 
 /** Honeypot input name; bots fill it, humans never see it. */
 export const HONEYPOT_FIELD = "company";
@@ -32,11 +64,11 @@ export const leadSchema = z.object({
       "Enter a valid phone number",
     ),
   vehicle: z.string().trim().min(2, "Tell us the year, make and model").max(120),
-  location: z.custom<LocationId>(
-    (value) => typeof value === "string" && isLocationId(value),
-    {
+  location: z.preprocess(
+    (value) => (asksForShop ? value : primaryLocation.id),
+    z.custom<LocationId>((value) => typeof value === "string" && isLocationId(value), {
       message: "Choose a shop location",
-    },
+    }),
   ),
   service: z.custom<ServiceSlug | "other">(
     (value) => value === "other" || (typeof value === "string" && isServiceSlug(value)),
@@ -47,25 +79,98 @@ export const leadSchema = z.object({
 
 export type Lead = z.infer<typeof leadSchema>;
 
+const RESEND_EMAILS_URL = "https://api.resend.com/emails";
+const SEND_TIMEOUT_MS = 10_000;
+const resendErrorSchema = z.object({ message: z.string() });
+
+function labelFor(options: readonly { value: string; label: string }[], value: string) {
+  return options.find((option) => option.value === value)?.label ?? value;
+}
+
 /**
- * Delivery boundary for leads. Never silently drops a lead: in production a
- * missing webhook throws so the form surfaces an error with the phone number.
+ * Derived from the email itself, so the same request sent twice within Resend's
+ * 24-hour window (a resubmit after a timeout) arrives once. Web Crypto, not
+ * node:crypto: the client form imports this module for its labels.
+ */
+async function idempotencyKey(body: string): Promise<string> {
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(body));
+  const hex = Array.from(new Uint8Array(digest), (byte) =>
+    byte.toString(16).padStart(2, "0"),
+  ).join("");
+  return `booking-request/${hex}`;
+}
+
+/**
+ * The request as Resend's send-email body: plain text to the shop's inbox, with
+ * Reply going straight to the customer. Anything but the live site is marked
+ * [Test] so preview and local submissions never pass for real bookings.
+ */
+export function leadEmail(lead: Lead) {
+  const shown: Record<LeadField, string> = {
+    name: lead.name,
+    email: lead.email,
+    phone: lead.phone || "Not given",
+    vehicle: lead.vehicle,
+    location: labelFor(leadLocationOptions, lead.location),
+    service: labelFor(leadServiceOptions, lead.service),
+    message: lead.message || "None",
+  };
+  const prefix = env.VERCEL_ENV === "production" ? "" : "[Test] ";
+  const details = leadFields
+    .filter((field) => field !== "message" && (field !== "location" || asksForShop))
+    .map((field) => `${leadFieldLabels[field]}: ${shown[field]}`);
+  return {
+    from: `${siteConfig.name} website <${siteConfig.leadSenderEmail}>`,
+    to: [siteConfig.email],
+    reply_to: lead.email,
+    // Collapse whitespace so a pasted newline can't break the subject line.
+    subject: `${prefix}Booking request: ${lead.name}, ${lead.vehicle}`.replace(
+      /\s+/g,
+      " ",
+    ),
+    text: [
+      "New booking request from the website.",
+      "",
+      ...details,
+      "",
+      `${leadFieldLabels.message}:`,
+      shown.message,
+      "",
+      `Reply to this email to answer ${lead.name} directly.`,
+    ].join("\n"),
+  };
+}
+
+/**
+ * Delivery boundary for leads: emails each request to siteConfig.email through
+ * Resend's REST API (one POST, so plain fetch instead of the SDK). Never
+ * silently drops a lead: in production a missing key or a failed send throws
+ * so the form surfaces an error with the phone number.
  */
 export async function deliverLead(lead: Lead): Promise<void> {
-  const webhook = env.LEAD_WEBHOOK_URL;
-  if (!webhook) {
+  const apiKey = env.RESEND_API_KEY;
+  if (!apiKey) {
     if (env.NODE_ENV === "production") {
-      throw new Error("LEAD_WEBHOOK_URL is not configured");
+      throw new Error("RESEND_API_KEY is not configured");
     }
-    console.warn("[leads] LEAD_WEBHOOK_URL not set; lead logged locally:", lead);
+    console.warn("[leads] RESEND_API_KEY not set; lead logged locally:", lead);
     return;
   }
-  const response = await fetch(webhook, {
+  const body = JSON.stringify(leadEmail(lead));
+  const response = await fetch(RESEND_EMAILS_URL, {
     method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({ ...lead, receivedAt: new Date().toISOString() }),
+    headers: {
+      authorization: `Bearer ${apiKey}`,
+      "content-type": "application/json",
+      "idempotency-key": await idempotencyKey(body),
+    },
+    body,
+    signal: AbortSignal.timeout(SEND_TIMEOUT_MS),
   });
   if (!response.ok) {
-    throw new Error(`Lead webhook responded ${response.status}`);
+    const error = resendErrorSchema.safeParse(await response.json().catch(() => null));
+    throw new Error(
+      `Resend responded ${response.status}${error.success ? `: ${error.data.message}` : ""}`,
+    );
   }
 }

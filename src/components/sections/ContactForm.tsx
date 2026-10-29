@@ -1,27 +1,21 @@
 "use client";
 
 import { useActionState, useEffect, useId, useRef } from "react";
-import {
-  initialContactFormState,
-  submitLead,
-  type ContactFormState,
-} from "@/app/contact/actions";
+import { submitLead, type ContactFormState } from "@/app/contact/actions";
 import { Button } from "@/components/ui/Button";
 import { SelectField, TextAreaField, TextField } from "@/components/ui/Field";
-import { services } from "@/content/services";
-import { HONEYPOT_FIELD } from "@/lib/leads";
-import { siteConfig } from "@/lib/site-config";
+import {
+  asksForShop,
+  HONEYPOT_FIELD,
+  leadFieldLabels,
+  leadLocationOptions,
+  leadServiceOptions,
+} from "@/lib/leads";
 import { cn } from "@/lib/utils";
 
-const locationOptions = siteConfig.locations.map((location) => ({
-  value: location.id,
-  label: `${location.city}, ${location.address.addressRegion}`,
-}));
-
-const serviceOptions = [
-  ...services.map((service) => ({ value: service.slug, label: service.name })),
-  { value: "other", label: "Something else / not sure" },
-];
+// Lives here, not in actions.ts: a "use server" file may export only async
+// functions, and Next.js rejects every submission if it exports anything else.
+const initialState: ContactFormState = { status: "idle" };
 
 function valuesOf(state: ContactFormState) {
   return state.status === "error" ? state.values : undefined;
@@ -32,10 +26,7 @@ function errorsOf(state: ContactFormState) {
 }
 
 export function ContactForm() {
-  const [state, formAction, pending] = useActionState(
-    submitLead,
-    initialContactFormState,
-  );
+  const [state, formAction, pending] = useActionState(submitLead, initialState);
   const formRef = useRef<HTMLFormElement>(null);
   const statusRef = useRef<HTMLParagraphElement>(null);
   const idPrefix = useId();
@@ -89,7 +80,7 @@ export function ContactForm() {
             <TextField
               id={id("name")}
               name="name"
-              label="Name"
+              label={leadFieldLabels.name}
               required
               autoComplete="name"
               defaultValue={values?.name}
@@ -99,7 +90,7 @@ export function ContactForm() {
               id={id("email")}
               name="email"
               type="email"
-              label="Email"
+              label={leadFieldLabels.email}
               required
               autoComplete="email"
               inputMode="email"
@@ -110,7 +101,7 @@ export function ContactForm() {
               id={id("phone")}
               name="phone"
               type="tel"
-              label="Phone"
+              label={leadFieldLabels.phone}
               autoComplete="tel"
               inputMode="tel"
               hint="Optional, but fastest for scheduling."
@@ -120,28 +111,32 @@ export function ContactForm() {
             <TextField
               id={id("vehicle")}
               name="vehicle"
-              label="Vehicle"
+              label={leadFieldLabels.vehicle}
               required
               placeholder="2017 Nissan GT-R"
               defaultValue={values?.vehicle}
               error={errors.vehicle}
             />
-            <SelectField
-              id={id("location")}
-              name="location"
-              label="Preferred shop"
-              required
-              options={locationOptions}
-              placeholder="Choose a shop"
-              defaultValue={values?.location ?? ""}
-              error={errors.location}
-            />
+            {asksForShop ? (
+              <SelectField
+                id={id("location")}
+                name="location"
+                label={leadFieldLabels.location}
+                required
+                options={leadLocationOptions}
+                placeholder="Choose a shop"
+                defaultValue={values?.location ?? ""}
+                error={errors.location}
+              />
+            ) : null}
             <SelectField
               id={id("service")}
               name="service"
-              label="Service"
+              label={leadFieldLabels.service}
+              // Alone on its row when there is no shop question beside it.
+              className={asksForShop ? undefined : "sm:col-span-2"}
               required
-              options={serviceOptions}
+              options={leadServiceOptions}
               placeholder="What do you need?"
               defaultValue={values?.service ?? ""}
               error={errors.service}
@@ -150,7 +145,7 @@ export function ContactForm() {
           <TextAreaField
             id={id("message")}
             name="message"
-            label="Details"
+            label={leadFieldLabels.message}
             hint="Mods, symptoms, goals, or anything else that helps us plan."
             defaultValue={values?.message}
             error={errors.message}

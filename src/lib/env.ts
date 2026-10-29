@@ -20,8 +20,8 @@ const envSchema = z.object({
     .transform((value) => value.replace(/\/+$/, ""))
     .default("http://localhost:3000"),
   NEXT_PUBLIC_GOOGLE_MAPS_EMBED_KEY: optionalString,
-  /** Server-only. Contact-form leads are POSTed here as JSON (Zapier, Make, n8n, custom). */
-  LEAD_WEBHOOK_URL: optionalString.pipe(z.url().optional()),
+  /** Server-only. Resend API key (Vercel Marketplace); booking-form requests are emailed with it. */
+  RESEND_API_KEY: optionalString,
   /** Server-only. Long-lived Instagram API token for the business account's media feed. */
   INSTAGRAM_ACCESS_TOKEN: optionalString,
   /** "live" uses the token, "mock" renders local placeholders, "off" hides the carousel. */
@@ -47,7 +47,7 @@ const envSchema = z.object({
 const parsed = envSchema.safeParse({
   NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
   NEXT_PUBLIC_GOOGLE_MAPS_EMBED_KEY: process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_KEY,
-  LEAD_WEBHOOK_URL: process.env.LEAD_WEBHOOK_URL,
+  RESEND_API_KEY: process.env.RESEND_API_KEY,
   INSTAGRAM_ACCESS_TOKEN: process.env.INSTAGRAM_ACCESS_TOKEN,
   INSTAGRAM_FEED_MODE: process.env.INSTAGRAM_FEED_MODE,
   KV_REST_API_URL: process.env.KV_REST_API_URL,

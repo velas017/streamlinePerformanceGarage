@@ -71,7 +71,7 @@ src/
     seo.ts                  # buildMetadata(), JSON-LD builders (AutoRepair, Service…)
     og.tsx                  # Shared ImageResponse renderer for opengraph-image.tsx files
     env.ts                  # zod-validated process.env — import this, never process.env
-    leads.ts                # Contact-form schema + deliverLead() (LEAD_WEBHOOK_URL)
+    leads.ts                # Contact-form schema, labels + deliverLead() (Resend email)
     instagram.ts            # Instagram media fetch (ISR) + mock/off modes
     instagram-token.ts      # Rotating Instagram token: Redis copy first, env fallback, refresh
     google-reviews.ts       # Business Profile reviews (owner OAuth) + live/mock/off modes

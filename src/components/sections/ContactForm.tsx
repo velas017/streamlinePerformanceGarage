@@ -8,20 +8,13 @@ import {
 } from "@/app/contact/actions";
 import { Button } from "@/components/ui/Button";
 import { SelectField, TextAreaField, TextField } from "@/components/ui/Field";
-import { services } from "@/content/services";
-import { HONEYPOT_FIELD } from "@/lib/leads";
-import { siteConfig } from "@/lib/site-config";
+import {
+  HONEYPOT_FIELD,
+  leadFieldLabels,
+  leadLocationOptions,
+  leadServiceOptions,
+} from "@/lib/leads";
 import { cn } from "@/lib/utils";
-
-const locationOptions = siteConfig.locations.map((location) => ({
-  value: location.id,
-  label: `${location.city}, ${location.address.addressRegion}`,
-}));
-
-const serviceOptions = [
-  ...services.map((service) => ({ value: service.slug, label: service.name })),
-  { value: "other", label: "Something else / not sure" },
-];
 
 function valuesOf(state: ContactFormState) {
   return state.status === "error" ? state.values : undefined;
@@ -89,7 +82,7 @@ export function ContactForm() {
             <TextField
               id={id("name")}
               name="name"
-              label="Name"
+              label={leadFieldLabels.name}
               required
               autoComplete="name"
               defaultValue={values?.name}
@@ -99,7 +92,7 @@ export function ContactForm() {
               id={id("email")}
               name="email"
               type="email"
-              label="Email"
+              label={leadFieldLabels.email}
               required
               autoComplete="email"
               inputMode="email"
@@ -110,7 +103,7 @@ export function ContactForm() {
               id={id("phone")}
               name="phone"
               type="tel"
-              label="Phone"
+              label={leadFieldLabels.phone}
               autoComplete="tel"
               inputMode="tel"
               hint="Optional, but fastest for scheduling."
@@ -120,7 +113,7 @@ export function ContactForm() {
             <TextField
               id={id("vehicle")}
               name="vehicle"
-              label="Vehicle"
+              label={leadFieldLabels.vehicle}
               required
               placeholder="2017 Nissan GT-R"
               defaultValue={values?.vehicle}
@@ -129,9 +122,9 @@ export function ContactForm() {
             <SelectField
               id={id("location")}
               name="location"
-              label="Preferred shop"
+              label={leadFieldLabels.location}
               required
-              options={locationOptions}
+              options={leadLocationOptions}
               placeholder="Choose a shop"
               defaultValue={values?.location ?? ""}
               error={errors.location}
@@ -139,9 +132,9 @@ export function ContactForm() {
             <SelectField
               id={id("service")}
               name="service"
-              label="Service"
+              label={leadFieldLabels.service}
               required
-              options={serviceOptions}
+              options={leadServiceOptions}
               placeholder="What do you need?"
               defaultValue={values?.service ?? ""}
               error={errors.service}
@@ -150,7 +143,7 @@ export function ContactForm() {
           <TextAreaField
             id={id("message")}
             name="message"
-            label="Details"
+            label={leadFieldLabels.message}
             hint="Mods, symptoms, goals, or anything else that helps us plan."
             defaultValue={values?.message}
             error={errors.message}

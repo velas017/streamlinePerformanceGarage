@@ -81,7 +81,10 @@ export const siteConfig = {
   description:
     "Streamline Performance Garage is an independent Japanese automotive specialist in Concord, NC serving the Charlotte metro. Alignments, suspension, brakes, wheels and tires, performance upgrades, dyno tuning, engine work and honest repairs for Subaru, Honda, Nissan and Toyota.",
   url: env.NEXT_PUBLIC_SITE_URL,
+  /** Shown on the site and the inbox that receives booking-form requests. */
   email: "streamlineperformancellc@gmail.com",
+  /** Sender of the booking-form emails (lib/leads.ts); its domain is verified in Resend. */
+  leadSenderEmail: "bookings@streamlineperformancellc.com",
   primaryPhone: "+17042775099",
   /** TODO(owner): confirm the year the shop opened; null hides "since" copy and schema. */
   foundingYear: null as number | null,

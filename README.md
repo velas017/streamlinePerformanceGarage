@@ -10,7 +10,7 @@ WCAG 2.2 AA requirements, responsive rules, SEO strategy, and the definition of 
 ## Getting started
 
 ```bash
-cp .env.example .env.local   # then set NEXT_PUBLIC_SITE_URL (and LEAD_WEBHOOK_URL for prod)
+cp .env.example .env.local   # then set NEXT_PUBLIC_SITE_URL (and RESEND_API_KEY for prod)
 npm install
 npm run dev                  # http://localhost:3000
 ```
@@ -41,8 +41,9 @@ Everything below is marked `TODO(owner)` in code.
 - `public/images/**`: replace SVG placeholders with real photography (JPG/WebP,
   descriptive filenames such as `nissan-gtr-r35-dyno-tuning-concord.jpg`).
 - `public/icons`: add 192px / 512px PNG icons and list them in `src/app/manifest.ts`.
-- `.env.local`: `NEXT_PUBLIC_SITE_URL` (canonical domain), `LEAD_WEBHOOK_URL`
-  (where contact-form leads are POSTed), optional `NEXT_PUBLIC_GOOGLE_MAPS_EMBED_KEY`.
+- `.env.local`: `NEXT_PUBLIC_SITE_URL` (canonical domain), `RESEND_API_KEY`
+  (sends booking-form requests, see "Booking form" below), optional
+  `NEXT_PUBLIC_GOOGLE_MAPS_EMBED_KEY`.
 
 ## Gallery
 
@@ -137,6 +138,20 @@ To connect it (Google approves API access by hand, so start early):
 
 The refresh token keeps working as long as it is used at least every six months
 and the owner does not remove the site's access.
+
+## Booking form
+
+The contact form emails each request to `siteConfig.email` through Resend
+(Vercel Marketplace, which sets `RESEND_API_KEY`). `src/lib/leads.ts` sends plain
+text from `siteConfig.leadSenderEmail` with Reply going to the customer, using
+the same labels the form shows. Anything but the live site prefixes the subject
+with `[Test]`.
+
+Resend only sends from a verified domain: `streamlineperformancellc.com` is
+added in Resend and its DKIM/SPF records live in GoDaddy DNS on the `send` and
+`resend._domainkey` names, apart from the website's records. If the key is
+missing or a send fails, the form tells the visitor to call instead; it never
+drops a request silently. Locally, without a key, the lead is only logged.
 
 ## MCP servers
 

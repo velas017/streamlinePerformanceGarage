@@ -77,6 +77,19 @@ function labelFor(options: readonly { value: string; label: string }[], value: s
 }
 
 /**
+ * Derived from the email itself, so the same request sent twice within Resend's
+ * 24-hour window (a resubmit after a timeout) arrives once. Web Crypto, not
+ * node:crypto: the client form imports this module for its labels.
+ */
+async function idempotencyKey(body: string): Promise<string> {
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(body));
+  const hex = Array.from(new Uint8Array(digest), (byte) =>
+    byte.toString(16).padStart(2, "0"),
+  ).join("");
+  return `booking-request/${hex}`;
+}
+
+/**
  * The request as Resend's send-email body: plain text to the shop's inbox, with
  * Reply going straight to the customer. Anything but the live site is marked
  * [Test] so preview and local submissions never pass for real bookings.
@@ -132,10 +145,15 @@ export async function deliverLead(lead: Lead): Promise<void> {
     console.warn("[leads] RESEND_API_KEY not set; lead logged locally:", lead);
     return;
   }
+  const body = JSON.stringify(leadEmail(lead));
   const response = await fetch(RESEND_EMAILS_URL, {
     method: "POST",
-    headers: { authorization: `Bearer ${apiKey}`, "content-type": "application/json" },
-    body: JSON.stringify(leadEmail(lead)),
+    headers: {
+      authorization: `Bearer ${apiKey}`,
+      "content-type": "application/json",
+      "idempotency-key": await idempotencyKey(body),
+    },
+    body,
     signal: AbortSignal.timeout(SEND_TIMEOUT_MS),
   });
   if (!response.ok) {

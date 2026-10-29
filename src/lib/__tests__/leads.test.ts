@@ -93,6 +93,18 @@ describe("deliverLead", () => {
     expect(JSON.parse(String(init?.body))).toEqual(leadEmail(lead));
   });
 
+  it("sends the same request with the same idempotency key, so it arrives once", async () => {
+    await deliverLead(lead);
+    await deliverLead(lead);
+    await deliverLead({ ...lead, message: "Also the brakes" });
+    const keys = fetchMock.mock.calls.map(([, init]) =>
+      new Headers(init?.headers).get("idempotency-key"),
+    );
+    expect(keys[0]).toMatch(/^booking-request\/[0-9a-f]{64}$/);
+    expect(keys[1]).toBe(keys[0]);
+    expect(keys[2]).not.toBe(keys[0]);
+  });
+
   it("throws when Resend rejects the email, so the form shows the phone number", async () => {
     fetchMock.mockResolvedValueOnce(
       Response.json({ message: "The domain is not verified" }, { status: 403 }),

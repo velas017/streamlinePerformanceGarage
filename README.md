@@ -148,8 +148,10 @@ the same labels the form shows. Anything but the live site prefixes the subject
 with `[Test]`.
 
 Resend only sends from a verified domain: `streamlineperformancellc.com` is
-added in Resend and its DKIM/SPF records live in GoDaddy DNS on the `send` and
-`resend._domainkey` names, apart from the website's records. If the key is
+added in Resend (us-east-1) and its records live in GoDaddy DNS on the
+`resend._domainkey`, `send` and `rsend` names, apart from the website's
+records. Each send carries an idempotency key derived from the email, so a
+resubmitted request arrives once. If the key is
 missing or a send fails, the form tells the visitor to call instead; it never
 drops a request silently. Locally, without a key, the lead is only logged.
 

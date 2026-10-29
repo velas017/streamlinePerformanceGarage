@@ -1,7 +1,12 @@
 import { z } from "zod";
 import { isServiceSlug, services, type ServiceSlug } from "@/content/services";
 import { env } from "@/lib/env";
-import { isLocationId, siteConfig, type LocationId } from "@/lib/site-config";
+import {
+  isLocationId,
+  primaryLocation,
+  siteConfig,
+  type LocationId,
+} from "@/lib/site-config";
 
 const PHONE_PATTERN = /^[\d\s().+-]{7,20}$/;
 
@@ -28,6 +33,12 @@ export const leadFieldLabels = {
   message: "Details",
 } as const satisfies Record<LeadField, string>;
 
+/**
+ * The form asks which shop only when there is more than one (client decision
+ * 2026-10-29); with one shop the question is left out and every lead is for it.
+ */
+export const asksForShop = siteConfig.locations.length > 1;
+
 export const leadLocationOptions = siteConfig.locations.map((location) => ({
   value: location.id,
   label: `${location.city}, ${location.address.addressRegion}`,
@@ -53,11 +64,11 @@ export const leadSchema = z.object({
       "Enter a valid phone number",
     ),
   vehicle: z.string().trim().min(2, "Tell us the year, make and model").max(120),
-  location: z.custom<LocationId>(
-    (value) => typeof value === "string" && isLocationId(value),
-    {
+  location: z.preprocess(
+    (value) => (asksForShop ? value : primaryLocation.id),
+    z.custom<LocationId>((value) => typeof value === "string" && isLocationId(value), {
       message: "Choose a shop location",
-    },
+    }),
   ),
   service: z.custom<ServiceSlug | "other">(
     (value) => value === "other" || (typeof value === "string" && isServiceSlug(value)),
@@ -106,7 +117,7 @@ export function leadEmail(lead: Lead) {
   };
   const prefix = env.VERCEL_ENV === "production" ? "" : "[Test] ";
   const details = leadFields
-    .filter((field) => field !== "message")
+    .filter((field) => field !== "message" && (field !== "location" || asksForShop))
     .map((field) => `${leadFieldLabels[field]}: ${shown[field]}`);
   return {
     from: `${siteConfig.name} website <${siteConfig.leadSenderEmail}>`,

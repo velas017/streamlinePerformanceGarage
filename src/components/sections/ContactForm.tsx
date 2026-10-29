@@ -9,6 +9,7 @@ import {
 import { Button } from "@/components/ui/Button";
 import { SelectField, TextAreaField, TextField } from "@/components/ui/Field";
 import {
+  asksForShop,
   HONEYPOT_FIELD,
   leadFieldLabels,
   leadLocationOptions,
@@ -119,20 +120,24 @@ export function ContactForm() {
               defaultValue={values?.vehicle}
               error={errors.vehicle}
             />
-            <SelectField
-              id={id("location")}
-              name="location"
-              label={leadFieldLabels.location}
-              required
-              options={leadLocationOptions}
-              placeholder="Choose a shop"
-              defaultValue={values?.location ?? ""}
-              error={errors.location}
-            />
+            {asksForShop ? (
+              <SelectField
+                id={id("location")}
+                name="location"
+                label={leadFieldLabels.location}
+                required
+                options={leadLocationOptions}
+                placeholder="Choose a shop"
+                defaultValue={values?.location ?? ""}
+                error={errors.location}
+              />
+            ) : null}
             <SelectField
               id={id("service")}
               name="service"
               label={leadFieldLabels.service}
+              // Alone on its row when there is no shop question beside it.
+              className={asksForShop ? undefined : "sm:col-span-2"}
               required
               options={leadServiceOptions}
               placeholder="What do you need?"

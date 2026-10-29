@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { deliverLead, leadEmail, leadSchema } from "@/lib/leads";
+import { asksForShop, deliverLead, leadEmail, leadSchema } from "@/lib/leads";
 import { siteConfig } from "@/lib/site-config";
 
 const mockEnv = vi.hoisted(() => ({
@@ -28,10 +28,14 @@ describe("leadSchema", () => {
     expect(leadSchema.safeParse({ ...valid, phone: "" }).success).toBe(true);
     expect(leadSchema.safeParse({ ...valid, phone: "call me" }).success).toBe(false);
   });
-  it("rejects unknown locations and services", () => {
-    expect(leadSchema.safeParse({ ...valid, location: "raleigh" }).success).toBe(false);
+  it("rejects unknown services", () => {
     expect(leadSchema.safeParse({ ...valid, service: "detailing" }).success).toBe(false);
     expect(leadSchema.safeParse({ ...valid, service: "other" }).success).toBe(true);
+  });
+  it("files every lead under the one shop, since the form does not ask", () => {
+    expect(asksForShop).toBe(false);
+    expect(leadSchema.parse({ ...valid, location: "" }).location).toBe("concord");
+    expect(leadSchema.parse({ ...valid, location: "raleigh" }).location).toBe("concord");
   });
 });
 
@@ -65,7 +69,7 @@ describe("leadEmail", () => {
 
   it("shows the same labels and choices the visitor saw on the form", () => {
     const { text } = leadEmail({ ...lead, phone: "" });
-    expect(text).toContain("Preferred shop: Concord, NC");
+    expect(text).not.toContain("Preferred shop");
     expect(text).toContain("Service: Performance ECU Tuning");
     expect(text).toContain("Phone: Not given");
     expect(text).toContain("Details:\nNone");

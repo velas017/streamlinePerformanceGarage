@@ -144,7 +144,8 @@ and the owner does not remove the site's access.
 The contact form emails each request to `siteConfig.email` through Resend
 (Vercel Marketplace, which sets `RESEND_API_KEY`). `src/lib/leads.ts` sends plain
 text from `siteConfig.leadSenderEmail` with Reply going to the customer, using
-the same labels the form shows. Anything but the live site prefixes the subject
+the same labels the form shows. The form asks which shop only when
+`siteConfig.locations` has more than one. Anything but the live site prefixes the subject
 with `[Test]`.
 
 Resend only sends from a verified domain: `streamlineperformancellc.com` is

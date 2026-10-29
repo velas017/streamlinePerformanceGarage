@@ -328,6 +328,10 @@ Rules:
     or `/service-areas` (footer heading, "View Concord shop", Charlotte card); the
     pages stay live and in the sitemap.
   - `faqs`: every `FaqSection` renders nothing, schema included.
+- **Contact form (client decision 2026-10-29):** no "Preferred shop" question while
+  there is one shop. `asksForShop` in `lib/leads.ts` brings it back by itself
+  when a second shop is added to `siteConfig.locations`. Requests are emailed to
+  `siteConfig.email` through Resend (README → "Booking form").
 - **Footer (client decision 2026-10-21):** no Services / Visit / Company link
   columns. Logo, socials, NAP with the address linking to Google Maps
   (`sections/AddressLink`, also used by the location card), hours, and a bottom

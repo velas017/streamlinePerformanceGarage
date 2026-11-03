@@ -331,7 +331,8 @@ Rules:
     or `/service-areas` (footer heading, "View Concord shop", Charlotte card); the
     pages stay live and in the sitemap.
   - `faqs`: every `FaqSection` renders nothing, schema included.
-- **Contact form (client decision 2026-10-29):** no "Preferred shop" question while
+- **Contact form (client decisions 2026-10-29 and 2026-11-03):** phone is required
+  (the shop calls customers back first). No "Preferred shop" question while
   there is one shop. `asksForShop` in `lib/leads.ts` brings it back by itself
   when a second shop is added to `siteConfig.locations`. Requests are emailed to
   `siteConfig.email` through Resend (README → "Booking form").

@@ -55,14 +55,13 @@ export const HONEYPOT_FIELD = "company";
 export const leadSchema = z.object({
   name: z.string().trim().min(2, "Please enter your name").max(100, "Name is too long"),
   email: z.email("Enter a valid email address").max(200),
+  // Required (client decision 2026-11-03): the shop calls customers back first.
   phone: z
     .string()
     .trim()
+    .min(1, "Enter your phone number")
     .max(30)
-    .refine(
-      (value) => value === "" || PHONE_PATTERN.test(value),
-      "Enter a valid phone number",
-    ),
+    .regex(PHONE_PATTERN, "Enter a valid phone number"),
   vehicle: z.string().trim().min(2, "Tell us the year, make and model").max(120),
   location: z.preprocess(
     (value) => (asksForShop ? value : primaryLocation.id),
@@ -109,7 +108,7 @@ export function leadEmail(lead: Lead) {
   const shown: Record<LeadField, string> = {
     name: lead.name,
     email: lead.email,
-    phone: lead.phone || "Not given",
+    phone: lead.phone,
     vehicle: lead.vehicle,
     location: labelFor(leadLocationOptions, lead.location),
     service: labelFor(leadServiceOptions, lead.service),

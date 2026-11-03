@@ -102,9 +102,10 @@ export function ContactForm() {
               name="phone"
               type="tel"
               label={leadFieldLabels.phone}
+              required
               autoComplete="tel"
               inputMode="tel"
-              hint="Optional, but fastest for scheduling."
+              hint="So we can reach you quickly about your appointment."
               defaultValue={values?.phone}
               error={errors.phone}
             />

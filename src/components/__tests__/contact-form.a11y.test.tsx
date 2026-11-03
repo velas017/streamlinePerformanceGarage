@@ -55,4 +55,10 @@ describe("ContactForm", () => {
     expect(screen.queryByLabelText(/preferred shop/i)).toBeNull();
     expect(screen.getByLabelText(/service/i)).toBeInTheDocument();
   });
+
+  it("requires a phone number so the shop can call back", async () => {
+    const { ContactForm } = await import("@/components/sections/ContactForm");
+    await renderAccessible(<ContactForm />);
+    expect(screen.getByLabelText(/phone/i)).toBeRequired();
+  });
 });

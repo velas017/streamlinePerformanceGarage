@@ -24,9 +24,12 @@ describe("leadSchema", () => {
   it("accepts a well-formed lead", () => {
     expect(leadSchema.safeParse(valid).success).toBe(true);
   });
-  it("allows an empty phone but rejects garbage", () => {
-    expect(leadSchema.safeParse({ ...valid, phone: "" }).success).toBe(true);
+  it("requires a phone number the shop can call", () => {
+    const empty = leadSchema.safeParse({ ...valid, phone: "  " });
+    expect(empty.success).toBe(false);
+    expect(empty.error?.issues[0]?.message).toBe("Enter your phone number");
     expect(leadSchema.safeParse({ ...valid, phone: "call me" }).success).toBe(false);
+    expect(leadSchema.safeParse({ ...valid, phone: "704.555.0199" }).success).toBe(true);
   });
   it("rejects unknown services", () => {
     expect(leadSchema.safeParse({ ...valid, service: "detailing" }).success).toBe(false);
@@ -68,10 +71,10 @@ describe("leadEmail", () => {
   });
 
   it("shows the same labels and choices the visitor saw on the form", () => {
-    const { text } = leadEmail({ ...lead, phone: "" });
+    const { text } = leadEmail(lead);
     expect(text).not.toContain("Preferred shop");
     expect(text).toContain("Service: Performance ECU Tuning");
-    expect(text).toContain("Phone: Not given");
+    expect(text).toContain("Phone: (704) 555-0199");
     expect(text).toContain("Details:\nNone");
   });
 

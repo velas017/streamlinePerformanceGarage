@@ -159,15 +159,19 @@ To connect it (Google approves API access by hand, so start early):
    [GBP API contact form](https://developers.google.com/my-business/content/prereqs)
    ("Application for Basic API Access") from the owner's email. A 300 QPM quota
    means approved.
-3. Enable the Google My Business API, the Account Management API and the Business
-   Information API. Create an OAuth client and set the consent screen to
-   **In production** (Testing-mode refresh tokens expire after 7 days).
-4. The owner signs in once with scope `https://www.googleapis.com/auth/business.manage`.
-   Store `GOOGLE_BUSINESS_CLIENT_ID`, `GOOGLE_BUSINESS_CLIENT_SECRET` and
-   `GOOGLE_BUSINESS_REFRESH_TOKEN` in Vercel (server-only).
-5. Look up the numeric account and location IDs and the listing's
-   `metadata.mapsUri` / `metadata.newReviewUri`, and fill in
-   `siteConfig.googleBusiness`.
+3. In the same project, set up the OAuth consent screen (External) and publish it
+   **In production** (Testing-mode refresh tokens expire after 7 days). Create an
+   OAuth client of type **Desktop app** and put its ID and secret in `.env.local`
+   as `GOOGLE_BUSINESS_CLIENT_ID` and `GOOGLE_BUSINESS_CLIENT_SECRET`. None of
+   this needs Google's approval.
+4. Run `npm run google:auth` and sign in with the account that owns the Business
+   Profile (scope `business.manage`; Google warns the app is unverified, which is
+   expected for a private app). The script saves `GOOGLE_BUSINESS_REFRESH_TOKEN`
+   to `.env.local`. Copy all three values into Vercel (server-only).
+5. After approval, enable the Google My Business API, the Account Management API
+   and the Business Information API, then run
+   `npm run google:auth -- --locations`. It prints the account and location IDs
+   and the listing's Maps and write-a-review links for `siteConfig.googleBusiness`.
 
 The refresh token keeps working as long as it is used at least every six months
 and the owner does not remove the site's access.

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { InternalLink } from "@/components/ui/Link";
 import { images } from "@/content/images";
+import type { AppHref } from "@/lib/routes";
 import { siteConfig } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
@@ -9,11 +10,17 @@ import { cn } from "@/lib/utils";
  * two-line wordmark. The visible text is the link's accessible name, so the
  * image is decorative.
  */
-export function Logo({ className }: { readonly className?: string }) {
+export interface LogoProps {
+  readonly className?: string;
+  /** Where the lockup links; the admin area points it at its own home. */
+  readonly href?: AppHref;
+}
+
+export function Logo({ className, href = "/" }: LogoProps) {
   const mark = images.logoMarkWhite;
   return (
     <InternalLink
-      href="/"
+      href={href}
       className={cn("flex min-h-11 items-center gap-3 rounded-md focus-ring", className)}
     >
       <Image

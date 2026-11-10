@@ -16,7 +16,12 @@ export function isKvConfigured(): boolean {
   return Boolean(env.KV_REST_API_URL && env.KV_REST_API_TOKEN);
 }
 
-async function command(args: readonly string[]): Promise<unknown> {
+type KvArg = string | number;
+
+async function command(
+  args: readonly KvArg[],
+  init: Pick<RequestInit, "cache"> = {},
+): Promise<unknown> {
   const url = env.KV_REST_API_URL;
   const token = env.KV_REST_API_TOKEN;
   if (!url || !token) throw new Error("KV is not configured");
@@ -24,6 +29,7 @@ async function command(args: readonly string[]): Promise<unknown> {
     method: "POST",
     headers: { authorization: `Bearer ${token}`, "content-type": "application/json" },
     body: JSON.stringify(args),
+    ...init,
   });
   const parsed = responseSchema.safeParse(await response.json().catch(() => null));
   if (!parsed.success) {
@@ -41,4 +47,13 @@ export async function kvGet(key: string): Promise<string | null> {
 
 export async function kvSet(key: string, value: string): Promise<void> {
   await command(["SET", key, value]);
+}
+
+/**
+ * Any Redis command, never cached. Only for code that already runs per request
+ * (server actions and the admin area, which reads cookies): in a public page
+ * `no-store` would turn the statically built page dynamic (CLAUDE.md §8).
+ */
+export async function kvFresh(args: readonly KvArg[]): Promise<unknown> {
+  return command(args, { cache: "no-store" });
 }

@@ -20,7 +20,7 @@ npm run dev                  # http://localhost:3000
 | Script              | What it does                                           |
 | ------------------- | ------------------------------------------------------ |
 | `npm run dev`       | Dev server                                             |
-| `npm run build`     | Production build (fully static, 39 routes)             |
+| `npm run build`     | Production build (public pages static, admin dynamic)  |
 | `npm run start`     | Serve the production build                             |
 | `npm run lint`      | ESLint incl. jsx-a11y strict                           |
 | `npm run typecheck` | `next typegen` + `tsc` (validates every internal href) |
@@ -65,10 +65,12 @@ Marked `TODO(owner)` in code:
   `foundingYear`, verify the map pin, and fill in `googleBusiness` once Google
   approves API access.
 - `src/content/locations.ts`: confirm the directions wording.
-- `src/app/about/page.tsx`: the real founding story and team.
+- `src/app/(site)/about/page.tsx`: the real founding story and team.
 
 Outside the code:
 
+- Admin area: the four go-live steps under "Admin area" (subdomain in Vercel
+  and GoDaddy, `ADMIN_EMAILS`, `ADMIN_SECRET`). Until then it answers nowhere.
 - Google reviews: the Google Cloud and API access steps under "Google reviews".
   Labelled samples show until then.
 - Vercel plan: the project is on Hobby, whose terms do not allow commercial
@@ -188,6 +190,64 @@ records. Each send carries an idempotency key derived from the email, so a
 resubmitted request arrives once. If the key is
 missing or a send fails, the form tells the visitor to call instead; it never
 drops a request silently. Locally, without a key, the lead is only logged.
+
+## Admin area
+
+A private area for the shop, at **https://admin.streamlineperformancellc.com**
+(`admin.` + the site's host; `http://admin.localhost:3000` in development). It
+has its own header and no link from the public site. Phase 1 is sign-in and the
+account page; photo uploads and key management come next.
+
+How it is kept private:
+
+- `src/proxy.ts` serves the `/admin` pages on the admin hostname only. On the
+  public domain, and on every Vercel preview address, `/admin` is the normal 404. The admin host shows nothing else, is marked noindex and is never cached.
+- Who may sign in is the `ADMIN_EMAILS` variable and nothing else. There is no
+  sign-up page.
+- Sign-in is a password, then a 6-digit code emailed through Resend (10
+  minutes, single use, 5 tries). Five wrong passwords pause sign-in for 15
+  minutes for that visitor. A session lasts 30 days on a device.
+- Backup codes (8, single use, created on the account page) finish a sign-in
+  when the email does not arrive.
+- "First time here, or forgot your password?" emails a one-hour, single-use
+  link to choose a password. Choosing one signs every device out.
+- Passwords are stored as scrypt hashes. Sessions, codes and links are stored
+  in Upstash Redis (`admin:*`) as hashes keyed with `ADMIN_SECRET`, never
+  as-is. The session cookie is HttpOnly, Secure, SameSite=Lax and pinned to the
+  admin hostname (`__Host-`), so the public site never receives it.
+- Every page and every server action checks the hostname and the session
+  itself (`lib/admin/request.ts`, `lib/admin/session.ts`); the rules live in
+  `lib/admin/auth.ts` and are tested end to end against an in-memory Redis
+  (`src/test/fake-kv.ts`).
+- The account page lists recent sign-ins and password changes.
+
+The shop's inbox is the root of trust: whoever can read an admin's email can
+choose a new password and receive the codes. Keep Google's own 2-Step
+Verification on for that Gmail account.
+
+To put it live (once):
+
+1. Vercel → the project → Settings → Domains → add
+   `admin.streamlineperformancellc.com` (Production).
+2. GoDaddy DNS: add a `CNAME` record named `admin` with the value Vercel shows
+   for that domain. Vercel issues the certificate itself.
+3. Vercel → Settings → Environment Variables (Production):
+   `ADMIN_EMAILS` (comma-separated, for example the shop's Gmail address) and
+   `ADMIN_SECRET` (`openssl rand -base64 48`). `KV_REST_API_*` and
+   `RESEND_API_KEY` are already there and are required too. Redeploy.
+4. Each admin opens the admin address, follows "First time here, or forgot
+   your password?", chooses a password from the emailed link, signs in, and
+   creates backup codes on the account page.
+
+Day to day:
+
+- Add or remove a person: edit `ADMIN_EMAILS` and redeploy. A removed email is
+  locked out at once, signed-in devices included.
+- Changing `ADMIN_SECRET` signs everyone out and cancels their backup codes;
+  passwords keep working.
+- Locally, put `ADMIN_EMAILS`, `ADMIN_SECRET` and the `KV_REST_API_*` pair in
+  `.env.local` and open `http://admin.localhost:3000`. Without
+  `RESEND_API_KEY` the emails are printed in the terminal instead.
 
 ## MCP servers
 

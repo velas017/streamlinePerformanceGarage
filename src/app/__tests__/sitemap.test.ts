@@ -32,6 +32,10 @@ describe("sitemap + robots", () => {
     }
   });
 
+  it("never lists the private admin area", () => {
+    expect(urls.filter((url) => url.includes("/admin"))).toEqual([]);
+  });
+
   it("robots points at the sitemap", () => {
     expect(robots().sitemap).toBe(`${siteConfig.url}/sitemap.xml`);
   });

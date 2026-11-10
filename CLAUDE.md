@@ -47,43 +47,58 @@ npm run check        # lint + typecheck + test + build, in that order
 ```
 src/
   app/                      # Routes ONLY. Thin files: metadata + composition.
-    layout.tsx              # Root layout: fonts, skip link, Header, Footer, JSON-LD org
-    page.tsx                # Home
-    services/page.tsx       # Services index
-    services/[slug]/page.tsx# One page per service (generateStaticParams); hidden, §8
-    locations/[slug]/page.tsx # Physical shop page(s) with NAP + AutoRepair schema; unlinked, §8
-    service-areas/[slug]/page.tsx # City landing pages (no address/schema): charlotte; unlinked
-    about/page.tsx
-    gallery/page.tsx        # Board-style photo wall + viewer (content/gallery.json)
-    contact/page.tsx
-    contact/actions.ts      # Server action: validate, rate-limit, deliverLead()
-    sitemap.ts robots.ts manifest.ts
-    not-found.tsx error.tsx
+    layout.tsx              # Root layout: document shell only (fonts, tokens, default metadata)
+    not-found.tsx           # 404 for the public site (wraps itself in SiteShell)
+    opengraph-image.tsx sitemap.ts robots.ts manifest.ts
+    (site)/                 # The public site. Route group: adds no URL segment.
+      layout.tsx            # SiteShell: skip link, Header, <main>, Footer, JSON-LD org
+      page.tsx              # Home
+      services/page.tsx     # Services index
+      services/[slug]/page.tsx # One page per service (generateStaticParams); hidden, §8
+      locations/[slug]/page.tsx # Physical shop page(s) with NAP + AutoRepair schema; unlinked, §8
+      service-areas/[slug]/page.tsx # City landing pages (no address/schema): charlotte; unlinked
+      about/page.tsx
+      gallery/page.tsx      # Board-style photo wall + viewer (content/gallery.json)
+      contact/page.tsx
+      contact/actions.ts    # Server action: validate, rate-limit, deliverLead()
+      privacy/page.tsx error.tsx
+    admin/                  # Private admin area, served on admin.<site host> only (§8, proxy.ts)
+      layout.tsx            # AdminShell + noindex
+      actions.ts            # Every admin server action
+      page.tsx sign-in/ sign-in/verify/ forgot-password/ set-password/ account/
+      [...rest]/page.tsx    # Any other address on the admin host -> admin 404
     api/cron/refresh-instagram-token/route.ts # Weekly Vercel Cron job (vercel.json)
+  proxy.ts                  # Admin hostname routing: /admin exists on admin.<site host> only
   components/
-    ui/                     # Primitives: Button, Container, Section, Heading, Card…
-    layout/                 # Header, Footer, MobileNav, SkipLink
+    ui/                     # Primitives: Button, Container, Section, Heading, Card, FormStatus…
+    layout/                 # Header, Footer, MobileNav, SkipLink, SiteShell
+    admin/                  # Admin area only: AdminShell, AdminPage, AdminForm, AdminNav
     sections/               # Page sections composed from ui/: Hero, ServicesGrid, InstagramFeed…
     seo/                    # JsonLd component (typed via schema-dts)
   content/                  # Static content as typed data (services, locations, faqs…)
                             # gallery.json is appended by scripts/import-gallery.mjs
                             # visibility.ts: switches for parts hidden at the client's request
+                            # admin.ts: the admin area's forms, navigation and wording
   lib/
     site-config.ts          # SINGLE SOURCE OF TRUTH for business NAP, hours, socials
     routes.ts               # AppHref type + href helpers; validated by typedRoutes
     seo.ts                  # buildMetadata(), JSON-LD builders (AutoRepair, Service…)
     og.tsx                  # Shared ImageResponse renderer for opengraph-image.tsx files
     env.ts                  # zod-validated process.env — import this, never process.env
-    leads.ts                # Contact-form schema, labels + deliverLead() (Resend email)
+    leads.ts                # Contact-form schema, labels + deliverLead()
+    email.ts                # sendEmail(): the one Resend call (booking form + admin emails)
+    admin/                  # Admin sign-in: auth.ts (rules), store.ts (Redis), crypto.ts,
+                            # session.ts (cookies), request.ts (host check), config.ts, emails.ts
     instagram.ts            # Instagram media fetch (ISR) + mock/off modes
     instagram-token.ts      # Rotating Instagram token: Redis copy first, env fallback, refresh
     google-reviews.ts       # Business Profile reviews (owner OAuth) + live/mock/off modes
-    kv.ts                   # Upstash Redis over REST with plain fetch (no SDK; keeps pages static)
+    kv.ts                   # Upstash Redis over REST with plain fetch (no SDK; keeps pages static);
+                            # kvFresh() is uncached and for request-time code only
     cron.ts                 # CRON_SECRET check for Vercel Cron routes
     rate-limit.ts           # In-memory limiter for the contact action
     utils.ts                # cn(), formatters, pure helpers
   styles/globals.css        # Tailwind v4 @theme tokens + base layer
-  test/                     # Vitest setup + expectNoA11yViolations()
+  test/                     # Vitest setup, expectNoA11yViolations(), fake-kv.ts (in-memory Redis)
 public/                     # Static assets (images under public/images/<area>/)
 assets/source/              # RAW originals from the business (gitignored). Never serve
                             # from here; optimize into public/images/ with SEO filenames.
@@ -303,7 +318,7 @@ Rules:
 - **Home page order (current):** Hero → trust bar → Services carousel → Instagram
   feed → Google reviews → Gallery teaser → final CTA. **Hidden at the client's
   request (2026-09-07), components kept:** MakesSection, LocationsSection and
-  FaqSection. Re-add them in `app/page.tsx` when asked. Carousels use the shared
+  FaqSection. Re-add them in `app/(site)/page.tsx` when asked. Carousels use the shared
   `ui/Carousel` (1 card per view on phones, 2 on tablets, 3 on desktop); the
   Services page keeps the full grid.
 - **Google reviews (client decisions 2026-10-21):** `lib/google-reviews.ts` reads
@@ -331,6 +346,27 @@ Rules:
     or `/service-areas` (footer heading, "View Concord shop", Charlotte card); the
     pages stay live and in the sitemap.
   - `faqs`: every `FaqSection` renders nothing, schema included.
+- **Admin area (client decisions 2026-11-10):** a private area for the shop at
+  `admin.<site host>` (README → "Admin area"). Phase 1 is sign-in only; photo
+  uploads and key management follow. Hard rules:
+  - It is never linked from the public site, never in the sitemap, always
+    noindex. `/admin` is a 404 on every other hostname (`src/proxy.ts`).
+  - The proxy only hides it. Access is the session: **every admin page and
+    every admin server action** starts with `adminRequest()` and, when it needs
+    a signed-in person, `requireSession()` / `runSignedIn()`. Never rely on a
+    layout or the proxy for access.
+  - Who may sign in is `ADMIN_EMAILS` only: no sign-up, no accounts in code.
+    Currently one account (the shop's Gmail); a second is a config change.
+  - Sign-in is password + emailed code (or a backup code). Nothing that grants
+    access is stored readable: scrypt for passwords, `keyedHash()` for
+    sessions, codes and links. Wrong-password answers never reveal whether an
+    email has an account. Every guessable step is counted in Redis
+    (`countHit`), never in memory.
+  - Admin pages use `adminMetadata()` instead of `buildMetadata()` (private:
+    no canonical, no Open Graph), `AdminForm` for every form (fields from
+    `content/admin.ts`), and never send a password or code back to the page.
+  - Redis reads in the admin area use `kvFresh()` (uncached). Public pages
+    must keep using the cached helpers.
 - **Contact form (client decisions 2026-10-29 and 2026-11-03):** phone is required
   (the shop calls customers back first). No "Preferred shop" question while
   there is one shop. `asksForShop` in `lib/leads.ts` brings it back by itself
@@ -371,7 +407,11 @@ Rules:
 - `next/image`: `priority` is deprecated → use `preload` (hero only). Set
   `sizes` whenever `fill` or responsive width is used.
 - `error.tsx` receives `{ error, retry }` (`retry` re-fetches; prefer it over `reset`).
-- `middleware.ts` is now `proxy.ts` (Node runtime only). We currently need neither.
+- `middleware.ts` is now `proxy.ts` (Node runtime only). `src/proxy.ts` exists for
+  one job: the admin hostname (§8). Its matcher keeps it off the public pages.
+- A proxy rewrite does not apply when a server action redirects: Next renders
+  the target by its real path. Never map a hostname onto routes with a rewrite
+  (an admin redirect to "/" rendered the public home page); keep real paths.
 - `typedRoutes: true` is on. Every internal href is typed `AppHref` from
   `lib/routes.ts`; `npm run typecheck` runs `next typegen` first so route types
   exist. Link through `components/ui/Link.tsx` (`InternalLink`) or `Button`, never
@@ -385,7 +425,8 @@ Rules:
   Any other value makes Next.js reject every call at runtime, and mocked tests
   never notice: this kept the booking form broken from 2026-09-02 to 2026-10-29.
   Keep form state and constants in the component or `lib/`;
-  `app/contact/__tests__/actions.test.ts` imports the real module to enforce it.
+  `app/(site)/contact/__tests__/actions.test.ts` and
+  `app/admin/__tests__/actions.test.ts` import the real modules to enforce it.
 
 ## 11. Tooling & MCPs
 

@@ -85,6 +85,8 @@ export const siteConfig = {
   email: "streamlineperformancellc@gmail.com",
   /** Sender of the booking-form emails (lib/leads.ts); its domain is verified in Resend. */
   leadSenderEmail: "bookings@streamlineperformancellc.com",
+  /** Sender of the admin area's sign-in codes and password links (lib/admin/emails.ts). */
+  adminSenderEmail: "admin@streamlineperformancellc.com",
   primaryPhone: "+17042775099",
   /** TODO(owner): confirm the year the shop opened; null hides "since" copy and schema. */
   foundingYear: null as number | null,

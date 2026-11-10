@@ -1,5 +1,11 @@
 import { z } from "zod";
 import { isServiceSlug, services, type ServiceSlug } from "@/content/services";
+import {
+  isEmailConfigured,
+  sendEmail,
+  subjectPrefix,
+  type EmailMessage,
+} from "@/lib/email";
 import { env } from "@/lib/env";
 import {
   isLocationId,
@@ -78,10 +84,6 @@ export const leadSchema = z.object({
 
 export type Lead = z.infer<typeof leadSchema>;
 
-const RESEND_EMAILS_URL = "https://api.resend.com/emails";
-const SEND_TIMEOUT_MS = 10_000;
-const resendErrorSchema = z.object({ message: z.string() });
-
 function labelFor(options: readonly { value: string; label: string }[], value: string) {
   return options.find((option) => option.value === value)?.label ?? value;
 }
@@ -91,8 +93,11 @@ function labelFor(options: readonly { value: string; label: string }[], value: s
  * 24-hour window (a resubmit after a timeout) arrives once. Web Crypto, not
  * node:crypto: the client form imports this module for its labels.
  */
-async function idempotencyKey(body: string): Promise<string> {
-  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(body));
+async function idempotencyKey(message: EmailMessage): Promise<string> {
+  const digest = await crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(JSON.stringify(message)),
+  );
   const hex = Array.from(new Uint8Array(digest), (byte) =>
     byte.toString(16).padStart(2, "0"),
   ).join("");
@@ -104,7 +109,7 @@ async function idempotencyKey(body: string): Promise<string> {
  * Reply going straight to the customer. Anything but the live site is marked
  * [Test] so preview and local submissions never pass for real bookings.
  */
-export function leadEmail(lead: Lead) {
+export function leadEmail(lead: Lead): EmailMessage {
   const shown: Record<LeadField, string> = {
     name: lead.name,
     email: lead.email,
@@ -114,7 +119,6 @@ export function leadEmail(lead: Lead) {
     service: labelFor(leadServiceOptions, lead.service),
     message: lead.message || "None",
   };
-  const prefix = env.VERCEL_ENV === "production" ? "" : "[Test] ";
   const details = leadFields
     .filter((field) => field !== "message" && (field !== "location" || asksForShop))
     .map((field) => `${leadFieldLabels[field]}: ${shown[field]}`);
@@ -123,7 +127,7 @@ export function leadEmail(lead: Lead) {
     to: [siteConfig.email],
     reply_to: lead.email,
     // Collapse whitespace so a pasted newline can't break the subject line.
-    subject: `${prefix}Booking request: ${lead.name}, ${lead.vehicle}`.replace(
+    subject: `${subjectPrefix()}Booking request: ${lead.name}, ${lead.vehicle}`.replace(
       /\s+/g,
       " ",
     ),
@@ -142,34 +146,14 @@ export function leadEmail(lead: Lead) {
 
 /**
  * Delivery boundary for leads: emails each request to siteConfig.email through
- * Resend's REST API (one POST, so plain fetch instead of the SDK). Never
- * silently drops a lead: in production a missing key or a failed send throws
- * so the form surfaces an error with the phone number.
+ * Resend (lib/email.ts). Never silently drops a lead: in production a missing
+ * key or a failed send throws so the form surfaces an error with the phone number.
  */
 export async function deliverLead(lead: Lead): Promise<void> {
-  const apiKey = env.RESEND_API_KEY;
-  if (!apiKey) {
-    if (env.NODE_ENV === "production") {
-      throw new Error("RESEND_API_KEY is not configured");
-    }
+  if (!isEmailConfigured() && env.NODE_ENV !== "production") {
     console.warn("[leads] RESEND_API_KEY not set; lead logged locally:", lead);
     return;
   }
-  const body = JSON.stringify(leadEmail(lead));
-  const response = await fetch(RESEND_EMAILS_URL, {
-    method: "POST",
-    headers: {
-      authorization: `Bearer ${apiKey}`,
-      "content-type": "application/json",
-      "idempotency-key": await idempotencyKey(body),
-    },
-    body,
-    signal: AbortSignal.timeout(SEND_TIMEOUT_MS),
-  });
-  if (!response.ok) {
-    const error = resendErrorSchema.safeParse(await response.json().catch(() => null));
-    throw new Error(
-      `Resend responded ${response.status}${error.success ? `: ${error.data.message}` : ""}`,
-    );
-  }
+  const message = leadEmail(lead);
+  await sendEmail(message, { idempotencyKey: await idempotencyKey(message) });
 }

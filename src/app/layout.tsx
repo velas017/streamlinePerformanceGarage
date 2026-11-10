@@ -1,10 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Barlow_Condensed, Inter } from "next/font/google";
-import { Footer } from "@/components/layout/Footer";
-import { Header } from "@/components/layout/Header";
-import { SkipLink } from "@/components/layout/SkipLink";
-import { JsonLd } from "@/components/seo/JsonLd";
-import { organizationSchema, webSiteSchema } from "@/lib/seo";
 import { siteConfig } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
@@ -50,19 +45,15 @@ export const viewport: Viewport = {
   themeColor: "#0a0a0a",
 };
 
+/**
+ * Document shell only: fonts, tokens and default metadata. The chrome comes
+ * from the segment below: `(site)/layout.tsx` for the public site (SiteShell)
+ * and `admin/layout.tsx` for the private admin area.
+ */
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={cn(inter.variable, barlowCondensed.variable, "h-full")}>
-      <body className="flex min-h-full flex-col">
-        <SkipLink />
-        <Header />
-        {/* Skip-link target: outline removed only here because the landmark itself is the focus destination. */}
-        <main id="main" tabIndex={-1} className="flex-1 focus-visible:outline-none">
-          {children}
-        </main>
-        <Footer />
-        <JsonLd data={[organizationSchema(), webSiteSchema()]} />
-      </body>
+      <body className="flex min-h-full flex-col">{children}</body>
     </html>
   );
 }

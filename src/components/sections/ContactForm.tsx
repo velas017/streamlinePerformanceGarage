@@ -1,9 +1,10 @@
 "use client";
 
-import { useActionState, useEffect, useId, useRef } from "react";
-import { submitLead, type ContactFormState } from "@/app/contact/actions";
+import { useActionState, useId, useRef } from "react";
+import { submitLead, type ContactFormState } from "@/app/(site)/contact/actions";
 import { Button } from "@/components/ui/Button";
 import { SelectField, TextAreaField, TextField } from "@/components/ui/Field";
+import { FormStatus, useFormResultFocus } from "@/components/ui/FormStatus";
 import {
   asksForShop,
   HONEYPOT_FIELD,
@@ -11,7 +12,6 @@ import {
   leadLocationOptions,
   leadServiceOptions,
 } from "@/lib/leads";
-import { cn } from "@/lib/utils";
 
 // Lives here, not in actions.ts: a "use server" file may export only async
 // functions, and Next.js rejects every submission if it exports anything else.
@@ -32,17 +32,8 @@ export function ContactForm() {
   const idPrefix = useId();
   const id = (field: string) => `${idPrefix}-${field}`;
 
-  // Move focus to the first invalid field on error, or to the status message on success.
-  useEffect(() => {
-    if (state.status === "error") {
-      const firstInvalid = formRef.current?.querySelector<HTMLElement>(
-        '[aria-invalid="true"]',
-      );
-      (firstInvalid ?? statusRef.current)?.focus();
-    } else if (state.status === "success") {
-      statusRef.current?.focus();
-    }
-  }, [state]);
+  // Focus goes to the first invalid field on error, or to the status message.
+  useFormResultFocus(state, formRef, statusRef);
 
   const values = valuesOf(state);
   const errors = errorsOf(state);
@@ -56,23 +47,12 @@ export function ContactForm() {
       className="flex flex-col gap-5"
       aria-describedby={id("status")}
     >
-      <p
-        ref={statusRef}
+      <FormStatus
         id={id("status")}
-        tabIndex={-1}
-        role="status"
-        aria-live="polite"
-        className={cn(
-          "rounded-md border px-4 py-3 text-sm font-medium focus:outline-none",
-          state.status === "idle" && "sr-only",
-          state.status === "error" && "border-danger/50 bg-danger/10 text-fg",
-          isSuccess && "border-success/50 bg-success/10 text-fg",
-        )}
-      >
-        {state.status === "idle"
-          ? "Form status messages will appear here."
-          : state.message}
-      </p>
+        ref={statusRef}
+        status={state.status}
+        message={state.status === "idle" ? undefined : state.message}
+      />
 
       {isSuccess ? null : (
         <>

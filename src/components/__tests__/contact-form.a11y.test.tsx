@@ -1,6 +1,6 @@
 import { screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
-import type { ContactFormState } from "@/app/contact/actions";
+import type { ContactFormState } from "@/app/(site)/contact/actions";
 import { renderAccessible } from "@/test/render";
 
 const errorState: ContactFormState = {
@@ -19,7 +19,7 @@ const errorState: ContactFormState = {
 };
 
 // The server action pulls in next/headers; replace it and drive state directly.
-vi.mock("@/app/contact/actions", () => ({
+vi.mock("@/app/(site)/contact/actions", () => ({
   submitLead: vi.fn(),
 }));
 

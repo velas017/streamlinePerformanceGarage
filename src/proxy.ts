@@ -20,6 +20,13 @@ import { isAdminHost, requestHost } from "@/lib/admin/config";
 const ADMIN_PREFIX = "/admin";
 /** Files the admin pages share with the site (tab icons). */
 const SHARED_FILES = new Set(["/icon.png", "/apple-icon.png", "/favicon.ico"]);
+/**
+ * The brand mark in the admin header. Vercel's image optimizer fetches the
+ * original over the same hostname the page was opened on, so on the admin host
+ * this folder has to be reachable or the logo is a broken image. (A local
+ * server reads the file from disk and never shows the problem.)
+ */
+const SHARED_FOLDER = "/images/logo/";
 /** No route lives here, so rewriting to it renders the public site's normal 404. */
 const PUBLIC_MISSING_PATH = "/_hidden";
 /** Caught by admin/[...rest], which renders the admin area's own 404. */
@@ -54,7 +61,9 @@ export function proxy(request: NextRequest): NextResponse {
     return NextResponse.rewrite(url, { status: 404 });
   }
 
-  if (SHARED_FILES.has(pathname)) return NextResponse.next();
+  if (SHARED_FILES.has(pathname) || pathname.startsWith(SHARED_FOLDER)) {
+    return NextResponse.next();
+  }
   if (isUnderAdmin(pathname)) return asPrivate(NextResponse.next());
 
   if (pathname === "/") {

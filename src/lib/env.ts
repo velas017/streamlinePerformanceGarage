@@ -33,7 +33,7 @@ const envSchema = z.object({
   CRON_SECRET: optionalString.pipe(
     z.string().min(16, "CRON_SECRET must be at least 16 characters").optional(),
   ),
-  /** Server-only. OAuth client + the shop owner's refresh token for the Business Profile API. */
+  /** Server-only. OAuth client + the refresh token of a Business Profile owner or manager. */
   GOOGLE_BUSINESS_CLIENT_ID: optionalString,
   GOOGLE_BUSINESS_CLIENT_SECRET: optionalString,
   GOOGLE_BUSINESS_REFRESH_TOKEN: optionalString,

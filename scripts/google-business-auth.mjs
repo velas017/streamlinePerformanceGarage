@@ -2,8 +2,8 @@
 /* eslint-disable no-console -- CLI script; its output is the point */
 /**
  * One-time Google sign-in for the home-page reviews carousel (README → Google
- * reviews). Run it on your own computer, signed in as the account that owns
- * the shop's Business Profile.
+ * reviews). Run it on your own computer, signed in as an account that owns or
+ * manages the shop's Business Profile.
  *
  *   npm run google:auth                   opens Google's sign-in page and saves
  *                                         GOOGLE_BUSINESS_REFRESH_TOKEN to .env.local
@@ -152,7 +152,9 @@ async function signIn() {
     "Opening Google's sign-in page. If it does not open, paste this into a browser:",
   );
   console.log(`\n${authUrl}\n`);
-  console.log("Sign in with the account that owns the shop's Business Profile.");
+  console.log(
+    "Sign in with an account that owns or manages the shop's Business Profile.",
+  );
   spawn("open", [authUrl.toString()], { stdio: "ignore" }).on("error", () => {});
 
   /** Trades Google's one-time code for the refresh token and saves it. */

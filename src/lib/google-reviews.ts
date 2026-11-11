@@ -5,11 +5,12 @@ import { siteConfig } from "@/lib/site-config";
 
 /**
  * Google reviews for the home page, from the shop's own Business Profile (API
- * v4 `reviews.list`, OAuth with the owner's refresh token). Only 4- and 5-star
- * reviews with text are shown, newest first, and the section says so: filtering
- * by rating is fine as long as the page never implies these are all the
- * reviews (FTC 16 CFR 465.7(b)). Mirrors lib/instagram.ts: validated, cached
- * with the page's hourly ISR, and never able to break the home page.
+ * v4 `reviews.list`, OAuth with an owner's or manager's refresh token). Only
+ * 4- and 5-star reviews with text are shown, newest first, and the section
+ * says so: filtering by rating is fine as long as the page never implies these
+ * are all the reviews (FTC 16 CFR 465.7(b)). Mirrors lib/instagram.ts:
+ * validated, cached with the page's hourly ISR, and never able to break the
+ * home page.
  */
 
 export type StarCount = 1 | 2 | 3 | 4 | 5;

@@ -307,9 +307,11 @@ Rules:
   `ui/Carousel` (1 card per view on phones, 2 on tablets, 3 on desktop); the
   Services page keeps the full grid.
 - **Google reviews (client decisions 2026-10-21):** `lib/google-reviews.ts` reads
-  the shop's own Business Profile (API v4 `reviews.list`) with the **shop owner's**
-  OAuth refresh token, keeps 4- and 5-star reviews with text, newest first (10),
-  refreshed with the page's hourly ISR. The description must keep saying which
+  the shop's own Business Profile (API v4 `reviews.list`) with the OAuth refresh
+  token of an account that owns or **manages** it (the developer's, a manager
+  since 2026-11-10; README → "Google reviews" has the status and steps), keeps
+  4- and 5-star reviews with text, newest first (10), refreshed hourly by
+  `export const revalidate` in the home page. The description must keep saying which
   reviews are shown, beside Google's rating and count across all reviews (FTC 16
   CFR 465.7(b)). Cards auto-advance every 6 s via `Carousel autoAdvanceMs` with a
   Pause button (holds on hover/focus, stops when the visitor scrolls, off for

@@ -135,8 +135,9 @@ bootstraps itself.
 
 The home page shows the shop's newest 4- and 5-star Google reviews with text, in
 an auto-advancing carousel with a Pause button. `src/lib/google-reviews.ts` reads
-them from the shop's own Business Profile (API v4 `reviews.list`) with the
-owner's OAuth refresh token, refreshed with the page's hourly ISR. The section
+them from the shop's own Business Profile (API v4 `reviews.list`) with the OAuth
+refresh token of an account that owns or manages it, refreshed with the home
+page's hourly ISR (`export const revalidate` in the page). The section
 says which reviews it shows and gives Google's rating and count across all
 reviews, as the FTC review rule (16 CFR 465.7(b)) requires when filtering.
 
@@ -150,31 +151,73 @@ reviews and carry `data-nosnippet` so search results never quote them. On
 production, live reviews replace them automatically once the API is configured;
 remove the `GOOGLE_REVIEWS_MODE` variable from Vercel afterwards to tidy up.
 
+**Where this stands (2026-11-10):** the application for API access is under
+review. Google quoted 7 to 10 business days, so expect an answer between about
+2026-11-19 and 2026-11-24. Steps 1 to 3 below are done; steps 4 to 7 are open
+(4 and 5 do not need the approval). Nothing is in `.env.local` or on Vercel yet.
+
+- The shop added the developer's Google account as a **manager** of the Business
+  Profile. That account owns the Cloud project, submitted the form and will do
+  the sign-in in step 5. A manager is enough; it does not have to be the owner.
+- A first application on 2026-11-10 was rejected within minutes ("doesn't meet
+  our criteria") because of two form answers: the website was mistyped and
+  "already have an allow-listed project" was answered Yes. The answers in step 2
+  are the ones that got it into review.
+- If this one is rejected too, the likely reason is the applicant's email:
+  Google's [FAQ](https://developers.google.com/my-business/content/faq) asks
+  for "a valid business email address that is tied to your business domain".
+  The domain has no mailbox yet (no MX records), so that means adding email
+  forwarding at GoDaddy, making a Google account with that address, having the
+  shop add it as a manager, and applying from it. The other route is the
+  Places API with a plain API key, which needs no approval but returns at most
+  five reviews in Google's order, needs a billing account, and has terms
+  against storing reviews that do not fit a static page.
+
 To connect it (Google approves API access by hand, so start early):
 
 1. The Business Profile must be verified for 60+ days and list the shop's own
-   domain, `https://streamlineperformancellc.com`, as its website.
-2. The **shop owner** creates a Google Cloud project, adds the developer as an
-   Editor, and submits the
-   [GBP API contact form](https://developers.google.com/my-business/content/prereqs)
-   ("Application for Basic API Access") from the owner's email. A 300 QPM quota
-   means approved.
-3. In the same project, set up the OAuth consent screen (External) and publish it
-   **In production** (Testing-mode refresh tokens expire after 7 days). Create an
-   OAuth client of type **Desktop app** and put its ID and secret in `.env.local`
-   as `GOOGLE_BUSINESS_CLIENT_ID` and `GOOGLE_BUSINESS_CLIENT_SECRET`. None of
-   this needs Google's approval.
-4. Run `npm run google:auth` and sign in with the account that owns the Business
-   Profile (scope `business.manage`; Google warns the app is unverified, which is
-   expected for a private app). The script saves `GOOGLE_BUSINESS_REFRESH_TOKEN`
-   to `.env.local`. Copy all three values into Vercel (server-only).
-5. After approval, enable the Google My Business API, the Account Management API
-   and the Business Information API, then run
+   domain, `https://streamlineperformancellc.com`, as its website. Google shows
+   no "verified since" date: check that the profile's status reads Verified and
+   find an owner reply to a review that is more than 60 days old (confirmed
+   2026-11-10). Fill in whatever the profile's "Complete info" prompt asks for,
+   but leave the name, address and primary category alone: changing those can
+   trigger a new verification.
+2. Signed in as a Google account that owns or manages the profile, create a
+   Google Cloud project (no organization and no billing account needed) and copy
+   its **Project Number** from the dashboard. Submit the
+   [GBP API contact form](https://support.google.com/business/contact/api_default)
+   from that account with these answers:
+   - Request: "Application for Basic API Access"
+   - Website: `https://streamlineperformancellc.com`, exactly as on the profile
+   - Verified for 60 days: Yes
+   - Already have an allow-listed Cloud project: **No** (allow-listing is what
+     the form asks for)
+   - If it shows a list of profiles, pick the verified shop listing
+3. Wait for Google's email to the applicant. Approval also shows in the Cloud
+   project: the Business Profile API quota goes from 0 to 300 requests per
+   minute (IAM & Admin → Quotas & System Limits).
+4. In the same project, open Google Auth Platform, set the audience to External
+   and click **Publish app** so the status is "In production" (Testing-mode
+   refresh tokens expire after 7 days). Create a client of type **Desktop app**
+   and put its ID and secret in `.env.local` as `GOOGLE_BUSINESS_CLIENT_ID` and
+   `GOOGLE_BUSINESS_CLIENT_SECRET`. Copy the secret when the client is created.
+5. Run `npm run google:auth` and sign in with the account from step 2 (scope
+   `business.manage`; Google warns the app is unverified, which is expected for
+   a private app). The script saves `GOOGLE_BUSINESS_REFRESH_TOKEN` to
+   `.env.local`.
+6. After approval, enable the Google My Business API, the My Business Account
+   Management API and the My Business Business Information API, then run
    `npm run google:auth -- --locations`. It prints the account and location IDs
-   and the listing's Maps and write-a-review links for `siteConfig.googleBusiness`.
+   and the listing's Maps and write-a-review links.
+7. Put those four values in `siteConfig.googleBusiness`, copy the three
+   `GOOGLE_BUSINESS_*` values into Vercel (Production, server-only), deploy, and
+   check that the carousel shows real reviews and still says which reviews it
+   shows. Then remove `GOOGLE_REVIEWS_MODE` from Production.
 
-The refresh token keeps working as long as it is used at least every six months
-and the owner does not remove the site's access.
+The refresh token belongs to the account that signed in. It keeps working as
+long as it is used at least every six months and that account keeps its access
+to the Business Profile; if the shop removes the manager, the section falls back
+to a link to the reviews on Google until someone signs in again.
 
 ## Booking form
 

@@ -15,6 +15,14 @@ import { autoRepairSchema, buildMetadata } from "@/lib/seo";
 import { primaryLocation, siteConfig } from "@/lib/site-config";
 import { formatPhone, telHref } from "@/lib/utils";
 
+/**
+ * Rebuild the home page hourly so Google reviews and Instagram posts stay
+ * fresh. Without it the interval comes only from the Instagram fetch, and the
+ * reviews stop refreshing whenever that feed is off. Must be a literal: Next.js
+ * reads it statically.
+ */
+export const revalidate = 3600;
+
 export const metadata: Metadata = buildMetadata({
   title: `${siteConfig.name} | Japanese Car Repair & Tuning in Concord, NC`,
   absoluteTitle: true,

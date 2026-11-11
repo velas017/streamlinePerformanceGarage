@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
 import { describe, expect, it, vi } from "vitest";
+import { images } from "@/content/images";
 import { config, proxy } from "@/proxy";
 
 vi.mock("@/lib/env", () => ({
@@ -82,6 +83,14 @@ describe("admin host proxy", () => {
       expect(rewrittenTo(response)).toBe("/admin/_missing");
       expect(response.headers.get("x-robots-tag")).toContain("noindex");
     }
+  });
+
+  it("lets the admin header's logo through, and no other site image", () => {
+    // Vercel's image optimizer fetches the original over the admin hostname.
+    for (const path of [images.logoMarkWhite.src, "/icon.png", "/apple-icon.png"]) {
+      expect(visit(ADMIN, path).headers.get("x-middleware-next")).toBe("1");
+    }
+    expect(visit(ADMIN, images.hero.src).status).toBe(404);
   });
 
   it("goes by the forwarded host when a platform proxy sets one", () => {
